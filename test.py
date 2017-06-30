@@ -2,12 +2,16 @@ from drawer import *
 from graphConstruct import *
 from graph import Graph
 
+# Determine gamma function of k for a given graph
+
 def gammaFunctionOfK(g, k1, k2):
 	tab = []
 	for i in range(k1, k2):
 		g.k = i
 		tab.append(max(g.gamma()))
 	printCourb("gammaOfK", k1, k2, tab)
+
+# Find the value of gamma for every node on a grid 
 
 def gammaMapGrid(n, k, d):
 	g = getGridGraph(n-1, n-1, k, 3)

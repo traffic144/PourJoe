@@ -1,5 +1,9 @@
 from graph import Graph
 
+# Create a grid-graph n*m with the source (resp. sink)
+# on the diagonal of the left-bottom(right-top) corner at a 
+# distance d of this corner
+
 def getGridGraph(n, m, k, d=1):
 	g = Graph((n+1)*(m+1), k)
 
@@ -12,9 +16,11 @@ def getGridGraph(n, m, k, d=1):
 	for j in range(m):
 		g.addEdge(n*(m+1) + j, n*(m+1) + (j+1), 1)
 	g.setSource(d*(m+1) + d)
-	g.setSink((n-d)*(m+1) + (n-d))
+	g.setSink((n-d)*(m+1) + (m-d))
 
 	return g
+
+# Create a graph composed of two node-disjoint graphs concatenate
 
 def getDoubleNodeDisjointGraph(m1, m2, k):
 	g = Graph(m1 + m2 + 3, k)

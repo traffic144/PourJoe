@@ -30,11 +30,18 @@ class Graph:
 	def setSink(self, t):
 		self.t = t
 
+	# Return True if it exist i in tab such as tab[i] = True
+
 	def exist(self, tab, n):
 		for i in range(n):
 			if(tab[i]):
 				return True
 		return False
+
+	# Find the shortest path between the source and the sink using the Dijktra's algorithm 
+	# m : array representing all the nodes which are not visited yet
+	# v : array representing the shortest distance between a node and the source
+	# p : array representing the parents in the shortest path between s and the considered node
 
 	def shortestPath(self):
 		m = [True]*self.n
@@ -61,11 +68,15 @@ class Graph:
 		path.reverse()
 		return path
 
+	# Determine the value of a sigle path
+
 	def value(self, path):
 		w = 0
 		for i in range(len(path) - 1):
 			w += self.weight[path[i]][path[i+1]]
 		return w
+
+	# Determine the mean and the smaller value of a set of paths 
 
 	def mean(self, paths, l):
 		wTot = 0
@@ -76,6 +87,8 @@ class Graph:
 				wMin = w
 			wTot += w
 		return (wTot/l, wMin)
+
+	# Calculus of all h functions
 
 	def h1(self, wSV, wMin, l1):
 		return (2*l1*wSV/wMin + 2*(self.k-l1) + 1)
@@ -89,15 +102,23 @@ class Graph:
 	def H(self, w1, wSV, wVT, l1, l2, wMin):
 		return max(self.h1(wSV, wMin, l1), self.h21(w1, wVT, wMin, l2), self.h22(wSV, wVT, wMin, l1, l2))
 
+	# Determination of gamma with the given algorithm and some temporals improvements
+
 	def gamma(self):
 		Hmin = [float("inf")]*self.n
 		wMin = float(self.value(self.shortestPath()))
 		for i in range(self.n):
 			if(i != self.s and i != self.t):
+				#Creation of the directed graphs
 				dg1 = DirectedGraph(self.n, self.E, self.s, i)
 				dg2 = DirectedGraph(self.n, self.E, i, self.t)
+
+				#Determination of the number of paths between s and i and between i and t
 				M1 = dg1.fordFulkerson()
 				M2 = dg2.fordFulkerson()
+
+				#Determination of the paths between s and i and between i and t
+				#We only keep the mean cost and the smaller cost for every set of paths
 				w1 = [0]*M1
 				wSV = [0]*M1
 				wVT = [0]*M2
@@ -109,6 +130,8 @@ class Graph:
 					dg2.minFlowStep()
 					paths = dg2.getEdgeDisjointPaths()
 					(wVT[l2-1], a) = self.mean(paths, l2)
+
+				#Determination of H for every set of paths
 				for l1 in range(1, M1+1):
 					for l2 in range(1, M2+1):
 						Hinter = self.H(w1[l1-1], wSV[l1-1], wVT[l2-1], l1, l2, wMin)
