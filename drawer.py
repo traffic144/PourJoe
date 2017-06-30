@@ -27,8 +27,9 @@ def printGrid(namefile, n, dn, result):
 
 def printCourb(namefile, x1, x2, result):
 	x = np.array([i for i in range(x1, x2)])
-	y = np.array(result)
-	
-	plt.plot(x, y)
+
+	for r in result:
+		y = np.array(r)
+		plt.plot(x, y)
 
 	plt.savefig("img/" + namefile + ".png")

@@ -1,6 +1,7 @@
 from drawer import *
 from graphConstruct import *
 from graph import Graph
+from math import sqrt
 
 # Determine gamma function of k for a given graph
 
@@ -23,8 +24,42 @@ def gammaMapGrid(n, k, d):
 
 	printGrid("gammaMapGrid-"+str(n)+"-"+str(k)+"-"+str(d), n, 1, gammaZ)
 
+# Find the value of gamma function of p, for random graph for which p is 
+# the probability to have an edge between two nodes
+
+def gammaRandomGraph(n, k, nbTest, nbProba):
+	delta = 1/float(nbProba)
+	resultM = []
+	resultP = []
+	resultL = []
+	for i in range(nbProba//5, nbProba):
+		tab = []
+		for j in range(nbTest):
+			p = delta*i
+			g = getErdosRenyi(n, p, k, 1, 4)
+			tab.append(max(0, max(g.gamma())))
+		m = mean(tab, nbTest)
+		t = interval95(tab, nbTest)
+		resultM.append(m)
+		resultP.append(m+t)
+		resultL.append(m-t)
+
+	printCourb("gammaRandom", nbProba//5, nbProba, [resultM, resultP, resultL])
+
+
+def mean(tab, n):
+	s = sum(tab)
+	return (s/float(n))
+
+def standardDeviation(tab, n):
+	m = mean(tab, n)
+	s = sum([(tab[i] - m)**2 for i in range(n)])
+	return (sqrt(s/float(n)))
+
+def interval95(tab, n):
+	return 2*standardDeviation(tab, n)/sqrt(n)
+
 def main():
-	gammaFunctionOfK(getDoubleNodeDisjointGraph(10, 10, 5), 2, 30)
-	gammaMapGrid(13, 12, 2)
+	gammaRandomGraph(20, 10, 100, 30)
 
 main()

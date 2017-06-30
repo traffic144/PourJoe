@@ -137,5 +137,5 @@ class Graph:
 						Hinter = self.H(w1[l1-1], wSV[l1-1], wVT[l2-1], l1, l2, wMin)
 						if(Hinter < Hmin[i]):
 							Hmin[i] = Hinter
-		gamma = [(2*self.k+1 - Hmin[i])/self.k for i in range(self.n)]
+		gamma = [(2*self.k+1 - Hmin[i])/float(self.k) for i in range(self.n)]
 		return gamma

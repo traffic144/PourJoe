@@ -1,4 +1,5 @@
 from graph import Graph
+from random  import uniform, randint
 
 # Create a grid-graph n*m with the source (resp. sink)
 # on the diagonal of the left-bottom(right-top) corner at a 
@@ -40,3 +41,32 @@ def getDoubleNodeDisjointGraph(m1, m2, k):
 
 	return g
 
+# Create a connected random graph using the Erdos-Renyi principle
+
+def getErdosRenyi(n, p, k, w1, w2):
+	c = [0 for i in range(n)]
+	g = Graph(n, k)
+	while(0 in c):
+		# We create a random graph
+		g = Graph(n, k)
+		for i in range(n):
+			for j in range(i+1, n):
+				if (uniform(0, 1) < p):
+					g.addEdge(i, j, randint(w1, w2))
+
+		# We verify the graph is connected
+		# c : array reprensenting the connected component
+
+		c = [0 for i in range(n)]
+		while(c[j] != 0):
+			j+=1
+		stack = [0]
+		while(stack != []):
+			j = stack.pop()
+			if(c[j] == 0):
+				c[j] = 1
+				for i, w in g.E[j]:
+					stack.append(i)
+	g.setSource(0)
+	g.setSink(n-1)
+	return g
