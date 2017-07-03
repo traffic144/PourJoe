@@ -10,7 +10,7 @@ def gammaFunctionOfK(g, k1, k2):
 	for i in range(k1, k2):
 		g.k = i
 		tab.append(max(g.gamma()))
-	printCourb("gammaOfK", k1, k2, tab)
+	printCourb("gammaOfK", k1, k2, [tab], r'$k$', r'$\gamma$', r'Evolution de $\gamma$ fonction de $k$')
 
 # Find the value of gamma for every node on a grid 
 
@@ -44,7 +44,7 @@ def gammaRandomGraph(n, k, nbTest, nbProba):
 		resultP.append(m+t)
 		resultL.append(m-t)
 
-	printCourb("gammaRandom", nbProba//5, nbProba, [resultM, resultP, resultL])
+	printCourb("gammaRandom", nbProba//5, nbProba, [resultM, resultP, resultL], r'$p$', r'$\gamma$', r'Evolution de $\gamma$ fonction de $p$')
 
 
 def mean(tab, n):
@@ -60,6 +60,7 @@ def interval95(tab, n):
 	return 2*standardDeviation(tab, n)/sqrt(n)
 
 def main():
+	#gammaFunctionOfK(getDoubleNodeDisjointGraph(10, 10, 12), 2, 30)
 	gammaRandomGraph(20, 10, 100, 30)
 
 main()
