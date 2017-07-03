@@ -21,6 +21,26 @@ def getGridGraph(n, m, k, d=1):
 
 	return g
 
+def getCompleteGridGraph(n, m, k, d=1):
+	g = Graph((n+1)*(m+1), k)
+
+	for i in range(n):
+		for j in range(m):
+			g.addEdge(i*(m+1) + j, i*(m+1) + (j+1), 1)
+			g.addEdge(i*(m+1) + j, (i+1)*(m+1) + j, 1)
+			g.addEdge(i*(m+1) + j, (i+1)*(m+1) + (j+1), 1)
+	for i in range(1, n+1):
+		for j in range(m):
+			g.addEdge(i*(m+1) + j, (i-1)*(m+1) + (j+1), 1)
+	for i in range(n):
+		g.addEdge(i*(m+1) + m, (i+1)*(m+1) + m, 1)
+	for j in range(m):
+		g.addEdge(n*(m+1) + j, n*(m+1) + (j+1), 1)
+	g.setSource(d*(m+1) + d)
+	g.setSink((n-d)*(m+1) + (m-d))
+
+	return g
+
 # Create a graph composed of two node-disjoint graphs concatenate
 
 def getDoubleNodeDisjointGraph(m1, m2, k):

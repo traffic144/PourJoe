@@ -24,6 +24,15 @@ def gammaMapGrid(n, k, d):
 
 	printGrid("gammaMapGrid-"+str(n)+"-"+str(k)+"-"+str(d), n, 1, gammaZ)
 
+def gammaMapCompleteGrid(n, k, d):
+	g = getCompleteGridGraph(n-1, n-1, k, 3)
+
+	gamma = g.gamma()
+	gamma[g.s] = 0
+	gamma[g.t] = 0
+	gammaZ = [[gamma[i*n + j] for j in range(n)] for i in range(n)]
+
+	printGrid("gammaMapCompleteGrid-"+str(n)+"-"+str(k)+"-"+str(d), n, 1, gammaZ)
 # Find the value of gamma function of p, for random graph for which p is 
 # the probability to have an edge between two nodes
 
@@ -61,6 +70,7 @@ def interval95(tab, n):
 
 def main():
 	#gammaFunctionOfK(getDoubleNodeDisjointGraph(10, 10, 12), 2, 30)
-	gammaRandomGraph(20, 10, 100, 30)
+	#gammaRandomGraph(20, 10, 100, 30)
+	gammaMapCompleteGrid(13, 12, 2)
 
 main()
