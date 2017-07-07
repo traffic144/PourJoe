@@ -27,28 +27,30 @@ class DirectedGraph():
 	# stack : stack of the node which have to be visited
 	# m : array representing the node already visited
 	# p : array representing the parents
-	# The function is using a depth-first search
+	# The function is using a depth-first searchy
 
 	def findPath(self):
 		stack = [self.s]
-		m = np.full(self.n, False, dtype=bool)
+		marqued = np.full(self.n, False, dtype=bool)
+		tagged = np.full(self.n, False, dtype=bool)
 		p = np.empty(self.n)
 
-		while(stack != [] and stack[-1] != self.t):
+		while(stack != []):
 			k = stack.pop()
-			if(m[k]):
+			if(marqued[k]):
 				continue
 			else:
-				stack.append(k)
 				for j in self.edges[k]:
-					if(not(m[j]) and (not(self.x[k, j]) or self.x[j, k])):
-						stack.append(j)
-						p[j] = k
-				m[k] = True
-		if(stack == []):
-			return ([], False)
-		else:
-			return (p, True)
+					if(not(tagged[j]) and (not(self.x[k, j]) or self.x[j, k])):
+						if(j == self.t):
+							p[j] = k
+							return (p, True)
+						else:
+							stack.append(j)
+							tagged[j] = True
+							p[j] = k
+				marqued[k] = True
+		return ([], False)
 
 	# Implementation of the Ford-Fulkerson algorithm to find the maximum flow.
 	# We suppose every capacity is equal to 1
@@ -74,7 +76,6 @@ class DirectedGraph():
 			for v1 in range(self.n):
 				for v2 in self.edges[v1]:
 					w = self.weight[v1, v2]
-					print(w)
 					if(self.x[v1, v2]):
 						if(d[v1] > d[v2] - w):
 							d[v1] = d[v2] - w
