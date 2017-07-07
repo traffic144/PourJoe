@@ -13,7 +13,7 @@ def printGrid(namefile, n, dn, result):
 	y, x = np.mgrid[slice(0, n, dy), slice(0, n, dx)]
 	z = np.array([np.array(result[i]) for i in range(n)])
 
-	levels = MaxNLocator(nbins=20).tick_values(z.min(), z.max())
+	levels = MaxNLocator(nbins=12).tick_values(z.min(), z.max())
 
 	cmap = plt.get_cmap('summer')
 	norm = BoundaryNorm(levels, ncolors=cmap.N, clip=True)
@@ -36,3 +36,12 @@ def printCourb(namefile, x1, x2, result, xlabel = "", ylabel = "", title = ""):
 	plt.ylabel(ylabel)
 	plt.title(title)
 	plt.savefig("img/" + namefile + ".png")
+
+def printTriangles(l, c):
+	for i in range(len(l)):
+		t = l[i]
+		plt.plot([c[t[0]][0], c[t[1]][0]], [c[t[0]][1], c[t[1]][1]])
+		plt.plot([c[t[1]][0], c[t[2]][0]], [c[t[1]][1], c[t[2]][1]])
+		plt.plot([c[t[2]][0], c[t[0]][0]], [c[t[2]][1], c[t[0]][1]])
+
+	plt.savefig("img/test6.png")

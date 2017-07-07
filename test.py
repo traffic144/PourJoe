@@ -3,6 +3,9 @@ from graphConstruct import *
 from graph import Graph
 from math import sqrt
 
+import numpy as np
+from delaunay2D import Delaunay2D
+
 # Determine gamma function of k for a given graph
 
 def gammaFunctionOfK(g, k1, k2):
@@ -15,17 +18,14 @@ def gammaFunctionOfK(g, k1, k2):
 # Find the value of gamma for every node on a grid 
 
 def gammaMapGrid(n, k, d):
-	g = getGridGraph(n-1, n-1, k, 3)
+	g = getGridGraph(n-1, n-1, k, d)
 
 	gamma = g.gamma()
-	gamma[g.s] = 0
-	gamma[g.t] = 0
-	gammaZ = [[gamma[i*n + j] for j in range(n)] for i in range(n)]
 
-	printGrid("gammaMapGrid-"+str(n)+"-"+str(k)+"-"+str(d), n, 1, gammaZ)
+	printGrid("gammaMapGrid-"+str(n)+"-"+str(k)+"-"+str(d), n, 1, gamma.reshape((n, n)))
 
 def gammaMapCompleteGrid(n, k, d):
-	g = getCompleteGridGraph(n-1, n-1, k, 3)
+	g = getCompleteGridGraph(n-1, n-1, k, d)
 
 	gamma = g.gamma()
 	gamma[g.s] = 0
@@ -71,6 +71,8 @@ def interval95(tab, n):
 def main():
 	#gammaFunctionOfK(getDoubleNodeDisjointGraph(10, 10, 12), 2, 30)
 	#gammaRandomGraph(20, 10, 100, 30)
-	gammaMapCompleteGrid(13, 12, 2)
+	gammaMapGrid(13, 12, 3)
+	
+
 
 main()
