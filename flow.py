@@ -86,6 +86,32 @@ class DirectedGraph():
 							p[v2] = v1
 		return p
 
+	# Implementation of Dijktra in the case of residual flow with nonnegative cost
+
+	def dijktra(self, a):
+		d = np.full(self.n, np.inf)
+		d[a] = 0
+
+		p = np.empty(self.n)
+		marqued = np.full(self.n, False, dtype=bool)
+		while(True):
+			dmin = np.inf
+			k = -1
+			for i in range(self.n):
+				if(not(marqued[i]) and d[i] < dmin):
+					dmin = d[i]
+					k = i
+			if(k == -1):
+				return (d, p)
+			else:
+				for j in self.edges[k]:
+					w = self.reduced[k, j]
+					if(self.x[j, k] and d[j] > d[i]):
+						d[j] = d[i]
+					elif(not(self.x[k, j]) and d[j] > d[i] + w):
+						d[j] = d[i] + w
+				marqued[k] = True
+
 	# Update the flow for a given path, knowing the capacity is 1, the new flow is 1 and every edge (a, b) as a contrary edge (b, a)
 
 	def updateFlow(self, p, a, b):
