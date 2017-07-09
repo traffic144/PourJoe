@@ -23,6 +23,7 @@ def gammaMapGrid(n, k, d):
 	gamma = g.gamma()
 
 	printGrid("gammaMapGrid-"+str(n)+"-"+str(k)+"-"+str(d), n, 1, gamma.reshape((n, n)))
+	print(g.t)
 
 def gammaMapCompleteGrid(n, k, d):
 	g = getCompleteGridGraph(n-1, n-1, k, d)
@@ -72,7 +73,5 @@ def main():
 	#gammaFunctionOfK(getDoubleNodeDisjointGraph(10, 10, 12), 2, 30)
 	#gammaRandomGraph(20, 10, 100, 30)
 	gammaMapGrid(13, 12, 3)
-	
-
 
 main()

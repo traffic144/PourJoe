@@ -1,4 +1,6 @@
 import numpy as np
+np.set_printoptions(threshold=np.nan)
+
 import time
 
 class DirectedGraph():
@@ -106,10 +108,12 @@ class DirectedGraph():
 			else:
 				for j in self.edges[k]:
 					w = self.reduced[k, j]
-					if(self.x[j, k] and d[j] > d[i]):
-						d[j] = d[i]
-					elif(not(self.x[k, j]) and d[j] > d[i] + w):
-						d[j] = d[i] + w
+					if(self.x[j, k] and d[j] > d[k]):
+						d[j] = d[k]
+						p[j] = k
+					elif(not(self.x[k, j]) and d[j] > d[k] + w):
+						d[j] = d[k] + w
+						p[j] = k
 				marqued[k] = True
 
 	# Update the flow for a given path, knowing the capacity is 1, the new flow is 1 and every edge (a, b) as a contrary edge (b, a)
@@ -128,12 +132,20 @@ class DirectedGraph():
 		while(k != a):
 			if(self.x[k, p[k]]):
 				self.x[k, p[k]] = False
-				print(str(self.w) + " - " + str(self.weight[k, p[k]]))
 				self.w -= self.weight[k, p[k]]
 			else:
 				self.x[p[k], k] = True
 				self.w += self.weight[p[k], k]
 			k = p[k]
+
+	def updateCost(self, d):
+		self.pi = self.pi - d
+		for i in range(self.n):
+			for j in self.edges[i]:
+				if(self.x[i, j]):
+					self.reduced[i, j] = 0
+				else:
+					self.reduced[i, j] = self.weight[i, j] - self.pi[i] + self.pi[j]
 
 	# Given a min cost flow where every node are transfert nodes except
 	# for the source which provide (l-1) and the sink which provide (l-1)
@@ -141,9 +153,11 @@ class DirectedGraph():
 	# l and the sink demand l
 
 	def minFlowStep(self):
-		p = self.bellmanFord(self.s)
+		(d, p) = self.dijktra(self.s)
+		self.updateCost(d)
 		self.updateFlowCost(p, self.s, self.t)
 		self.l += 1
+
 
 	# Given a min cost flow from the precedent function, we get l edge-disjoint
 	# paths from the source to the sink

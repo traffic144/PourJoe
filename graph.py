@@ -124,7 +124,7 @@ class Graph:
 					wVTp = 0
 					wVTs = 0
 					l2 = 0
-					while ((wVTs - wVTp < wMin) and (l2 <= M2)):
+					while ((wVTs - wVTp < wMin) and (l2 < M2)):
 						dg2.minFlowStep()
 						wVTp = wVTs
 						wVTs = dg2.getCost()
@@ -139,7 +139,7 @@ class Graph:
 						wSVp = 0
 						wSVs = 0
 						l1 = 0
-						while(l1 == 0 or (wSVs - wSVp < wMin and self.h1(wSVs/float(l1), wMin, l1) > self.h2(wSVs/float(l1), wVT, wMin, l2) and l1 <= M1)):
+						while(l1 == 0 or (wSVs - wSVp < wMin and self.h1(wSVs/float(l1), wMin, l1) > self.h2(wSVs/float(l1), wVT, wMin, l2) and l1 < M1)):
 							dg1.minFlowStep()
 							wSVp = wSVs
 							wSVs = dg1.getCost()
@@ -159,7 +159,6 @@ class Graph:
 								wSV = wSVs/float(l1)
 						Hmin[v] = self.H(wSV, wVT, wMin, l1, l2)
 			i += 1
-			print(listMin[i])
 		gamma = np.maximum(((2*self.k+1) - Hmin)/float(self.k), 0)
 		print(gamma)
 		return gamma
