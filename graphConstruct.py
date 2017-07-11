@@ -28,10 +28,10 @@ def getCompleteGridGraph(n, m, k, d=1):
 		for j in range(m):
 			g.addEdge(i*(m+1) + j, i*(m+1) + (j+1), 1)
 			g.addEdge(i*(m+1) + j, (i+1)*(m+1) + j, 1)
-			g.addEdge(i*(m+1) + j, (i+1)*(m+1) + (j+1), 1)
+			g.addEdge(i*(m+1) + j, (i+1)*(m+1) + (j+1), 1.41421)
 	for i in range(1, n+1):
 		for j in range(m):
-			g.addEdge(i*(m+1) + j, (i-1)*(m+1) + (j+1), 1)
+			g.addEdge(i*(m+1) + j, (i-1)*(m+1) + (j+1), 1.41421)
 	for i in range(n):
 		g.addEdge(i*(m+1) + m, (i+1)*(m+1) + m, 1)
 	for j in range(m):

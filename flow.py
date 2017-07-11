@@ -67,27 +67,6 @@ class DirectedGraph():
 		self.resetFlow()
 		return res
 
-	# Implementation of the Bellman-Ford algorithm to find the smaller distance between "a" and the others when it exists negative weights
-
-	def bellmanFord(self, a):
-		d = np.full(self.n, np.inf)
-		d[a] = 0
-
-		p = np.empty(self.n)
-		for i in range(self.n):
-			for v1 in range(self.n):
-				for v2 in self.edges[v1]:
-					w = self.weight[v1, v2]
-					if(self.x[v1, v2]):
-						if(d[v1] > d[v2] - w):
-							d[v1] = d[v2] - w
-							p[v1] = v2
-					else:
-						if(d[v2] > d[v1] + w):
-							d[v2] = d[v1] + w
-							p[v2] = v1
-		return p
-
 	# Implementation of Dijktra in the case of residual flow with nonnegative cost
 
 	def dijktra(self, a):
@@ -95,12 +74,12 @@ class DirectedGraph():
 		d[a] = 0
 
 		p = np.empty(self.n)
-		marqued = np.full(self.n, False, dtype=bool)
+		marqued = np.full(self.n, True, dtype=bool)
 		while(True):
 			dmin = np.inf
 			k = -1
 			for i in range(self.n):
-				if(not(marqued[i]) and d[i] < dmin):
+				if(marqued[i] and d[i] < dmin):
 					dmin = d[i]
 					k = i
 			if(k == -1):
@@ -108,13 +87,13 @@ class DirectedGraph():
 			else:
 				for j in self.edges[k]:
 					w = self.reduced[k, j]
-					if(self.x[j, k] and d[j] > d[k]):
+					if(marqued[j] and self.x[j, k] and d[j] > d[k]):
 						d[j] = d[k]
 						p[j] = k
-					elif(not(self.x[k, j]) and d[j] > d[k] + w):
+					elif(marqued[j] and not(self.x[k, j]) and d[j] > d[k] + w):
 						d[j] = d[k] + w
 						p[j] = k
-				marqued[k] = True
+				marqued[k] = False
 
 	# Update the flow for a given path, knowing the capacity is 1, the new flow is 1 and every edge (a, b) as a contrary edge (b, a)
 

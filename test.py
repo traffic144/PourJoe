@@ -72,6 +72,6 @@ def interval95(tab, n):
 def main():
 	#gammaFunctionOfK(getDoubleNodeDisjointGraph(10, 10, 12), 2, 30)
 	#gammaRandomGraph(20, 10, 100, 30)
-	gammaMapGrid(13, 12, 3)
+	gammaMapCompleteGrid(25, 10, 2)
 
 main()

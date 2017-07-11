@@ -130,7 +130,7 @@ class Graph:
 						wVTs = dg2.getCost()
 						l2 += 1
 					wVt = 0
-					if(l2 == M2):
+					if(l2 == M2 and (wVTs - wVTp < wMin)):
 						wVT = wVTs/float(l2)
 					else:
 						l2 -= 1
@@ -150,7 +150,7 @@ class Graph:
 							wSV = wSVp/float(l1)
 						else:
 							if(self.h1(wSVs/float(l1), wMin, l1) <= self.h2(wSVs/float(l1), wVT, wMin, l2)):
-								if(l1 != 1 and self.h1(wSVp/float(l1), wMin, l1) <= self.h2(wSVs/float(l1), wVT, wMin, l2)):
+								if(l1 != 1 and self.h1(wSVp/float(l1-1), wMin, l1-1) <= self.h2(wSVs/float(l1), wVT, wMin, l2)):
 									l1 -= 1
 									wSV = wSVp/float(l1)
 								else:
@@ -160,5 +160,6 @@ class Graph:
 						Hmin[v] = self.H(wSV, wVT, wMin, l1, l2)
 			i += 1
 		gamma = np.maximum(((2*self.k+1) - Hmin)/float(self.k), 0)
+		#gamma = Hmin
 		print(gamma)
 		return gamma

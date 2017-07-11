@@ -20,7 +20,7 @@ def printGrid(namefile, n, dn, result):
 
 	fig, ax1 = plt.subplots(nrows=1)
 
-	cf = ax1.contourf(x + dx/2., y + dy/2., z, levels=levels, cmap=cmap)
+	cf = ax1.contourf(x, y, z, levels=levels, cmap=cmap)
 	fig.colorbar(cf, ax=ax1)
 
 	plt.savefig("img/" + namefile + ".png")
