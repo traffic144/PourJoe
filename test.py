@@ -2,6 +2,7 @@ from drawer import *
 from graphConstruct import *
 from graph import Graph
 from math import sqrt
+import time
 
 import numpy as np
 from delaunay2D import Delaunay2D
@@ -23,7 +24,6 @@ def gammaMapGrid(n, k, d):
 	gamma = g.gamma()
 
 	printGrid("gammaMapGrid-"+str(n)+"-"+str(k)+"-"+str(d), n, 1, gamma.reshape((n, n)))
-	print(g.t)
 
 def gammaMapCompleteGrid(n, k, d):
 	g = getCompleteGridGraph(n-1, n-1, k, d)
@@ -44,6 +44,7 @@ def gammaRandomGraph(n, k, nbTest, nbProba):
 	resultL = []
 	for i in range(nbProba//5, nbProba):
 		tab = []
+		t1 = time.clock()
 		for j in range(nbTest):
 			p = delta*i
 			g = getErdosRenyi(n, p, k, 1, 4)
@@ -53,7 +54,8 @@ def gammaRandomGraph(n, k, nbTest, nbProba):
 		resultM.append(m)
 		resultP.append(m+t)
 		resultL.append(m-t)
-
+		t2 = time.clock()
+		print(t2-t1)
 	printCourb("gammaRandom", nbProba//5, nbProba, [resultM, resultP, resultL], r'$p$', r'$\gamma$', r'Evolution de $\gamma$ fonction de $p$')
 
 
@@ -70,8 +72,8 @@ def interval95(tab, n):
 	return 2*standardDeviation(tab, n)/sqrt(n)
 
 def main():
-	#gammaFunctionOfK(getDoubleNodeDisjointGraph(10, 10, 12), 2, 30)
-	#gammaRandomGraph(20, 10, 100, 30)
-	gammaMapCompleteGrid(25, 10, 2)
+	gammaFunctionOfK(getDoubleNodeDisjointGraph(10, 10, 12), 2, 30)
+	#gammaRandomGraph(25, 10, 500, 30)
+	#gammaMapGrid(10, 10, 0)
 
 main()

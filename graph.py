@@ -91,9 +91,60 @@ class Graph:
 		return (wSV + wVT + 2*self.k*max(wSV, wVT))/float(wMin)
 
 	def H(self, wSV, wVT, wMin, l1, l2):
-		return max(self.h1(wSV, wMin, l1), self.h2(wSV, wVT, wMin, l2), self.h3(wSV, wVT, wMin))
+		return max(self.h1(wSV, wMin, l1), self.h2(wSV, wVT, wMin, l2))
 
 	# Determination of gamma with the given algorithm and some temporals improvements
+
+	def getL2(self, dg, M, wMin):
+		wVTp = 0
+		wVTs = 0
+		l2 = 0
+		while ((wVTs - wVTp < wMin) and (l2 < M)):
+			dg.minFlowStep()
+			wVTp = wVTs
+			wVTs = dg.getCost()
+			l2 += 1
+
+		if(l2 == M and (wVTs - wVTp < wMin)):
+			return (l2, wVTs/float(l2))
+		else:
+			return (l2-1, wVTp/float(l2-1))
+
+	def getL1withL2(self, dg, M, wMin, wVT, l2):
+		wSVp = 0
+		wSVs = 0
+		l = 0
+		while(l == 0 or (wSVs - wSVp < wMin and self.h1(wSVs/float(l), wMin, l) > self.h2(wSVs/float(l), wVT, wMin, l2) and l < M)):
+			dg.minFlowStep()
+			wSVp = wSVs
+			wSVs = dg.getCost()
+			l += 1
+		wSV = 0
+		if(wSVs - wSVp >= wMin):
+			return (l-1, wSVp/float(l-1))
+		else:
+			if(self.h1(wSVs/float(l), wMin, l) <= self.h2(wSVs/float(l), wVT, wMin, l2)):
+				if(l != 1 and self.h1(wSVp/float(l-1), wMin, l-1) <= self.h2(wSVs/float(l), wVT, wMin, l2)):
+					return (l-1, wSVp/float(l-1))
+				else:
+					return (l, wSVs/float(l))
+			else:
+				return (l, wSVs/float(l))
+
+	def getL1withoutL2(self, dg, M, wMin):
+		wSVp = 0
+		wSVs = 0
+		l = 0
+		while(l == 0 or (wSVs - wSVp < wMin and l < M)):
+			dg.minFlowStep()
+			wSVp = wSVs
+			wSVs = dg.getCost()
+			l += 1
+		wSV = 0
+		if(wSVs - wSVp >= wMin):
+			return (l-1, wSVp/float(l-1))
+		else:
+			return (l, wSVs/float(l))
 
 	def gamma(self):
 		Hmin = np.full(self.n, np.inf)
@@ -111,55 +162,28 @@ class Graph:
 				#Creation of the directed graphs
 				dg1 = DirectedGraph(self.n, self.edges, self.weight, self.s, v)
 				dg2 = DirectedGraph(self.n, self.edges, self.weight, v, self.t)
-
 				M1 = dg1.fordFulkerson()
 				M2 = dg2.fordFulkerson()
-
 				if(M1 > self.k and M2 > self.k):
-					print("lol")
-				else:
-					M1 = min(M1, self.k)
-					M2 = min(M2, self.k)
-					w1 = dMin[v]
-					wVTp = 0
-					wVTs = 0
-					l2 = 0
-					while ((wVTs - wVTp < wMin) and (l2 < M2)):
+					for j in range(self.k+1):
+						dg1.minFlowStep()
 						dg2.minFlowStep()
-						wVTp = wVTs
-						wVTs = dg2.getCost()
-						l2 += 1
-					wVt = 0
-					if(l2 == M2 and (wVTs - wVTp < wMin)):
-						wVT = wVTs/float(l2)
-					else:
-						l2 -= 1
-						wVT = wVTp/float(l2)
-					if(self.h2(w1, wVT, wMin, l2) < 2*self.k+1):
-						wSVp = 0
-						wSVs = 0
-						l1 = 0
-						while(l1 == 0 or (wSVs - wSVp < wMin and self.h1(wSVs/float(l1), wMin, l1) > self.h2(wSVs/float(l1), wVT, wMin, l2) and l1 < M1)):
-							dg1.minFlowStep()
-							wSVp = wSVs
-							wSVs = dg1.getCost()
-							l1 += 1
-						wSV = 0
-						if(wSVs - wSVp >= wMin):
-							l1 -= 1
-							wSV = wSVp/float(l1)
-						else:
-							if(self.h1(wSVs/float(l1), wMin, l1) <= self.h2(wSVs/float(l1), wVT, wMin, l2)):
-								if(l1 != 1 and self.h1(wSVp/float(l1-1), wMin, l1-1) <= self.h2(wSVs/float(l1), wVT, wMin, l2)):
-									l1 -= 1
-									wSV = wSVp/float(l1)
-								else:
-									wSV = wSVs/float(l1)
-							else:
-								wSV = wSVs/float(l1)
+					wSV = dg1.getCost()/float(self.k)
+					wVT = dg2.getCost()/float(self.k)
+					Hmin[v] = self.h3(wSV, wVT, wMin)
+				elif(M1 > self.k):
+					(l2, wVT) = self.getL2(dg2, M2, wMin)
+					Hmin[v] = self.h2(dMin[v], wVT, wMin, l2)
+				elif(M2 > self.k):
+					(l1, wSV) = self.getL1withoutL2(dg1, M1, wMin)
+					Hmin[v] = self.h1(wSV, wMin, l1)
+				else:
+					(l2, wVT) = self.getL2(dg2, M2, wMin)
+					if(self.h2(dMin[v], wVT, wMin, l2) < 2*self.k+1):
+						(l1, wSV) = self.getL1withL2(dg1, M1, wMin, wVT, l2)
 						Hmin[v] = self.H(wSV, wVT, wMin, l1, l2)
 			i += 1
 		gamma = np.maximum(((2*self.k+1) - Hmin)/float(self.k), 0)
 		#gamma = Hmin
-		print(gamma)
+		#print(gamma)
 		return gamma

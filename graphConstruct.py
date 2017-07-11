@@ -69,10 +69,10 @@ def getErdosRenyi(n, p, k, w1, w2):
 	while(0 in c):
 		# We create a random graph
 		g = Graph(n, k)
-		for i in range(n):
+		for i in range(0, n):
 			for j in range(i+1, n):
-				if (uniform(0, 1) < p):
-					g.addEdge(i, j, randint(w1, w2))
+				if (not(i == 0 and j == n-1) and uniform(0, 1) < p):
+					g.addEdge(i, j, 1)
 
 		# We verify the graph is connected
 		# c : array reprensenting the connected component
@@ -85,7 +85,7 @@ def getErdosRenyi(n, p, k, w1, w2):
 			j = stack.pop()
 			if(c[j] == 0):
 				c[j] = 1
-				for i, w in g.E[j]:
+				for i in g.edges[j]:
 					stack.append(i)
 	g.setSource(0)
 	g.setSink(n-1)

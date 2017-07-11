@@ -1,5 +1,8 @@
-import matplotlib
-matplotlib.use('Agg')
+try:
+	import matplotlib
+	matplotlib.use('Agg')
+except:
+	pass
 
 import matplotlib.pyplot as plt
 
