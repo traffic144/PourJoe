@@ -164,24 +164,18 @@ class Graph:
 				dg2 = DirectedGraph(self.n, self.edges, self.weight, v, self.t)
 				M1 = dg1.fordFulkerson()
 				M2 = dg2.fordFulkerson()
+				(l2, wVT) = self.getL2(dg2, min(M2, self.k+1), wMin)
+				if(self.h2(dMin[v], wVT, wMin, l2) < 2*self.k+1):
+					(l1, wSV) = self.getL1withL2(dg1, min(M1, self.k+1), wMin, wVT, l2)
+					Hmin[v] = self.H(wSV, wVT, wMin, l1, l2)
 				if(M1 > self.k and M2 > self.k):
-					for j in range(self.k+1):
+					while(dg1.l < self.k+1):
 						dg1.minFlowStep()
+					while(dg2.l < self.k+1):
 						dg2.minFlowStep()
 					wSV = dg1.getCost()/float(self.k)
 					wVT = dg2.getCost()/float(self.k)
-					Hmin[v] = self.h3(wSV, wVT, wMin)
-				elif(M1 > self.k):
-					(l2, wVT) = self.getL2(dg2, M2, wMin)
-					Hmin[v] = self.h2(dMin[v], wVT, wMin, l2)
-				elif(M2 > self.k):
-					(l1, wSV) = self.getL1withoutL2(dg1, M1, wMin)
-					Hmin[v] = self.h1(wSV, wMin, l1)
-				else:
-					(l2, wVT) = self.getL2(dg2, M2, wMin)
-					if(self.h2(dMin[v], wVT, wMin, l2) < 2*self.k+1):
-						(l1, wSV) = self.getL1withL2(dg1, M1, wMin, wVT, l2)
-						Hmin[v] = self.H(wSV, wVT, wMin, l1, l2)
+					Hmin[v] = min(Hmin[v], self.h3(wSV, wVT, wMin))
 			i += 1
 		gamma = np.maximum(((2*self.k+1) - Hmin)/float(self.k), 0)
 		#gamma = Hmin
