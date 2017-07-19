@@ -1,0 +1,142 @@
+%% Based on a TeXnicCenter-Template by Gyorgy SZEIDL.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%------------------------------------------------------------
+%
+\documentclass[letterpaper, 11pt]{article}
+
+%
+\usepackage{amsmath}%
+\usepackage{amsfonts}%
+\usepackage{amssymb}%
+%\usepackage{dsfont}
+%\usepackage{graphicx}
+\usepackage[latin1]{inputenc} 
+%\usepackage[T1]{fontenc} 
+%\usepackage{layout}
+%\usepackage{setspace}
+\usepackage{tikz}
+%\usepackage{algorithm2e}
+\usepackage[left=2.6cm,right=2.6cm,top=2.6cm,bottom=2.6cm]{geometry}
+\usepackage{subcaption}
+%\usepackage[]{algorithm2e}
+\usepackage{array,multirow}
+\usepackage{authblk}
+
+\usetikzlibrary{decorations}
+\usetikzlibrary{decorations.pathmorphing}
+\usetikzlibrary{decorations.pathreplacing}
+\usetikzlibrary{decorations.shapes}
+\usetikzlibrary{decorations.text}
+\usetikzlibrary{decorations.markings}
+\usetikzlibrary{decorations.fractals}
+\usetikzlibrary{decorations.footprints}
+%-------------------------------------------
+\newtheorem{theorem}{Theorem}
+\newtheorem{definition}{Definition}
+\newtheorem{lemma}{Lemma}
+\newtheorem{example}{Example}
+\newtheorem{corollary}{Corollary}
+\newtheorem{problem}{Problem}
+\newtheorem{acknowledgement}[theorem]{Acknowledgement}
+\newtheorem{axiom}[theorem]{Axiom}
+\newtheorem{case}[theorem]{Case}
+\newtheorem{claim}[theorem]{Claim}
+\newtheorem{conclusion}[theorem]{Conclusion}
+\newtheorem{condition}[theorem]{Condition}
+\newtheorem{conjecture}[theorem]{Conjecture}
+
+\newtheorem{criterion}[theorem]{Criterion}
+\newtheorem{exercise}[theorem]{Exercise}
+\newtheorem{notation}[theorem]{Notation}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{solution}[theorem]{Solution}
+\newtheorem{summary}[theorem]{Summary}
+\newenvironment{proof}[1][Proof]{\textbf{#1.} }{\ \rule{0.5em}{0.5em}}
+
+\newtheorem{appendixthm}{Theorem}
+\newenvironment{customthm}[1]
+  {\renewcommand\theappendixthm{#1}\appendixthm}
+  {\endappendixthm}
+
+\newcommand{\kctp}{$k$-CTP}
+\newcommand{\set}[1]{\left\{ #1 \right\}}
+\newcommand{\card}[1]{\left| #1 \right|}
+\newcommand{\ith}[1]{#1^{\mbox{\scriptsize{th}}}}
+\newcommand{\stpath}{$(s,t)$-path}
+\newcommand{\stpaths}{$(s,t)$-paths}
+\newcommand{\svpath}{$(s,v)$-path}
+\newcommand{\svpaths}{$(s,v)$-paths}
+\newcommand{\vtpath}{$(v,t)$-path}
+\newcommand{\vtpaths}{$(v,t)$-paths}
+\newcommand{\ars}{A_{\mbox{\scriptsize{rs}}}}
+\newcommand{\arb}{A_{\mbox{\scriptsize{rr}}}}
+\newcommand{\mcalp}{\mathcal{P}}
+\newcommand{\mcals}{\mathcal{S}}
+\newcommand{\mcale}{\mathcal{E}}
+\newcommand{\mcalb}{\mathcal{B}}
+\newcommand{\mcall}{\mathcal{L}}
+\newcommand{\mcalr}{\mathcal{R}}
+\newcommand{\mcalt}{\mathcal{T}}
+\newcommand{\nodedisjoint}{F_{\mbox{\scriptsize{nd}}}}
+\newcommand{\disjoint}[1]{F_{\mbox{\scriptsize{d}}}\left( #1 \right)}
+\newcommand{\coverset}[1]{F_{\mbox{\scriptsize{cs}}}\left( #1 \right)}
+\newcommand{\partition}{\mathcal{A}_k^{\mbox{\scriptsize{mp}}}}
+\newcommand{\multics}{\mathcal{A}_k^{\mbox{\scriptsize{mcs}}}}
+\newcommand{\tree}{F_{\mbox{\scriptsize{rp}}}}
+\newcommand{\true}{\mbox{true}}
+\newcommand{\false}{\mbox{false}}
+\newcommand{\ifend}{\textbf{endif}}
+\newcommand{\karp}{=_{\mbox{\scriptsize{K}}}}
+\newcommand{\lkarp}{\leq_{\mbox{\scriptsize{K}}}}
+\newcommand{\knctp}{$\left(k,n\right)$-CTP}
+\newcommand{\hg}{H_G^+}
+\newcommand{\hun}{\mathcal{H}_1}
+\newcommand{\hunalpha}{\mathcal{H}_1\left(\alpha\right)}
+\newcommand{\hdeux}{\mathcal{H}_2}
+\newcommand{\omegamin}{\omega_{\mbox{\scriptsize{min}}}}
+\newcommand{\omegaopt}{\omega_{\mbox{\scriptsize{opt}}}}
+\newcommand{\omegavun}{\omega_{\mbox{\scriptsize{min}}}^{\left(s,v\right)}}
+\newcommand{\omegavde}{\omega_{\mbox{\scriptsize{min}}}^{\left(v,t\right)}}
+\newcommand{\mvun}{M_{s,v}}
+\newcommand{\mvde}{M_{v,t}}
+\newcommand{\arbrep}{\textsc{rp-reposition}}
+\newcommand{\dichorep}{\textsc{pivot-reposition}}
+\newcommand{\gdir}{\overrightarrow{G}}
+\newcommand{\fmax}{f_{\mbox{\scriptsize{max}}}}
+\newcommand{\alphahd}{\alpha_{\mbox{\scriptsize{hd}}}}
+\newcommand{\omegasv}{\overline{\omega_{s,v}}}
+\newcommand{\omegasve}{\overline{\omega_{s,v^*}}}
+\newcommand{\omegavt}{\overline{\omega_{v,t}}}
+\newcommand{\omegavet}{\overline{\omega_{v^*,t}}}
+
+
+\begin{document}
+
+
+\title{Computational experiments for the \kctp}
+\date{}
+
+\author{Julien Hemery}
+
+%\author[,1]{Pierre Berg\'e \thanks{Corresponding author: \texttt{Pierre.Berge@lri.fr}}}
+%\author[2]{Julien Hemery}
+%\author[2]{Arpad Rimmel}
+%\author[2]{Joanna Tomasik}
+%\affil[1]{LRI, Universit\'e Paris-Sud, Universit\'e{} Paris-Saclay, 91405 Orsay Cedex, France}
+%\affil[2]{LRI, CentraleSup\' elec, Universit\'e{} Paris-Saclay, 91405 Orsay Cedex, France}
+
+\maketitle
+
+\begin{abstract}
+Computational experiments for the \kctp : studying the performence of existing strategies (\textsc{greedy}, \textsc{comparison}, \textsc{reposition} and \dichorep) on instances modeling urban networks. We also evaluate $\gamma$ for groups of instances.
+\end{abstract}
+%\smallskip
+%\begin{center}
+%\noindent \textbf{Keywords.} blabla. 
+%\end{center}
+%\smallskip
+
+\end{document}
+
