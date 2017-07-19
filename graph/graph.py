@@ -136,12 +136,12 @@ class Graph:
 				H = max(H, min(self.h1(wTabSV[i], self.wMin, i), self.h2(wTabSV[i], wTabVT[j], self.wMin, i, j)))
 		if(M1 > k):
 			for j in range(1, min(M2, k)+1):
-				H = max(H, min(self.h2(wTabSV[k+1], wTabVT[j], self.wMin, k+1, j), self.h3(wTabSV[k+1], wTabVT[j], self.wMin, k)))
+				H = max(H, min(self.h2(wTabSV[k+1], wTabVT[j], self.wMin, k+1, j), self.h3(wTabSV[k+1]/(k+1), wTabVT[j]/j, self.wMin, k)))
 		if(M2 > k):
 			for i in range(1, min(M1, k)+1):
-				H = max(H, min(self.h1(wTabSV[i], self.wMin, i), self.h3(wTabSV[i], wTabVT[k+1], self.wMin, k)))
+				H = max(H, min(self.h1(wTabSV[i], self.wMin, i), self.h3(wTabSV[i]/i, wTabVT[k+1]/(k+1), self.wMin, k)))
 		if(M1 > k and M2 > k):
-			H = max(H, self.h3(wTabSV[k+1], wTabVT[k+1], self.wMin, k))
+			H = max(H, self.h3(wTabSV[k+1]/(k+1), wTabVT[k+1]/(k+1), self.wMin, k))
 		return (H/k)
 
 	def gammaGraph(self, k):

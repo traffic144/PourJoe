@@ -13,7 +13,7 @@ import numpy as np
 def gammaFunctionOfK(m1, m2, nbAlpha):
 	xtab = []
 	ytab = []
-	alpha = np.linspace(0.5, 1.0, num=nbAlpha)
+	alpha = np.linspace(0.0, 0.5, num=nbAlpha)
 	for i in alpha:
 		g = DoubleWestphal(m1, m2, i)
 		g.initGraph()
@@ -25,7 +25,7 @@ def gammaFunctionOfK(m1, m2, nbAlpha):
 		ytab.append(y)
 	title = r'Evolution of $\gamma$ function of $k$ for double Westphal graph ($m_1 = ' + str(m1) + r'$, $m_2 = ' + str(m2) + r'$)'
 	label = [r'$\alpha = ' + str(i) + r'$' for i in alpha]
-	printCourb("gammaK/2", xtab, ytab, label, nbAlpha, r'$k$', r'$\gamma$', title)
+	printCourb("gammaK/1", xtab, ytab, label, nbAlpha, r'$k$', r'$\gamma$', title)
 
 # Find the value of gamma function of p, for random graph for which p is 
 # the probability to have an edge between two nodes
