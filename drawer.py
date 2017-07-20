@@ -25,7 +25,6 @@ def nextFile(directory):
 	while j in num:
 		j+= 1
 	res = ('img/' + directory + '/' + str(j) + '.png')
-	print(res)
 	return res
 
 def printGrid(directory, x1, x2, dx, y1, y2, dy, z, namefile=None):

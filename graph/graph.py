@@ -115,8 +115,6 @@ class Graph:
 		M1 = dg1.fordFulkerson()
 		M2 = dg2.fordFulkerson()
 
-
-
 		dSV = self.dMin[v]
 		dVT = self.dT[v]
 

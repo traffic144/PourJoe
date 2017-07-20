@@ -5,14 +5,20 @@ from graph import Graph
 
 class Waxman(Graph):
 
-	def __init__(self, n, alpha=0.07, beta=1.0):
+	def __init__(self, n, alpha=2.0, beta=1.0):
 		Graph.__init__(self, n)
 		self.x = np.random.random(n)
 		self.y = np.random.random(n)
 
 		self.distance = np.empty((self.n, self.n))
 		self.getDistance()
-		L = np.amax(self.distance)
+		L = 0
+		for i in range(n):
+			l = np.inf
+			for j in range(n):
+				if(i != j):
+					l = min(self.distance[i, j], l)
+			L = max(l, L)
 
 		for i in range(n):
 			for j in range(i+1, n):

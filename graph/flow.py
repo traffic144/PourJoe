@@ -35,7 +35,9 @@ class DirectedGraph():
 		stack = [self.s]
 		marqued = np.full(self.n, False, dtype=bool)
 		tagged = np.full(self.n, False, dtype=bool)
-		p = np.empty(self.n)
+		tagged[self.s] = True
+
+		p = np.full(self.n, -1)
 
 		while(stack != []):
 			k = stack.pop()
@@ -44,13 +46,12 @@ class DirectedGraph():
 			else:
 				for j in self.edges[k]:
 					if(not(tagged[j]) and (not(self.x[k, j]) or self.x[j, k])):
+						p[j] = k
 						if(j == self.t):
-							p[j] = k
 							return (p, True)
 						else:
 							stack.append(j)
 							tagged[j] = True
-							p[j] = k
 				marqued[k] = True
 		return ([], False)
 

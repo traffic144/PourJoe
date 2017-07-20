@@ -63,7 +63,7 @@ def delaunayGenerator(n):
 	printGraph("delaunay", g.edges, g.x, g.y, g.n)
 
 def waxmanConnected(n, nbAlpha, nbTest):
-	alpha = np.linspace(0.0, 0.5, num=nbAlpha)
+	alpha = np.linspace(0.5, 3.0, num=nbAlpha)
 	y = np.empty(nbAlpha)
 	for j in range(nbAlpha):
 		s = 0
@@ -86,19 +86,22 @@ def waxmanRandomTest(n1, n2, step, nbTest, k):
 	y = np.empty(nVal.size)
 	yu = np.empty(nVal.size)
 	yb = np.empty(nVal.size)
-	for n in nVal:
+	for j in range(nVal.size):
 		tab = []
 		t1 = time.clock()
 		for i in range(nbTest):
-			g = Waxman(n, 0.5)
-			tab.append(g.gammaGraph(k))
+			try:
+				g = Waxman(nVal[j])
+				tab.append(g.gammaGraph(k))
+			except:
+				pass
 		m = np.mean(tab)
-		t = interval95(tab, nbTest, m)
-		y[i] = m
-		yu[i] = m + t
-		yb[i] = m - t
+		t = interval95(tab, len(tab), m)
+		y[j] = m
+		yu[j] = m + t
+		yb[j] = m - t
 		t2 = time.clock()
-		print(str(n) + " : " + str(t2-t1))
+		print(str(nVal[j]) + " : " + str(t2-t1))
 	title = r'Evolution of $\gamma$ for Waxman graphs with $k = ' + str(k) + r'$'
 	printCourb("waxman", [nVal, nVal, nVal], [y, yu, yb], ["Mean Value", "CI+", "CI-"], 3, r'$n$', r'$\gamma$', title)
 
@@ -107,21 +110,21 @@ def delaunayRandomTest(n1, n2, step, nbTest, k):
 	y = np.empty(nVal.size)
 	yu = np.empty(nVal.size)
 	yb = np.empty(nVal.size)
-	for n in nVal:
+	for j in range(nVal.size):
 		tab = []
 		t1 = time.clock()
 		for i in range(nbTest):
-			g = Delaunay(n)
+			g = Delaunay(nVal[j])
 			tab.append(g.gammaGraph(k))
 		m = np.mean(tab)
-		t = interval95(tab, nbTest, m)
-		y[i] = m
-		yu[i] = m + t
-		yb[i] = m - t
+		t = interval95(tab, len(tab), m)
+		y[j] = m
+		yu[j] = m + t
+		yb[j] = m - t
 		t2 = time.clock()
-		print(str(n) + " : " + str(t2-t1))
+		print(str(nVal[j]) + " : " + str(t2-t1))
 	title = r'Evolution of $\gamma$ for Delaunay graphs with $k = ' + str(k) + r'$'
-	printCourb("delaunay", [x, x, x], [y, yu, yb], ["Mean Value", "CI+", "CI-"], 3, r'$n$', r'$\gamma$', title)
+	printCourb("delaunay", [nVal, nVal, nVal], [y, yu, yb], ["Mean Value", "CI+", "CI-"], 3, r'$n$', r'$\gamma$', title)
 
 def standardDeviation(tab, m):
 	return np.sqrt(np.sum(np.square(tab - m)))
@@ -132,9 +135,10 @@ def interval95(tab, n, m):
 def main():
 	#gammaFunctionOfK(12, 12, 6)
 	#erdosRenyiGammaProba(20, 20, 100, 40)
-	waxmanGenerator(200)
+	#waxmanGenerator(200)
 	#delaunayGenerator(200)
-	#waxmanConnected(50, 100, 2000)
-	#waxmanRandomTest(30, 200, 10, 1, 12)
+	#waxmanConnected(20, 50, 2000)
+	waxmanRandomTest(30, 200, 2, 200, 12)
+	delaunayRandomTest(30, 200, 2, 200, 12)
 
 main()
