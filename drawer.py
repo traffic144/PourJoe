@@ -10,7 +10,25 @@ from matplotlib.colors import BoundaryNorm
 from matplotlib.ticker import MaxNLocator
 import numpy as np
 
-def printGrid(namefile, x1, x2, dx, y1, y2, dy, z):
+import os
+
+def nextFile(directory):
+	tab = os.listdir('img/' + directory + '/')
+	num = []
+	for i in range(len(tab)):
+		try:
+			n = int(tab[i].split('.png')[0])
+			num.append(n)
+		except:
+			pass
+	j = 1
+	while j in num:
+		j+= 1
+	res = ('img/' + directory + '/' + str(j) + '.png')
+	print(res)
+	return res
+
+def printGrid(directory, x1, x2, dx, y1, y2, dy, z, namefile=None):
 
 	y, x = np.mgrid[slice(x1, x2, dx), slice(y1, y2, dy)]
 
@@ -24,7 +42,7 @@ def printGrid(namefile, x1, x2, dx, y1, y2, dy, z):
 	cf = ax1.contourf(x, y, z, levels=levels, cmap=cmap)
 	fig.colorbar(cf, ax=ax1)
 	
-	"""Pour tracer la grille superposée aux valeurs de gamma"""
+	"""Pour tracer la grille superposee aux valeurs de gamma"""
 	"""-----------------------------------------------------"""
 	for j in range(x2-1):
 		for l in range(x2-1):
@@ -38,9 +56,13 @@ def printGrid(namefile, x1, x2, dx, y1, y2, dy, z):
 	plt.xlabel("x")
 	plt.ylabel("y")
 	
-	plt.savefig("img/" + namefile + ".png")
+	if(namefile):
+		plt.savefig("img/" + directory + '/' + namefile + ".png")
+	else:
+		plt.savefig(nextFile(directory))
+	
  
-def printGridSameScale(namefile, x1, x2, dx, y1, y2, dy, z, k, zmin, zmax):
+def printGridSameScale(directory, x1, x2, dx, y1, y2, dy, z, k, zmin, zmax, namefile=None):
 
 	y, x = np.mgrid[slice(x1, x2, dx), slice(y1, y2, dy)]
 
@@ -54,7 +76,7 @@ def printGridSameScale(namefile, x1, x2, dx, y1, y2, dy, z, k, zmin, zmax):
 	cf = ax1.contourf(x, y, z, levels=levels, cmap=cmap)
 	fig.colorbar(cf, ax=ax1)
 	
-	"""Pour tracer la grille superposée aux valeurs de gamma"""
+	"""Pour tracer la grille superposee aux valeurs de gamma"""
 	"""-----------------------------------------------------"""
 	for j in range(x2-1):
 		for l in range(x2-1):
@@ -69,9 +91,12 @@ def printGridSameScale(namefile, x1, x2, dx, y1, y2, dy, z, k, zmin, zmax):
 	plt.ylabel("y")
 	plt.title('Value of $\gamma$ for nodes in a ' + str(x2) + 'x' + str(x2) + ' grid with $k=$' + str(k))
      
-	plt.savefig("img/" + namefile + ".png")
+	if(namefile):
+		plt.savefig("img/" + directory + '/' + namefile + ".png")
+	else:
+		plt.savefig(nextFile(directory))
 
-def printCourb(namefile, x, y, name, n, xlabel="", ylabel="", title=""):
+def printCourb(directory, x, y, name, n, xlabel="", ylabel="", title="", namefile=None):
 	courbs = []
 	for i in range(n):
 		data, = plt.plot(x[i], y[i], label=name[i])
@@ -80,4 +105,18 @@ def printCourb(namefile, x, y, name, n, xlabel="", ylabel="", title=""):
 	plt.xlabel(xlabel)
 	plt.ylabel(ylabel)
 	plt.title(title)
-	plt.savefig("img/" + namefile + ".png")
+	
+	if(namefile):
+		plt.savefig("img/" + directory + '/' + namefile + ".png")
+	else:
+		plt.savefig(nextFile(directory))
+
+def printGraph(directory, edges, x, y, n, namefile=None):
+	for i in range(n):
+		for j in edges[i]:
+			plt.plot([x[i], x[j]], [y[i], y[j]], 'k-')
+	
+	if(namefile):
+		plt.savefig("img/" + directory + '/' + namefile + ".png")
+	else:
+		plt.savefig(nextFile(directory))
