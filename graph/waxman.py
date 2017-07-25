@@ -5,10 +5,15 @@ from graph import Graph
 
 class Waxman(Graph):
 
-	def __init__(self, n, alpha=2.0, beta=1.0):
+	def __init__(self, n, alpha=1.5, beta=1.0):
 		Graph.__init__(self, n)
 		self.x = np.random.random(n)
 		self.y = np.random.random(n)
+
+		self.x[0] = 0.0
+		self.x[n-1] = 1.0
+		self.y[0] = 1.0
+		self.y[n-1] = 0.0
 
 		self.distance = np.empty((self.n, self.n))
 		self.getDistance()
