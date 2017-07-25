@@ -9,13 +9,17 @@
 %\usepackage[T1]{fontenc} 
 %\usepackage{layout}
 %\usepackage{setspace}
-\usepackage{tikz}
+\usepackage{pgf,tikz}
 \usepackage{subcaption}
 \captionsetup{compatibility=false}
 \usepackage[]{algorithm2e}
 \usepackage{enumitem}
 \usepackage[left=2.6cm,right=2.6cm,top=2cm,bottom=3cm]{geometry}
 \usepackage{authblk}
+
+
+
+
 
 \usetikzlibrary{decorations}
 \usetikzlibrary{decorations.pathmorphing}
@@ -25,6 +29,8 @@
 \usetikzlibrary{decorations.markings}
 \usetikzlibrary{decorations.fractals}
 \usetikzlibrary{decorations.footprints}
+
+\usetikzlibrary{arrows}
 
 \newtheorem{theorem}{Theorem}
 \newtheorem{definition}{Definition}
@@ -65,6 +71,7 @@
 \newcommand{\mcals}{\mathcal{S}}
 \newcommand{\mcala}{\mathcal{A}}
 \newcommand{\mcalv}{\mathcal{V}}
+\newcommand{\mcalg}{\mathcal{G}}
 \newcommand{\mts}{MS}
 \newcommand{\mctp}{M-CTP}
 \newcommand{\argmin}[1]{\underset{#1}{\operatorname{argmin}}}
@@ -147,11 +154,13 @@ The ratio $\omega_A\left(G,E_*\right)/\omegamin\left(G,E_*\right)$ is abbreviate
 
 \subsection{Graphs $G_k$}
 
-We define recursively a sequence of graphs $G_i$ for $i \geq 1$ with weights from $\set{1,\varepsilon}$, $0 < \varepsilon \ll 1$. Graphs $G_1$ and $G_{i+1}$ are represented in Figures~\ref{subfig:G_1} and~\ref{subfig:G_i}, respectively, edges with weight 1 are thicker than edges with weight $\varepsilon$.
+We define recursively a sequence of graphs $G_i$ for $i \geq 1$ with weights from $\set{1,\varepsilon}$, $0 < \varepsilon \ll 1$. Graphs $G_1$ and $G_{i+1}$ are represented in Figures~\ref{subfig:G_1} and~\ref{subfig:G_i}, respectively, edges with weight 1 are thicker than edges with weight $\varepsilon$. For every graph $G_k$, we will only consider the road maps where the blocked edges are at the right of the graph, the left edges affecting negligibly the total cost of a traveler. We note $E_{\mbox{\scriptsize{right}}}$ the set of all the right edges.
+
+When edges are blocked in $G_k$, a part of the graph without end. We assume that an optimal strategies won't go in these dead end parts. For every set $E'$, we will note for $G\backslash E'$ the graph without these dead ends. We define $\mcalg_k$ the set of all sub-graphs of $G_k$ where edges have been removed. Formally, $\mcalg_k = \set{G_k\backslash E' : \left(G_k,E'\right) \mbox{road map}, \card{E'} \leq k}$. For each graph $G_k\backslash E'$, a road map $\left(G_k\backslash E',E_*\right)$ has the condition $\card{E'} + \card{E_*} = k$.
 
 \begin{figure}[h]
 \begin{subfigure}[b]{0.48\columnwidth}
-\includegraphics[scale=0.2]{G_1.pdf}
+\input{graphics/G_1}
 \caption{Graph $G_1$}
 \label{subfig:G_1}
 \end{subfigure}
