@@ -66,16 +66,9 @@
 \newcommand{\mcala}{\mathcal{A}}
 \newcommand{\mcalv}{\mathcal{V}}
 \newcommand{\mts}{MS}
-\newcommand{\mctp}{M-CTP}
 \newcommand{\argmin}[1]{\underset{#1}{\operatorname{argmin}}}
 \newcommand{\deltavert}{\Delta_{\mbox{\scriptsize{vert}}}}
 \newcommand{\Gv}{G^{(v)}}
-\newcommand{\Gvu}{G_{\mbox{\scriptsize{up}}}^{(v)}}
-\newcommand{\Gvd}{G_{\mbox{\scriptsize{down}}}^{(v)}}
-\newcommand{\betakmin}{\beta_{k}^*}
-\newcommand{\pup}{p_A^{\mbox{\scriptsize{up}}}}
-\newcommand{\pdown}{p_A^{\mbox{\scriptsize{down}}}}
-\newcommand{\pdownbis}{p_{A'}^{\mbox{\scriptsize{down}}}}
 \newcommand{\caup}{c_A^{\mbox{\scriptsize{up}}}}
 \newcommand{\cadown}{c_A^{\mbox{\scriptsize{down}}}}
 \newcommand{\cadownbis}{c_{A'}^{\mbox{\scriptsize{down}}}}
@@ -147,7 +140,11 @@ The ratio $\omega_A\left(G,E_*\right)/\omegamin\left(G,E_*\right)$ is abbreviate
 
 \subsection{Graphs $G_k$}
 
-We define recursively a sequence of graphs $G_i$ for $i \geq 1$ with weights from $\set{1,\varepsilon}$, $0 < \varepsilon \ll 1$. Graphs $G_1$ and $G_{i+1}$ are represented in Figures~\ref{subfig:G_1} and~\ref{subfig:G_i}, respectively, edges with weight 1 are thicker than edges with weight $\varepsilon$.
+We define recursively a sequence of graphs $G_i$ for $i \geq 1$ with weights from $\set{1,\varepsilon}$, $0 < \varepsilon \ll 1$. Graphs $G_1$ and $G_{i+1}$ are represented in Figures~\ref{subfig:G_1} and~\ref{subfig:G_i}, respectively, edges with weight 1 are thicker than edges with weight $\varepsilon$. There is a vertical symmetrical on any graph $G_i$ which is noted $\deltavert$. Let $E_{i,\mbox{\scriptsize{left}}}$ denote the set of edges of $G_i$ on the left to axis $\deltavert$ and $E_{i,\mbox{\scriptsize{right}}}$ the set of edges on the right of $\deltavert$. We focus on the competitiveness of \mts es on graphs in set $\mathcal{G}_k$, defined below.
+
+\[
+\mathcal{G}_k = \set{G_i \backslash E' : E' \subsetneq E_{i,\mbox{\scriptsize{right}}}, \card{E'} \le k}
+\]
 
 \begin{figure}[h]
 \begin{subfigure}[b]{0.48\columnwidth}
