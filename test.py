@@ -12,7 +12,7 @@ import numpy as np
 
 # Determine gamma function of k for a given graph
 
-def gammaFunctionOfK(m1, m2, nbAlpha):
+def gammaDoubleWestphalFunctionOfK(m1, m2, nbAlpha):
 	xtab = []
 	ytab = []
 	alpha = np.linspace(0.0, 0.5, num=nbAlpha)
@@ -28,6 +28,26 @@ def gammaFunctionOfK(m1, m2, nbAlpha):
 	title = r'Evolution of $\gamma$ function of $k$ for double Westphal graph ($m_1 = ' + str(m1) + r'$, $m_2 = ' + str(m2) + r'$)'
 	label = [r'$\alpha = ' + str(i) + r'$' for i in alpha]
 	printCourb("gammaK", xtab, ytab, label, nbAlpha, r'$k$', r'$\gamma$', title)
+
+def gammaGridFunctionOfK(n1, n2, d):
+	xtab = []
+	ytab = []
+	n = np.arange(n1, n2, 2)
+	for i in n:
+		t1 = time.clock()
+		g = Grid(i, i, d)
+		g.initGraph()
+		x = np.arange(1, 10)
+		y = []
+		for j in x:
+			y.append(g.gammaGraph(j))
+		xtab.append(x)
+		ytab.append(y)
+		t2 = time.clock()
+		print(str(i) + " : " + str(t2-t1))
+	title = r'Evolution of $\gamma$ function of $k$ for grid of size $n\times n$'
+	label = [r'$n = ' + str(i) + r'$' for i in n]
+	printCourb("gammaK", xtab, ytab, label, n.size, r'$k$', r'$\gamma$', title)
 
 # Find the value of gamma function of p, for random graph for which p is 
 # the probability to have an edge between two nodes
@@ -133,12 +153,13 @@ def interval95(tab, n, m):
 	return 2*standardDeviation(tab, m)/np.sqrt(n)
 
 def main():
-	#gammaFunctionOfK(12, 12, 6)
+	#gammaDoubleWestphalFunctionOfK(12, 12, 6)
+	gammaGridFunctionOfK(12, 25, 2)
 	#erdosRenyiGammaProba(20, 20, 100, 40)
-	#waxmanGenerator(200)
+	#waxmanGenerator(50)
 	#delaunayGenerator(200)
 	#waxmanConnected(20, 50, 2000)
-	waxmanRandomTest(30, 200, 2, 200, 12)
-	delaunayRandomTest(30, 200, 2, 200, 12)
+	#waxmanRandomTest(30, 200, 2, 200, 12)
+	#delaunayRandomTest(30, 200, 5, 200, 12)
 
 main()
