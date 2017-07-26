@@ -12,13 +12,10 @@
 \usepackage{pgf,tikz}
 \usepackage{subcaption}
 \captionsetup{compatibility=false}
-\usepackage[]{algorithm2e}
+\usepackage[lined, ruled]{algorithm2e}
 \usepackage{enumitem}
 \usepackage[left=2.6cm,right=2.6cm,top=2cm,bottom=3cm]{geometry}
 \usepackage{authblk}
-
-
-
 
 
 \usetikzlibrary{decorations}
@@ -81,7 +78,7 @@
 \newcommand{\cadownbis}{c_{A'}^{\mbox{\scriptsize{down}}}}
 \newcommand{\cms}{c_{\mbox{\scriptsize{MS}}}}
 \newcommand{\cmsr}{c_{\mbox{\scriptsize{MS}}, \mathcal{R}}}
-
+\newcommand{\bintree}{\textsc{bin-tree}}
 
 \title{Canadians should use memory}
 \date{}
@@ -175,6 +172,31 @@ We define recursively a sequence of graphs $G_i$ for $i \geq 1$ with weights fro
 \end{figure}
 
 When the traveller discover blocked edges in $G_k$, parts of the graph become \textit{dead ends}. If a traveller visits a dead end, the only chance for him to reach $t$ is to leave it anyway. Dead ends only provide to the traveller additional costs which make the competitive ratio increase. As a consequence, the most competitive strategies will not visit dead ends. From now on, as soon as a dead end appear when the traveller discovers a blockage, we make it disappear from the graph: graph $G\backslash E'$ becomes graph $G$ deprived of both edges $E'$ and dead ends appeared when edges $E'$ are deleted. Let $\mcalg_k$ denote the set of all sub-graphs of $G_k$ where at most $k$ edges have been removed. Formally, $\mcalg_k = \set{G_k\backslash E' : \card{E'} \leq k}$. 
+
+\subsection{Equivalent binary trees}
+
+We define for each graph of $\mcalg_k$ an equivalent binary tree, which will represent all changes of direction from $t$. We note $T_\varnothing$ the empty tree, and $(v, T_a, T_b)$ a non empty tree with $v \in V$, $T_a$ the binary tree above and $T_b$ the binary tree below.
+
+We obtain the equivalent binary tree by applying the \bintree\ algorithm. This algorithm take as an entry a directed tree obtained by first removing the left part of the graph and then directed all edges from $t$. Then, the \bintree\ algorithm will construct a binary tree according to the outdegree of each node.
+
+\begin{algorithm}[H]
+\KwData{a directed tree $T$ and a node $v$}
+\KwResult{binary tree}
+\lIf{$deg^-(v) = 0$}{
+	\Return $T_\varnothing$
+}
+\lIf{$deg^-(v) = 1$}{
+	\Return \bintree($T$, $v_{\mbox{\scriptsize{next}}}$)
+}
+\lIf{$deg^-(v) = 2$}{
+	\Return (v, \bintree($T$, $v_{\mbox{\scriptsize{up}}}$), \bintree($T$, $v_{\mbox{\scriptsize{down}}}$)
+}
+\caption{\bintree\ algorithm}
+\label{algo1}
+\end{algorithm}
+
+
+
 
 %For each graph $G_k\backslash E'$, a road map $\left(G_k\backslash E',E_*\right)$ fulfils $\card{E'} + \card{E_*} = k$.
 
