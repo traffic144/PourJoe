@@ -197,6 +197,8 @@ We obtain the equivalent binary tree by applying the \bintree\ algorithm. This a
 
 Given an edge in a binary tree, we will note $A(e)$ the child edge from above and $B(e)$ the child edge from below. We also note $C(e)$ the set of all the descendants of $e$. Formally, $C(e) = C(A(e)) \cup C(B(e)) \cup \set{A(e), B(e)}$. Finally, we note $P(e)$ the parent edge of $e$ : $P(e) = e' \Leftrightarrow e = A(e') \mbox{ or } e = B(e')$.
 
+We define recursively a set of edges $E_k$, $E_0$ being the edges connected to the root and $E_k = \set{e : P(e) \in E_{k-1}}$. $E_k$ represents the edges which are at distance $k$ from the root.
+
 When an edge is cut from the original graph, the equivalent tree can be easily obtain by replacing the tree $(v, T_a, T_b)$ by $T_a$ (resp. $T_b$) if the cut edge is before $T_b$ (resp. $T_a$)
 
 \begin{lemma}
