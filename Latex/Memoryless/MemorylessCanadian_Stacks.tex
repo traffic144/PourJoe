@@ -195,6 +195,14 @@ We obtain the equivalent binary tree by applying the \bintree\ algorithm. This a
 \label{algo1}
 \end{algorithm}
 
+Given an edge in a binary tree, we will note $A(e)$ the child edge from above and $B(e)$ the child edge from below. We also note $C(e)$ the set of all the descendants of $e$. Formally, $C(e) = C(A(e)) \cup C(B(e)) \cup \set{A(e), B(e)}$. Finally, we note $P(e)$ the parent edge of $e$ : $P(e) = e' \Leftrightarrow e = A(e') \mbox{ or } e = B(e')$.
+
+When an edge is cut from the original graph, the equivalent tree can be easily obtain by replacing the tree $(v, T_a, T_b)$ by $T_a$ (resp. $T_b$) if the cut edge is before $T_b$ (resp. $T_a$)
+
+\begin{lemma}
+Given $G_k\backslash E' \in \mcalg_k$, $(k - \card{E'}) \leq \min_{v\in V} h(v)$
+\end{lemma}
+
 
 
 
