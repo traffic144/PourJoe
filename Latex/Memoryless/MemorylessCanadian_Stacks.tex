@@ -79,6 +79,8 @@
 \newcommand{\caup}{c_A^{\mbox{\scriptsize{up}}}}
 \newcommand{\cadown}{c_A^{\mbox{\scriptsize{down}}}}
 \newcommand{\cadownbis}{c_{A'}^{\mbox{\scriptsize{down}}}}
+\newcommand{\cms}{c_{\mbox{\scriptsize{MS}}}}
+\newcommand{\cmsr}{c_{\mbox{\scriptsize{MS}}, \mathcal{R}}}
 
 
 \title{Canadians should use memory}
@@ -102,7 +104,6 @@
 \begin{abstract}
  
 %The $k$-Canadian Traveller Problem, defined and proven PSPACE-complete by Papadimitriou and Yannakakis, is a generalization of the Shortest Path Problem which admits blocked edges. Its objective is to determine the strategy that makes the traveller traverse graph $G$ between two given nodes $s$ and $t$ with the minimal distance, knowing that at most $k$ edges are blocked. The traveller discovers that an edge is blocked when arriving at its endpoint. Westphal showed that the competitive ratio, which is an indicator of the online algorithm quality, of any randomized strategy is not less than $k+1$. 
- 
 %We study the competitiveness of randomized memoryless strategies for the \kctp . In this context, a decision taken by the traveler in node $v$ of $G$ does not depend on its anterior moves. 
 We establish that the competitive ratio of any randomized memoryless strategy is not less than $2k+1$. Only randomized strategies using memory potentially overpass this ratio now.
 
@@ -141,40 +142,53 @@ We propose the following process to identify whether a strategy $A$ is a determi
 
 \subsection{Competitive ratio} \label{subsec:compratio}
 
-Let $\left(G,E_*\right)$ be a \textit{road map}, {\em i.e.} a pair with graph $G=\left(V,E,\omega\right)$ and blocked edges $E_* \subsetneq E$, such that there is an \stpath ~in graph $G\backslash E_*$ (nodes $s$ and $t$ always remain in the same connected component). We note $\omega_A\left(G,E_*\right)$ the distance traversed by the traveller reaching $t$ with strategy $A$ on graph $G$ with blocked edges $E_*$ and $\omegamin\left(G,E_*\right)$ the cost of the shortest \stpath ~in graph $G\backslash E_*$.
+Let $\left(G,E_*\right)$ be a \textit{road map}, {\em i.e.} a pair with graph $G=\left(V,E,\omega\right)$ and blocked edges $E_* \subsetneq E$, such that there is an \stpath ~in graph $G\backslash E_*$ (nodes $s$ and $t$ remain in the same connected component when all blocked edges are discovered). We note $\omega_A\left(G,E_*\right)$ the distance traversed by the traveller reaching $t$ with strategy $A$ on graph $G$ with blocked edges $E_*$ and $\omegamin\left(G,E_*\right)$ the cost of the shortest \stpath ~in graph $G\backslash E_*$.
 
-The ratio $\omega_A\left(G,E_*\right)/\omegamin\left(G,E_*\right)$ is abbreviated as $c_A\left(G,E_*\right)$. A strategy $A$ is $c_A$-competitive~\cite{BoEl98,XuHuSuZh09} iff for any $\left(G,E_*\right), \omega_A\left(G,E_*\right) \leq c_A \omegamin\left(G,E_*\right)$. Otherwise stated, for any $\left(G,E_*\right)$, $c_A\left(G,E_*\right) \leq c_A$. If strategy $A$ is randomized, $\omega_A\left(G,E_*\right)$ is replaced by $\mathbb{E}\left(\omega_A\left(G,E_*\right)\right)$ which is the expected distance traversed by the traveller to reach $t$ with strategy $A$.
+The ratio $\omega_A\left(G,E_*\right)/\omegamin\left(G,E_*\right)$ is abbreviated as $c_A\left(G,E_*\right)$. A strategy $A$ is $c_A$-competitive~\cite{BoEl98,XuHuSuZh09} iff for any $\left(G,E_*\right), \omega_A\left(G,E_*\right) \leq c_A \omegamin\left(G,E_*\right)$. Otherwise stated, for any $\left(G,E_*\right)$, $c_A\left(G,E_*\right) \leq c_A$. If strategy $A$ is randomized, $\omega_A\left(G,E_*\right)$ is replaced by $\mathbb{E}\left(\omega_A\left(G,E_*\right)\right)$ which is the expected distance traversed by the traveller to reach $t$ with strategy $A$. The competitive ratio can also be evaluated on a family $\mathcal{R}$ of road maps, put formally,
 
+\begin{equation}
+c_{A,\mathcal{R}} = \max\limits_{\left(G,E_*\right) \in \mathcal{R}} c_A\left(G,E_*\right)
+\end{equation}
+
+% See command \cms
+This ``local'' competitive ratio fulfils $c_{A,\mathcal{R}} \le c_A$. The competitive ratio can also be extended to families of strategies. We note $\cms$ the competitive ratio of \mts es, which is the minimum over competitive ratios of any \mts es: $\cms = \min\limits_{A ~\mbox{\scriptsize{\mts}}} c_A$. In the remainder, we identify a set of road maps $\mathcal{R}$ such that the competitive ratio of \mts es on it is $2k+1$, {\em i.e.} $\cmsr \ge 2k+1$.
 \subsection{Graphs $G_k$}
 
-We define recursively a sequence of graphs $G_i$ for $i \geq 1$ with weights from $\set{1,\varepsilon}$, $0 < \varepsilon \ll 1$. Graphs $G_1$ and $G_{i+1}$ are represented in Figures~\ref{subfig:G_1} and~\ref{subfig:G_i}, respectively, edges with weight 1 are thicker than edges with weight $\varepsilon$. For every graph $G_k$, we will only consider the road maps where the blocked edges are at the right of the graph, the left edges affecting negligibly the total cost of a traveler. We note $E_{\mbox{\scriptsize{right}}}$ the set of all the right edges.
-
-When edges are blocked in $G_k$, a part of the graph without end. We assume that an optimal strategies won't go in these dead end parts. For every set $E'$, we will note for $G\backslash E'$ the graph without these dead ends. We define $\mcalg_k$ the set of all sub-graphs of $G_k$ where edges have been removed. Formally, $\mcalg_k = \set{G_k\backslash E' : \left(G_k,E'\right) \mbox{road map}, \card{E'} \leq k}$. For each graph $G_k\backslash E'$, a road map $\left(G_k\backslash E',E_*\right)$ has the condition $\card{E'} + \card{E_*} = k$.
+We define recursively a sequence of graphs $G_i$ for $i \geq 1$ with weights from $\set{1,\varepsilon}$, $0 < \varepsilon \ll 1$. Graphs $G_1$ and $G_{i+1}$ are represented in Figures~\ref{subfig:G_1} and~\ref{subfig:G_i}, respectively. Edges with weight 1 are thicker than edges with weight $\varepsilon$. For every graph $G_k$, we will only consider the road maps where the blocked edges are at the right of the graph, the left edges affecting negligibly the total cost of a traveler. We note $E_{\mbox{\scriptsize{right}}}$ the set of all the right edges.
 
 \begin{figure}[h]
+\centering
 \begin{subfigure}[b]{0.49\columnwidth}
+\centering
 \input{graphics/G_1}
 \caption{Graph $G_1$}
 \label{subfig:G_1}
 \end{subfigure}
 \begin{subfigure}[b]{0.49\columnwidth}
-\input{graphics/G_i}
+\centering
+\scalebox{.76}{\input{graphics/G_i}}
 \caption{Graph $G_{i+1}$}
 \label{subfig:G_i}
 \end{subfigure}
-
-%\begin{subfigure}[b]{0.48\columnwidth}
-%\includegraphics[scale=0.2]{G_2.pdf}\max\limits_{\substack{\mbox{\scriptsize{graph}} ~G\\ E_* \in \mcale_*}} c_A\left(G,E_*\right)
-%\caption{Graph $G_2$ with the axis of symmetry}
-%\end{subfigure}
-%\begin{subfigure}[b]{0.48\columnwidth}
-%\includegraphics[scale=0.2]{G_3.pdf}
-%\caption{Graph $G_3$ with the axis of symmetry}
-%\end{subfigure}
 \caption{Recursive construction of graphs $G_i$}
 \label{fig:G_i}
 \end{figure}
 
+When the traveller discover blocked edges in $G_k$, parts of the graph become \textit{dead ends}. If a traveller visits a dead end, the only chance for him to reach $t$ is to leave it anyway. Dead ends only provide to the traveller additional costs which make the competitive ratio increase. As a consequence, the most competitive strategies will not visit dead ends. From now on, as soon as a dead end appear when the traveller discovers a blockage, we make it disappear from the graph: graph $G\backslash E'$ becomes graph $G$ deprived of both edges $E'$ and dead ends appeared when edges $E'$ are deleted. Let $\mcalg_k$ denote the set of all sub-graphs of $G_k$ where at most $k$ edges have been removed. Formally, $\mcalg_k = \set{G_k\backslash E' : \card{E'} \leq k}$. 
+
+%For each graph $G_k\backslash E'$, a road map $\left(G_k\backslash E',E_*\right)$ fulfils $\card{E'} + \card{E_*} = k$.
+
+
+
+
+
+
+
+
+
+
+
+%%%%%CONCLUSION%%%%%%%
 %\section{Conclusion and further work}
 
 %We studied the competitiveness of the \mts es for the \kctp. In this context, an \mts ~is a strategy which does not make decisions referring to the anterior moves of the traveller, in other words, the nodes the traveller visited until his current position. We proved that the \textsc{comparison} strategy, defined in~~\cite{XuHuSuZh09}, is a \mts{}. This implies that the competitive ratio of the optimal deterministic \mts ~is $2k+1$. 
