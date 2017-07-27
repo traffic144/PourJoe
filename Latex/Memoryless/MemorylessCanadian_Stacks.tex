@@ -69,6 +69,7 @@
 \newcommand{\mcala}{\mathcal{A}}
 \newcommand{\mcalv}{\mathcal{V}}
 \newcommand{\mcalg}{\mathcal{G}}
+\newcommand{\mcalr}{\mathcal{R}}
 \newcommand{\mts}{MS}
 \newcommand{\argmin}[1]{\underset{#1}{\operatorname{argmin}}}
 \newcommand{\deltavert}{\Delta_{\mbox{\scriptsize{vert}}}}
@@ -202,10 +203,20 @@ We define recursively a set of edges $E_k$, $E_0$ being the edges connected to t
 When an edge is cut from the original graph, the equivalent tree can be easily obtain by replacing the tree $(v, T_a, T_b)$ by $T_a$ (resp. $T_b$) if the cut edge is before $T_b$ (resp. $T_a$)
 
 \begin{lemma}
-Given $G_k\backslash E' \in \mcalg_k$, $(k - \card{E'}) \leq \min_{v\in V} h(v)$
+For any road map $(G, E_*) \in \mcalr_k$, $E_{T_G}(j-1) = 2^j$ with $j = \card{E_*}$
 \end{lemma}
 
+\begin{proof}
+If $G = G_k$, then $\card{E_*} = k$ and the binary tree is complete, so $E_{T_{G_k}}(k-1) = 2^k$.
 
+We suppose now for any road map with $\card{E_*} = j$ that $E_{T_G}(j-1) = 2^j$. Let $(G, E_*)$ a road map with $\card{E_*} = j-1$ Then it exists a road map $(G', E_* \cup \set{e})$ with $G$ obtained by removing $e$ to $G'$.
+
+First, we remark that for any binary tree $T = (v, T_a, T_b)$ and $i$, if the number of edge of depth $i$ is $2^{i+1}$, the tree is complete until depth $i$, so $T_a$ and $T_b$ are complete until depth $i-1$ and each have $2^i$ edges at depth $i-1$ : $\card{E_T(i)} = 2^{i+1} \implies \card{E_{T_a}(i-1)} = \card{E_{T_b}(i-1)} = 2^i$.
+ 
+Second, we remark that for any binary tree $T$ and $i$, if the number of edge of depth $i$ is $2^{i+1}$, then the number of edge for the depth $i-1$ is $2^i$ : $\card{E_T(i)} = 2^{i+1} \implies \card{E_T(i-1)} = 2^i$.
+
+Let $T' = (v, T_a, T_b)$ the sub-tree of $T_G'$ where $v$ is the root of the edge $e$ (we will suppose $e$ is on the $T_a$ side). Then if $e$ is at depth $i$ then the remarks and the hypothesis give $\card{E_{T}(j-i-1)} = 2^{j-i}$ and $\card{E_{T}(j-i-2)} = 2^{j-i-1} = \card{E_{T_a}(j-i-2)}$. By cutting $e$, $T$ become in $G$ the tree $T_a$. We find that the number of edge at the depth $j-i-2$ remains. So the rest of the tree being unchanged by cutting $e$, the number of edges of $T_G$ for depth $j-2$ is unchanged from $T_G'$ and is equal to $2^{j-1}$ : $\card{E_{T_G}(j-2)} = 2^{j-1}$.
+\end{proof}
 
 
 %For each graph $G_k\backslash E'$, a road map $\left(G_k\backslash E',E_*\right)$ fulfils $\card{E'} + \card{E_*} = k$.
