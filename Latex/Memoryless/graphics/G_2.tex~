@@ -13,8 +13,6 @@
 \draw [line width=1pt] (0,1)-- (1.6,2.5);
 \draw [line width=1pt] (-3.6,2.5)-- (-2,1);
 \begin{scriptsize}
-\draw [line width = 1.4pt,color=red] (-1,0)--(-1,5);
-\draw[color=red] (-0.5,5.2) node {$\deltavert$};
 \draw [fill=black] (0,4) circle (2pt);
 \draw [fill=black] (-2,4) circle (2pt);
 \draw [fill=black] (-1,4.6) circle (2pt);
@@ -25,7 +23,7 @@
 \draw[color=black] (-0.5,3.3) node {$\varepsilon$};
 \draw [fill=black] (-3.6,2.5) circle (1.5pt);
 \draw[color=black] (-3.9,2.7) node {$s$};
-\draw[color=black] (-2.9,3.6) node {$\varepsilon$};
+\draw[color=black] (-2.75,3.6) node {$\varepsilon$};
 \draw [fill=black] (1.6,2.5) circle (1.5pt);
 \draw[color=black] (1.95,2.7) node {$t$};
 \draw[color=black] (1.0,3.6) node {$\varepsilon$};
@@ -38,6 +36,6 @@
 \draw[color=black] (-0.5,0.4) node {$\varepsilon$};
 \draw[color=black] (-0.5,1.66) node {$\varepsilon$};
 \draw[color=black] (1.0,1.4) node {$\varepsilon$};
-\draw[color=black] (-2.9,1.4) node {$\varepsilon$};
+\draw[color=black] (-2.75,1.4) node {$\varepsilon$};
 \end{scriptsize}
 \end{tikzpicture}

@@ -183,21 +183,33 @@ We specify a \textit{road atlas} $\mathcal{R}$ which is a set of road maps. To d
 
 \subsection{Graphs $G_k$} \label{subsec:Gk}
 
-We define recursively a sequence of graphs $G_i$ for $i \geq 1$ with weights from $\set{1,\varepsilon}$, $0 < \varepsilon \ll 1$. Graphs $G_1$ and $G_{i+1}$ are represented in Figures~\ref{subfig:G_1} and~\ref{subfig:G_i}, respectively. Edges with weight 1 are thicker than edges with weight $\varepsilon$, which is negligible. For every graph $G_k$, we will only consider the road maps where the blocked edges are at the right of the graph, the left edges affecting negligibly the total cost of a traveler. We note $E_{\mbox{\scriptsize{right}}}$ the set of all the right edges.
+We define recursively a sequence of graphs $G_i$ for $i \geq 1$ with weights from $\set{1,\varepsilon}$, $0 < \varepsilon \ll 1$. Graphs $G_1$ and $G_{i+1}$ are represented in Figures~\ref{subfig:G_1} and~\ref{subfig:G_i}, respectively. Graphs $G_2$ and $G_3$ are shown in Figure~\ref{subfig:G_2} and~\ref{subfig:G_3}. Edges with weight 1 are thicker than edges with weight $\varepsilon$. On any graph $G_k$, axis $\deltavert$ is the vertical axis of symmetry (see Figures~\ref{subfig:G_2} and~\ref{subfig:G_3}). We focus on road maps composed of a graph $G_k$ and at most $k$ blocked edges at the right of axis $\deltavert$ in graph $G_k$. Indeed, blocking edges left to $\deltavert$ affects negligibly the total distance traversed by a traveller. We note $E_{\mbox{\scriptsize{right}}}$ the set of edges at the right of $\deltavert$.
 
 \begin{figure}[h]
 \centering
 \begin{subfigure}[b]{0.49\columnwidth}
 \centering
-\input{graphics/G_1}
+\scalebox{.8}{\input{graphics/G_1}}
 \caption{Graph $G_1$}
 \label{subfig:G_1}
 \end{subfigure}
 \begin{subfigure}[b]{0.49\columnwidth}
 \centering
-\scalebox{.76}{\input{graphics/G_i}}
+\scalebox{.6}{\input{graphics/G_i}}
 \caption{Graph $G_{i+1}$}
 \label{subfig:G_i}
+\end{subfigure}
+\begin{subfigure}[b]{0.49\columnwidth}
+\centering
+\scalebox{0.75}{\input{graphics/G_2}}
+\caption{Graph $G_2$ and axis $\deltavert$. Only edges right\\ to this axis can be blocked.}
+\label{subfig:G_2}
+\end{subfigure}
+\begin{subfigure}[b]{0.49\columnwidth}
+\centering
+\scalebox{0.75}{\input{graphics/G_3}}
+\caption{Graph $G_3$ and axis $\deltavert$. Weights $\varepsilon$ are\\ not indicated to keep the readability.}
+\label{subfig:G_3}
 \end{subfigure}
 \caption{Recursive construction of graphs $G_i$}
 \label{fig:G_i}
