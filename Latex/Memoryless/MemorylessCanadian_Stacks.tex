@@ -217,6 +217,23 @@ We define recursively a sequence of graphs $G_i$ for $i \geq 1$ with weights fro
 
 When the traveller discover blocked edges in a graph $G$, parts of the graph become \textit{dead ends}. If a traveller visits a dead end, the only chance for him to reach $t$ is to leave it anyway. Dead ends only provide to the traveller additional costs which make the competitive ratio increase. As a consequence, the most competitive strategies (memoryless or not) do not visit dead ends. From now on, as soon as a dead end appear when the traveller discovers a blockage, we delete it from the graph. Graph $G\backslash E'$ becomes graph $G$ deprived of both edges $E'$ and dead ends. 
 
+\begin{figure}[b]
+\centering
+\begin{subfigure}[b]{0.49\columnwidth}
+\centering
+\scalebox{.32}{\input{graphics/deadend_1}}
+\caption{Graph $G_2$ deprived of one edge makes appear\\ a dead end (subgraph in the blue dashed box)}
+\label{subfig:deadend_1}
+\end{subfigure}
+\begin{subfigure}[b]{0.49\columnwidth}
+\centering
+\scalebox{.52}{\input{graphics/deadend_2}}
+\caption{The graph obtained after deleting all nodes\slash edges forming a dead end}
+\label{subfig:deadend_2}
+\end{subfigure}
+\caption{An illustration of dead ends on graph $G_2$.}
+\end{figure}
+
 We focus on road maps $\left(G_k,E_*\right)$ composed of graph $G_k$ and $k$ blocked edges $E_*$ at the right of axis $\deltavert$ in graph $G_k$. Indeed, blocking edges left to $\deltavert$ affects negligibly the total distance traversed by a traveller. Let us suppose that the traveller, guided by a \mts , traverses graph $G_k$ and has already discovered some blocked edges $E' \subseteq E_*$. He tries now to reach $t$ on graph $G_k\backslash E'$, ignoring that the undiscovered blocked edges are $E_*' = E_* \backslash E'$.
 We study the competitiveness of \mts es on the road atlas $\mathcal{R}$ composed of road maps with sub-graphs $G_k \backslash E' \in \mcalg_k$ where $\mcalg_k = \set{G_k\backslash E' : \card{E'} \leq k}$ and blocked edges $E_*'$ which fulfil $\card{E'} + \card{E_*'} = k$. Formally,
 
