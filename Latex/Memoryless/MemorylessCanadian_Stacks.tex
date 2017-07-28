@@ -183,7 +183,7 @@ We specify a \textit{road atlas} $\mathcal{R}$ which is a set of road maps. To d
 
 \subsection{Graphs $G_k$} \label{subsec:Gk}
 
-We define recursively a sequence of graphs $G_i$ for $i \geq 1$ with weights from $\set{1,\varepsilon}$, $0 < \varepsilon \ll 1$. Graphs $G_1$ and $G_{i+1}$ are represented in Figures~\ref{subfig:G_1} and~\ref{subfig:G_i}, respectively. Graphs $G_2$ and $G_3$ are shown in Figure~\ref{subfig:G_2} and~\ref{subfig:G_3}. Edges with weight 1 are thicker than edges with weight $\varepsilon$. On any graph $G_k$, axis $\deltavert$ is the vertical axis of symmetry (see Figures~\ref{subfig:G_2} and~\ref{subfig:G_3}). We focus on road maps composed of a graph $G_k$ and at most $k$ blocked edges at the right of axis $\deltavert$ in graph $G_k$. Indeed, blocking edges left to $\deltavert$ affects negligibly the total distance traversed by a traveller. 
+We define recursively a sequence of graphs $G_i$ for $i \geq 1$ with weights from $\set{1,\varepsilon}$, $0 < \varepsilon \ll 1$. Graphs $G_1$ and $G_{i+1}$ are represented in Figures~\ref{subfig:G_1} and~\ref{subfig:G_i}, respectively. Graphs $G_2$ and $G_3$ are shown in Figure~\ref{subfig:G_2} and~\ref{subfig:G_3}. Edges with weight 1 are thicker than edges with weight $\varepsilon$. On any graph $G_i$, axis $\deltavert$ is the vertical axis of symmetry (see Figures~\ref{subfig:G_2} and~\ref{subfig:G_3}).
 
 \begin{figure}[h]
 \centering
@@ -201,25 +201,29 @@ We define recursively a sequence of graphs $G_i$ for $i \geq 1$ with weights fro
 \end{subfigure}
 \begin{subfigure}[b]{0.49\columnwidth}
 \centering
-\scalebox{.5}{\input{graphics/G_2}}
-\caption{Graph $G_2$ and axis $\deltavert$. Only edges right\\ to this axis can be blocked.}
+\scalebox{.45}{\input{graphics/G_2}}
+\caption{Graph $G_2$ and axis $\deltavert$. Weights $\varepsilon$ are not indicated to keep the figure readable.}
 \label{subfig:G_2}
 \end{subfigure}
 \begin{subfigure}[b]{0.49\columnwidth}
 \centering
-\scalebox{0.5}{\input{graphics/G_3}}
-\caption{Graph $G_3$ and axis $\deltavert$. Weights $\varepsilon$ are\\ not indicated to keep the readability.}
+\scalebox{0.45}{\input{graphics/G_3}}
+\caption{Graph $G_3$ and axis $\deltavert$. }
 \label{subfig:G_3}
 \end{subfigure}
 \caption{Recursive construction of graphs $G_i$}
 \label{fig:G_i}
 \end{figure}
 
-When the traveller discover blocked edges in $G_k$, parts of the graph become \textit{dead ends}. If a traveller visits a dead end, the only chance for him to reach $t$ is to leave it anyway. Dead ends only provide to the traveller additional costs which make the competitive ratio increase. As a consequence, the most competitive strategies (memoryless or not) do not visit dead ends. From now on, as soon as a dead end appear when the traveller discovers a blockage, we delete it from the graph: graph $G\backslash E'$ becomes graph $G$ deprived of both edges $E'$ and dead ends. Let $\mcalg_k$ denote the set of all sub-graphs of $G_k$ where at most $k$ edges on the right have been removed. Formally, $\mcalg_k = \set{G_k\backslash E' : \card{E'} \leq k}$. The road atlas $\mathcal{R}$ is composed of road maps with sub-graphs $G_k \backslash E' \in \mcalg_k$ and blocked edges $E_*$ which fulfil $\card{E'} + \card{E_*} = k$.
+When the traveller discover blocked edges in a graph $G$, parts of the graph become \textit{dead ends}. If a traveller visits a dead end, the only chance for him to reach $t$ is to leave it anyway. Dead ends only provide to the traveller additional costs which make the competitive ratio increase. As a consequence, the most competitive strategies (memoryless or not) do not visit dead ends. From now on, as soon as a dead end appear when the traveller discovers a blockage, we delete it from the graph. Graph $G\backslash E'$ becomes graph $G$ deprived of both edges $E'$ and dead ends. 
 
-\[
-\mathcal{R} = \bigcup\limits_{k=1}^{+\infty} \mathcal{R}_k ~\mbox{with}~ \mathcal{R}_k = \set{\left(G_k\backslash E',E_*\right): G_k\backslash E' \in \mcalg_k, E' \cap E_* = \emptyset, \card{E'} + \card{E_*} = k}
-\]
+We focus on road maps $\left(G_k,E_*\right)$ composed of graph $G_k$ and $k$ blocked edges $E_*$ at the right of axis $\deltavert$ in graph $G_k$. Indeed, blocking edges left to $\deltavert$ affects negligibly the total distance traversed by a traveller. Let us suppose that the traveller, guided by a \mts , traverses graph $G_k$ and has already discovered some blocked edges $E' \subseteq E_*$. He tries now to reach $t$ on graph $G_k\backslash E'$, ignoring that the undiscovered blocked edges are $E_*' = E_* \backslash E'$.
+We study the competitiveness of \mts es on the road atlas $\mathcal{R}$ composed of road maps with sub-graphs $G_k \backslash E' \in \mcalg_k$ where $\mcalg_k = \set{G_k\backslash E' : \card{E'} \leq k}$ and blocked edges $E_*'$ which fulfil $\card{E'} + \card{E_*'} = k$. Formally,
+
+\begin{equation}
+\mathcal{R} = \bigcup\limits_{k=1}^{+\infty} \mathcal{R}_k ~\mbox{with}~ \mathcal{R}_k = \set{\left(G_k\backslash E',E_*'\right): G_k\backslash E' \in \mcalg_k, E' \cap E_*' = \emptyset, \card{E'} + \card{E_*'} = k}
+\label{eq:roadatlas}
+\end{equation}
 
 \subsection{Equivalent binary trees} \label{subsec:ebt}
 
