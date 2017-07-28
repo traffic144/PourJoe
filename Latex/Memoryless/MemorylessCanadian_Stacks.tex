@@ -80,6 +80,8 @@
 \newcommand{\cms}{c_{\mbox{\scriptsize{MS}}}}
 \newcommand{\cmsr}{c_{\mbox{\scriptsize{MS}}, \mathcal{R}}}
 \newcommand{\bintree}{\textsc{bin-tree}}
+\newcommand{\ebt}{EBT}
+\newcommand{\bfs}{\mbox{BFS}}
 
 \title{Canadian Travellers should use memory}
 \date{}
@@ -244,31 +246,65 @@ We study the competitiveness of \mts es on the road atlas $\mathcal{R}$ composed
 
 \subsection{Equivalent binary trees} \label{subsec:ebt}
 
-We define for each graph of $\mcalg_k$ an equivalent binary tree, which will represent all changes of direction from $t$. We note $T_\varnothing$ the empty tree, and $(v, T_a, T_b)$ a non empty tree with $v \in V$, $T_a$ the binary tree above and $T_b$ the binary tree below.
+For any graph $G$ of $\mcalg_k$, we define an equivalent binary tree (\ebt ) noted $T_G$ which represents all changes of direction from $t$ in graph $G$. We note $T_\varnothing$ the empty tree. Any nonempty tree is a triplet $(v, T_a, T_b)$ with a root $v \in V$ and two subtrees $T_a$ and $T_b$.
 
-We obtain the equivalent binary tree by applying the \bintree\ algorithm. This algorithm take as an entry a directed tree obtained by first removing the left part of the graph and then directed all edges from $t$. Then, the \bintree\ algorithm will construct a binary tree according to the outdegree of each node.
+\begin{figure}[h]
+\centering
+\begin{subfigure}[b]{0.3\columnwidth}
+\centering
+\scalebox{.42}{\input{graphics/ebt_1}}
+\caption{Graph $G \in \mcalg_2$}
+\label{subfig:ebt_1}
+\end{subfigure}
+\begin{subfigure}[b]{0.33\columnwidth}
+\centering
+\scalebox{.42}{\input{graphics/ebt_2}}
+\caption{Changes of directions from $t$}
+\label{subfig:ebt_2}
+\end{subfigure}
+\begin{subfigure}[b]{0.3\columnwidth}
+\centering
+\scalebox{.58}{\input{graphics/ebt_3}}
+\caption{The EBT $T_G$}
+\label{subfig:ebt_3}
+\end{subfigure}
+\caption{An example of graph $G \in \mcalg_2$ and its EBT $T_G$.}
+\label{fig:ebt}
+\end{figure}
 
-\begin{algorithm}[H]
-\KwData{a directed tree $T$ and a node $v$}
-\KwResult{binary tree}
-\lIf{$deg^-(v) = 0$}{
-	\Return $T_\varnothing$
-}
-\lIf{$deg^-(v) = 1$}{
-	\Return \bintree($T$, $v_{\mbox{\scriptsize{next}}}$)
-}
-\lIf{$deg^-(v) = 2$}{
-	\Return (v, \bintree($T$, $v_{\mbox{\scriptsize{up}}}$), \bintree($T$, $v_{\mbox{\scriptsize{down}}}$)
-}
-\caption{\bintree\ algorithm}
-\label{algo1}
-\end{algorithm}
+The EBT is obtained thanks to a breadth-first search (BFS) from $t$ in direction of nodes on axis $\deltavert$. Node $t$ is the root of the EBT. Graphically, each node from which there are two possible directions for the next move of the BFS provides two extra branches in the tree (see nodes $t$, $v_1$, $v_2$ and $v_3$ in Figure~\ref{subfig:ebt_2}). Figures~\ref{subfig:ebt_1},~\ref{subfig:ebt_2} and~\ref{subfig:ebt_3} illustrate the construction of the EBT. To put the definition of EBTs formally, let $\bfs\left(v\right)$ denote the set of nodes visited just after node $v$ in the BFS starting from $t$. For example, $v_1 \in \bfs\left(t\right)$ and $v_3 \in \bfs\left(v_1\right)$. We force this BFS to stop on axis $\deltavert$ such that $v \in \deltavert \Rightarrow \bfs\left(v\right) = \emptyset$. We define below function $\bintree$ which gives the construction of tree $T_G$ fulfilling $\bintree \left(t\right) = T_G$.
+%\command \bfs pour les equations
+\[
+\bintree\left(v\right) = 
+\left\{
+\begin{array}{l}
+T_\varnothing ~\mbox{if}~ \bfs(v) = \emptyset\\
+\bintree\left(v_{\mbox{\scriptsize{next}}}\right)  ~\mbox{if}~ \bfs(v) = \set{v_{\mbox{\scriptsize{next}}}}\\
+\left(v, \bintree(v_{\mbox{\scriptsize{up}}}), \bintree( v_{\mbox{\scriptsize{down}}})\right) ~\mbox{if}~ \bfs(v) = \set{v_{\mbox{\scriptsize{up}}},v_{\mbox{\scriptsize{down}}}}
+\end{array}
+\right.
+\]
+%\begin{algorithm}[]
+%\KwData{a directed tree $T$ and a node $v$}
+%\KwResult{binary tree}
+%\lIf{$deg^-(v) = 0$}{
+%	\Return $T_\varnothing$
+%}
+%\lIf{$deg^-(v) = 1$}{
+%	\Return \bintree($T$, $v_{\mbox{\scriptsize{next}}}$)
+%}
+%\lIf{$deg^-(v) = 2$}{
+%	\Return (v, \bintree($T$, $v_{\mbox{\scriptsize{up}}}$), \bintree($T$, $v_{\mbox{\scriptsize{down}}}$)
+%}
+%\caption{\bintree\ algorithm}
+%\label{algo1}
+%\end{algorithm}
 
-Given an edge in a binary tree, we will note $A(e)$ the child edge from above and $B(e)$ the child edge from below. We also note $C(e)$ the set of all the descendants of $e$. Formally, $C(e) = C(A(e)) \cup C(B(e)) \cup \set{A(e), B(e)}$. Finally, we note $P(e)$ the parent edge of $e$ : $P(e) = e' \Leftrightarrow e = A(e') \mbox{ or } e = B(e')$.
+%Given an edge in a binary tree, we will note $A(e)$ the child edge from above and $B(e)$ the child edge from below. We also note $C(e)$ the set of all the descendants of $e$. Formally, $C(e) = C(A(e)) \cup C(B(e)) \cup \set{A(e), B(e)}$. Finally, we note $P(e)$ the parent edge of $e$ : $P(e) = e' \Leftrightarrow e = A(e') \mbox{ or } e = B(e')$.
 
-We define recursively a set of edges $E_k$, $E_0$ being the edges connected to the root and $E_k = \set{e : P(e) \in E_{k-1}}$. $E_k$ represents the edges which are at distance $k$ from the root.
+For any edge $e$ in EBT $T$, we note $P(e)$ the parent edge of $e$. For any EBT $T$, we define recursively a set of edges $E_T(k)$, $E_T(0)$ being the edges connected to the root and $E_T(k) = \set{e : P(e) \in E_T(k-1)}$. In other words, $E_T(k)$ can be seen as the set of edges with depth $k$.
 
-When an edge is cut from the original graph, the equivalent tree can be easily obtain by replacing the tree $(v, T_a, T_b)$ by $T_a$ (resp. $T_b$) if the cut edge is before $T_b$ (resp. $T_a$)
+%When an edge is cut from the original graph, the equivalent tree can be easily obtain by replacing the tree $(v, T_a, T_b)$ by $T_a$ (resp. $T_b$) if the cut edge is before $T_b$ (resp. $T_a$)
 
 \begin{lemma}
 For any road map $(G, E_*) \in \mcalr_k$, $E_{T_G}(j-1) = 2^j$ with $j = \card{E_*}$
