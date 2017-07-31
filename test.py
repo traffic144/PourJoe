@@ -6,6 +6,8 @@ from graph.erdosRenyi import ErdosRenyi
 from graph.waxman import Waxman
 from graph.delaunay import Delaunay
 
+from strategy.reposition import Reposition
+
 import time
 
 import numpy as np
@@ -146,6 +148,36 @@ def delaunayRandomTest(n1, n2, step, nbTest, k):
 	title = r'Evolution of $\gamma$ for Delaunay graphs with $k = ' + str(k) + r'$'
 	printCourb("delaunay", [nVal, nVal, nVal], [y, yu, yb], ["Mean Value", "CI+", "CI-"], 3, r'$n$', r'$\gamma$', title)
 
+def doubleWestphalTest(m1, m2, nbTest):
+	kVal = np.arange(1, m1 + m2 - 1, dtype=int)
+	y = np.empty(kVal.size)
+	yu = np.empty(kVal.size)
+	yb = np.empty(kVal.size)
+	g = DoubleWestphal(m1, m2, 0.5)
+	s = Reposition(g)
+	for n in range(kVal.size):
+		k = kVal[n]
+		tab = []
+		t1 = time.clock()
+		for j in range(nbTest):
+			s.reset()
+			blocked = g.getBlockedEdges(k)
+			for i in range(k):
+				s.setBlockedEdges(blocked[i][0], blocked[i][1])
+			s.simulation()
+			r = s.calculRatio()
+			tab.append(r)
+		m = np.mean(tab)
+		t = interval95(tab, len(tab), m)
+		y[n] = m
+		yu[n] = m + t
+		yb[n] = m - t
+		t2 = time.clock()
+		print(str(kVal[n]) + " : " + str(t2-t1))
+	ladder = [2*k+1 for k in kVal]
+	title = r'Evolution of the reposition competitive ratio for double Westphal graph ($m_1 = ' + str(m1) + r'$, $m_2 = ' + str(m2) + r'$)'
+	printCourb("reposition", [kVal, kVal, kVal, kVal], [y, yu, yb, ladder], ["Mean Value", "CI+", "CI-", "2k+1"], 4, r'$k$', r'$c$', title)
+
 def standardDeviation(tab, m):
 	return np.sqrt(np.sum(np.square(tab - m)))
 
@@ -154,12 +186,13 @@ def interval95(tab, n, m):
 
 def main():
 	#gammaDoubleWestphalFunctionOfK(12, 12, 6)
-	gammaGridFunctionOfK(12, 25, 2)
+	#gammaGridFunctionOfK(12, 25, 2)
 	#erdosRenyiGammaProba(20, 20, 100, 40)
 	#waxmanGenerator(50)
 	#delaunayGenerator(200)
 	#waxmanConnected(20, 50, 2000)
 	#waxmanRandomTest(30, 200, 2, 200, 12)
 	#delaunayRandomTest(30, 200, 5, 200, 12)
+	doubleWestphalTest(10, 10, 20000)
 
 main()
