@@ -82,6 +82,7 @@
 \newcommand{\bintree}{\textsc{bin-tree}}
 \newcommand{\ebt}{EBT}
 \newcommand{\bfs}{\mbox{BFS}}
+\newcommand{\compbin}[1]{\mathcal{C}_{\mbox{\scriptsize{B}}}\left( #1 \right)}
 
 \title{Canadian Travellers should use memory}
 \date{}
@@ -238,7 +239,6 @@ When the traveller discover blocked edges in a graph $G$, parts of the graph bec
 
 We focus on road maps $\left(G_k,E_*\right)$ composed of graph $G_k$ and $k$ blocked edges $E_*$ at the right of axis $\deltavert$ in graph $G_k$. Indeed, blocking edges left to $\deltavert$ affects negligibly the total distance traversed by a traveller. Let us suppose that the traveller, guided by a \mts , traverses graph $G_k$ and has already discovered some blocked edges $E' \subseteq E_*$. He tries now to reach $t$ on graph $G_k\backslash E'$, ignoring that the undiscovered blocked edges are $E_*' = E_* \backslash E'$.
 We study the competitiveness of \mts es on the road atlas $\mathcal{R}$ composed of road maps with sub-graphs $G_k \backslash E' \in \mcalg_k$ where $\mcalg_k = \set{G_k\backslash E' : \card{E'} \leq k}$ and blocked edges $E_*'$ which fulfil $\card{E'} + \card{E_*'} = k$. Formally,
-
 \begin{equation}
 \mathcal{R} = \bigcup\limits_{k=1}^{+\infty} \mathcal{R}_k ~\mbox{with}~ \mathcal{R}_k = \set{\left(G_k\backslash E',E_*'\right): G_k\backslash E' \in \mcalg_k, E' \cap E_*' = \emptyset, \card{E'} + \card{E_*'} = k}
 \label{eq:roadatlas}
@@ -253,7 +253,7 @@ For any graph $G$ of $\mcalg_k$, we define an equivalent binary tree (\ebt ) not
 \begin{subfigure}[b]{0.3\columnwidth}
 \centering
 \scalebox{.42}{\input{graphics/ebt_1}}
-\caption{Graph $G \in \mcalg_2$}
+\caption{Graph $G \in \mcalg_3$}
 \label{subfig:ebt_1}
 \end{subfigure}
 \begin{subfigure}[b]{0.33\columnwidth}
@@ -268,7 +268,7 @@ For any graph $G$ of $\mcalg_k$, we define an equivalent binary tree (\ebt ) not
 \caption{The EBT $T_G$}
 \label{subfig:ebt_3}
 \end{subfigure}
-\caption{An example of graph $G \in \mcalg_2$ and its EBT $T_G$.}
+\caption{An example of graph $G \in \mcalg_3$ and its EBT $T_G$.}
 \label{fig:ebt}
 \end{figure}
 
@@ -302,25 +302,54 @@ T_\varnothing ~\mbox{if}~ \bfs(v) = \emptyset\\
 
 %Given an edge in a binary tree, we will note $A(e)$ the child edge from above and $B(e)$ the child edge from below. We also note $C(e)$ the set of all the descendants of $e$. Formally, $C(e) = C(A(e)) \cup C(B(e)) \cup \set{A(e), B(e)}$. Finally, we note $P(e)$ the parent edge of $e$ : $P(e) = e' \Leftrightarrow e = A(e') \mbox{ or } e = B(e')$.
 
-For any edge $e$ in EBT $T$, we note $P(e)$ the parent edge of $e$. For any EBT $T$, we define recursively a set of edges $E_T(k)$, $E_T(0)$ being the edges connected to the root and $E_T(k) = \set{e : P(e) \in E_T(k-1)}$. In other words, $E_T(k)$ can be seen as the set of edges with depth $k$.
+%Commande \compbin{D} pour la famille des arbres binaires complets until depth D
+We introduce notations which characterize some elements in an EBT. For any edge $e$ in EBT $T$, we note $P(e)$ the parent edge of $e$. Let $U(e)$ denote the ``uncle'' of edge $e$, which has the same parent than $P(e)$. Put formally, $U(e) = \set{e' \in T : P(e') = P\left(P(e)\right) = P^2(e)}$. For any EBT $T$, we define recursively a set of edges $E_T(k)$ which is the set of edges with depth $k$. Set $E_T(0)$ represents the edges connected to the root $t$ and $E_T(k) = \set{e : P(e) \in E_T(k-1)}$. We say that, for admissible integer $D$, set $\compbin{D}$ denotes binary trees $T$ which are complete from depth 0 to depth~$D$. In other words, for any $0 \leq j \leq D$, $\card{E_T(j)} = 2^{j+1}$. The graph given in Figure~\ref{subfig:proofth1_b} belongs to $\compbin{1}$. %We also remark that if the number of edges of depth $j-1$, value $\card{E_T(j-1)}$, is $2^{j}$, then the tree is necessarily complete from depth 0 to depth $j-1$, so $\card{E_T(j-2)} = 2^{j-1}$, etc.
 
+We pursue our reasoning by establishing properties on EBTs $T_G$ to understand the behavior of \mts es on graphs $G \in \mcalg_k$. Theorem~\ref{th:completebinary} states that for any graph $G_k\backslash E' \in \mcalg_k$, its EBT is a complete binary tree from depth 0 to $k - 1 - \card{E'}$. It is proven by induction. Figures~\ref{subfig:proofth1_a},~\ref{subfig:proofth1_b} and~\ref{subfig:proofth1_c} illustrate the induction step on an example of $\mcalg_3$.
 %When an edge is cut from the original graph, the equivalent tree can be easily obtain by replacing the tree $(v, T_a, T_b)$ by $T_a$ (resp. $T_b$) if the cut edge is before $T_b$ (resp. $T_a$)
 
-\begin{lemma}
-For any road map $(G, E_*) \in \mcalr_k$, $E_{T_G}(j-1) = 2^j$ with $j = \card{E_*}$
-\end{lemma}
-
+\begin{theorem}
+For any graph $G_k\backslash E' \in \mcalg_k$, $T_{G_k\backslash E'} \in \compbin{k-1-\card{E'}}$.
+\label{th:completebinary}
+\end{theorem}
 \begin{proof}
-If $G = G_k$, then $\card{E_*} = k$ and the binary tree is complete, so $E_{T_{G_k}}(k-1) = 2^k$.
+If $E' = \emptyset$, the EBT $T_{G_k}$ is a complete binary tree, so for any $0\le j \le k-1$, $\card{E_{T_{G_k}}(j-1)}= 2^j$.
+Let $G_k\backslash E'$ be in $\mcalg_k$ with $\card{E'} = k-D$ and fixed integer $0 < D \le k-1$. As an induction hypothesis, we assume that, for any $G_k\backslash E'' \in \mcalg_k$ with $\card{E''} = k-1-D$, $T_{G_k\backslash E''} \in \compbin{D}$. The objective is to prove that $T_{G_k\backslash E'} \in \compbin{D-1}$ with $D = k-\card{E'}$.
+%Then it exists a road map $(G', E_* \cup \set{e})$ with $G$ obtained by removing $e$ to $G'$.
 
-We suppose now for any road map with $\card{E_*} = j$ that $E_{T_G}(j-1) = 2^j$. Let $(G, E_*)$ a road map with $\card{E_*} = j-1$ Then it exists a road map $(G', E_* \cup \set{e})$ with $G$ obtained by removing $e$ to $G'$.
+% As a consequence, we only need to prove that $\card{E_{T_{G_k\backslash E'}}(j^*-1)} = 2^{j^*}$.
 
-First, we remark that for any binary tree $T = (v, T_a, T_b)$ and $i$, if the number of edge of depth $i$ is $2^{i+1}$, the tree is complete until depth $i$, so $T_a$ and $T_b$ are complete until depth $i-1$ and each have $2^i$ edges at depth $i-1$ : $\card{E_T(i)} = 2^{i+1} \implies \card{E_{T_a}(i-1)} = \card{E_{T_b}(i-1)} = 2^i$.
- 
-Second, we remark that for any binary tree $T$ and $i$, if the number of edge of depth $i$ is $2^{i+1}$, then the number of edge for the depth $i-1$ is $2^i$ : $\card{E_T(i)} = 2^{i+1} \implies \card{E_T(i-1)} = 2^i$.
+Let $e$ be an arbitrary edge of $E'$. We note $E' = \set{e} \cup E''$ with $\card{E''} = k-D-1$. By hypothesis, graph $G_k\backslash E'' \in \mcalg_k$ fulfils $T_{G_k\backslash E''} \in \compbin{D}$. The EBT $T_{G_k\backslash E''}$ contains edge $e$. We note $v$ the ̀̀̀``root'' of edge $e$, {\em i.e.} node $v$ such that $e = \left(u,v\right)$ and $v = P(u)$. Let $T_v$ be the subtree of $T_{G_k\backslash E''}$ with root $v$ and $w$ be the ``sibling'' of $u$ (said differently the second son of node $v$). When edge $e$ is removed from $G_k\backslash E''$, not only edge $e$ but also its descendants disappear in the EBT and $T_v$ becomes $T_w$, the subtree of root $w$. 
 
-Let $T' = (v, T_a, T_b)$ the sub-tree of $T_G'$ where $v$ is the root of the edge $e$ (we will suppose $e$ is on the $T_a$ side). Then if $e$ is at depth $i$ then the remarks and the hypothesis give $\card{E_{T}(j-i-1)} = 2^{j-i}$ and $\card{E_{T}(j-i-2)} = 2^{j-i-1} = \card{E_{T_a}(j-i-2)}$. By cutting $e$, $T$ become in $G$ the tree $T_a$. We find that the number of edge at the depth $j-i-2$ remains. So the rest of the tree being unchanged by cutting $e$, the number of edges of $T_G$ for depth $j-2$ is unchanged from $T_G'$ and is equal to $2^{j-1}$ : $\card{E_{T_G}(j-2)} = 2^{j-1}$.
+Let $T_{G_k\backslash E''} = \left(t,T_a,T_b\right)$: we assume w.l.o.g. that $e \in T_a$. We know now that $T_{G_k\backslash E'} = \left(t,T_a',T_b\right)$ where $T_a'$ is tree $T_a$ after replacing subtree $T_v$ by $T_w$. As $T_{G_k\backslash E''}$ is complete until depth $D$, $T_a$ and $T_b$ are necessarily complete until edges of depth $D$. When $T_v$ is replaced by $T_w$, the global depth of $T_a$ decreases by 1, so $T_a'$ is complete until depth $D-1$. Eventually, the EBT $T_{G_k\backslash E'} = \left(t,T_a',T_b\right)$ is a binary complete tree from depth 0 to depth $D-1$.
+%Let $T' = (v, T_a, T_b)$ the sub-tree of $T_G'$ where $v$ is the root of the edge $e$ (we will suppose $e$ is on the $T_a$ side). Then if $e$ is at depth $i$ then the remarks and the hypothesis give $\card{E_{T}(j-i-1)} = 2^{j-i}$ and $\card{E_{T}(j-i-2)} = 2^{j-i-1} = \card{E_{T_a}(j-i-2)}$. By cutting $e$, $T$ become in $G$ the tree $T_a$. We find that the number of edge at the depth $j-i-2$ remains. So the rest of the tree being unchanged by cutting $e$, the number of edges of $T_G$ for depth $j-2$ is unchanged from $T_G'$ and is equal to $2^{j-1}$ : $\card{E_{T_G}(j-2)} = 2^{j-1}$.
 \end{proof}
+
+\begin{figure}[h]
+\centering
+\begin{subfigure}[b]{0.3\columnwidth}
+\centering
+\scalebox{.42}{\input{graphics/proofth1_a}}
+\caption{Example of graph $G_3\backslash E' \in \mcalg_3$, with $\card{E'} = 1$. Edge $e$ (red) is about to be removed from this graph.}
+\label{subfig:proofth1_a}
+\end{subfigure}
+~
+\begin{subfigure}[b]{0.3\columnwidth}
+\centering
+\scalebox{.58}{\input{graphics/proofth1_b}}
+\caption{The EBT $T_{G_3\backslash E'}$ which belongs to $\compbin{1}$ because $k-1-\card{E'} = 1$. Edges of depth 0 and 1 are framed.}
+\label{subfig:proofth1_b}
+\end{subfigure}
+~
+\begin{subfigure}[b]{0.3\columnwidth}
+\centering
+\scalebox{.58}{\input{graphics/proofth1_c}}
+\caption{The EBT $T_{G_3\backslash \left(E' \cup \set{e}\right)}$ which belongs to $\compbin{0}$ because $k-1-\card{E' \cup \set{e}} = 0$. Edges of depth 0 are framed.}
+\label{subfig:proofth1_c}
+\end{subfigure}
+\caption{Illustrating the proof of Theorem~\ref{th:completebinary} on a graph of $\mcalg_3$.}
+\label{fig:proofth1}
+\end{figure}
 
 \section{Competitiveness of randomized \mts es} \label{sec:competitiveness}
 
