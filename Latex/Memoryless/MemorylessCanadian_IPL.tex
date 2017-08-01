@@ -97,7 +97,8 @@
 \cortext[corrauthor]{Corresponding author}
 
 \begin{abstract}
-The $k$-Canadian Traveller Problem, defined and proven PSPACE-complete by Papadimitriou and Yannakakis, is a generalization of the Shortest Path Problem which admits blocked edges. Its objective is to determine the strategy that makes the traveller traverse graph $G$ between two given nodes $s$ and $t$ with the minimal distance, knowing that at most $k$ edges are blocked. The traveller discovers that an edge is blocked when arriving at its endpoint. Westphal showed that the competitive ratio, which is an indicator of the online algorithm quality, of any randomized strategy is not less than $k+1$. 
+The $k$-Canadian Traveller Problem, defined and proven PSPACE-complete by Papadimitriou and Yannakakis, is a generalization of the Shortest Path Problem which admits blocked edges. Its objective is to determine the strategy that makes the traveller traverse graph $G$ between two given nodes $s$ and $t$ with the minimal distance, knowing that at most $k$ edges are blocked. The traveller discovers that an edge is blocked when arriving at its endpoint. 
+%Westphal showed that the competitive ratio, which is an indicator of the online algorithm quality, of any randomized strategy is not less than $k+1$. 
  
 We study the competitiveness of randomized memoryless strategies for the \kctp . In this context, a decision taken by the traveler in node $v$ of $G$ does not depend on its anterior moves. We establish that the competitive ratio of any randomized memoryless strategy cannot be better than $2k + O\left(1\right)$. The primordial consequence of this result is that randomized memoryless strategies are asymptotically as competitive as deterministic strategies which achieve a ratio $2k+1$ at best. In future research, if we aim at designing a strategy with competitive ratio $o\left(2k\right)$, we shall focus on strategies which not only are randomized but also use memory.
 \end{abstract}
@@ -178,7 +179,7 @@ This ``local'' competitive ratio fulfils $c_{A,\mathcal{R}} \le c_A$. The defini
 
 \section{Road atlas used to study randomized \mts es} \label{sec:roadatlas}
 
-We specify a \textit{road atlas} $\mathcal{R}$ which is a set of road maps. To do so, we start by introducing a family of graphs $G_k$ and establishing properties on them. The objective is to use this road altas to assess the competitive ratio of randomized \mts es on it.
+We specify a \textit{road atlas} $\mathcal{R}$ which is a set of road maps. To do so, we start by introducing a family of graphs $G_k$ and establishing blocked edges on them. The objective is to assess the competitive ratio of randomized \mts es on set $\mathcal{R}$.
 
 \subsection{Graphs $G_k$} \label{subsec:Gk}
 
@@ -201,27 +202,27 @@ We define recursively a sequence of graphs $G_i$ for $i \geq 1$ with weights fro
 \begin{subfigure}[b]{0.49\columnwidth}
 \centering
 \scalebox{.45}{\input{graphics/G_2}}
-\caption{Graph $G_2$ and axis $\deltavert$. Weights $\varepsilon$ are not indicated to keep the figure readable.}
+\caption{Graph $G_2$ and axis $\deltavert$}
 \label{subfig:G_2}
 \end{subfigure}
 \begin{subfigure}[b]{0.49\columnwidth}
 \centering
 \scalebox{0.45}{\input{graphics/G_3}}
-\caption{Graph $G_3$ and axis $\deltavert$. }
+\caption{Graph $G_3$ and axis $\deltavert$}
 \label{subfig:G_3}
 \end{subfigure}
-\caption{Recursive construction of graphs $G_i$}
+\caption{Recursive construction of graphs $G_i$. Weights $\varepsilon$ are not indicated in Figures~\ref{subfig:G_2} and~\ref{subfig:G_3} to keep them readable.}
 \label{fig:G_i}
 \end{figure}
 
-When the traveller discover blocked edges in a graph $G$, parts of the graph become \textit{dead ends}. If a traveller visits a dead end, the only chance for him to reach $t$ is to leave it anyway. Dead ends only provide to the traveller additional costs which make the competitive ratio increase. As a consequence, the most competitive strategies (memoryless or not) do not visit dead ends. From now on, as soon as a dead end appear when the traveller discovers a blockage, we delete it from the graph. Graph $G\backslash E'$ becomes graph $G$ deprived of both edges $E'$ and dead ends. 
+When the traveller discover blocked edges in a graph $G$, parts of the graph become \textit{dead ends}. If a traveller visits a dead end, the only chance for him to reach $t$ is to leave it anyway. Dead ends only provide to the traveller additional costs which make the competitive ratio increase. Therefore, the most competitive strategies (memoryless or not) do not visit dead ends. Now, as soon as a dead end appear when the traveller discovers a blockage, we delete it from the graph. Graph $G\backslash E'$ becomes graph $G$ deprived of both edges $E'$ and dead ends. 
 
 \begin{figure}[b]
 \centering
 \begin{subfigure}[b]{0.49\columnwidth}
 \centering
 \scalebox{.32}{\input{graphics/deadend_1}}
-\caption{Graph $G_2$ deprived of one edge makes appear\\ a dead end (subgraph in the blue dashed box)}
+\caption{Graph $G_2$ deprived of one edge makes appear a dead end (blue dashed box)}
 \label{subfig:deadend_1}
 \end{subfigure}
 \begin{subfigure}[b]{0.49\columnwidth}
@@ -235,14 +236,13 @@ When the traveller discover blocked edges in a graph $G$, parts of the graph bec
 
 We focus on road maps $\left(G_k,E_*\right)$ composed of graph $G_k$ and $k$ blocked edges $E_*$ at the right of axis $\deltavert$ in graph $G_k$. Indeed, blocking edges left to $\deltavert$ affects negligibly the total distance traversed by a traveller. Let us suppose that the traveller, guided by a \mts , traverses graph $G_k$ and has already discovered some blocked edges $E' \subseteq E_*$. He tries now to reach $t$ on graph $G_k\backslash E'$, ignoring that the undiscovered blocked edges are $E_*' = E_* \backslash E'$.
 We study the competitiveness of \mts es on the road atlas $\mathcal{R}$ composed of road maps with sub-graphs $G_k \backslash E' \in \mcalg_k$ where $\mcalg_k = \set{G_k\backslash E' : \card{E'} \leq k}$ and blocked edges $E_*'$ which fulfil $\card{E'} + \card{E_*'} = k$. Formally,
-\begin{equation}
+\[
 \mathcal{R} = \bigcup\limits_{k=1}^{+\infty} \mathcal{R}_k ~\mbox{with}~ \mathcal{R}_k = \set{\left(G_k\backslash E',E_*'\right): G_k\backslash E' \in \mcalg_k, E' \cap E_*' = \emptyset, \card{E'} + \card{E_*'} = k}
-\label{eq:roadatlas}
-\end{equation}
+\]
 
 \subsection{Equivalent binary trees} \label{subsec:ebt}
 
-For any graph $G$ of $\mcalg_k$, we define an equivalent binary tree (\ebt ) noted $T_G$ which represents all changes of direction from $t$ in graph $G$. We note $T_\varnothing$ the empty tree. Any nonempty tree is a triplet $(v, T_a, T_b)$ with a root $v \in V$ and two subtrees $T_a$ and $T_b$.
+For any graph $G$ of $\mcalg_k$, we define an equivalent binary tree (\ebt ) noted $T_G$ which represents all \textit{separations} (notion defined below) from $t$ in graph $G$. We note $T_\varnothing$ the empty tree. Any nonempty tree is a triplet $(v, T_a, T_b)$ with a root $v \in V$ and two subtrees $T_a$ and $T_b$.
 
 \begin{figure}[h]
 \centering
@@ -255,7 +255,7 @@ For any graph $G$ of $\mcalg_k$, we define an equivalent binary tree (\ebt ) not
 \begin{subfigure}[b]{0.33\columnwidth}
 \centering
 \scalebox{.42}{\input{graphics/ebt_2}}
-\caption{Changes of directions from $t$}
+\caption{Separations in $G$}
 \label{subfig:ebt_2}
 \end{subfigure}
 \begin{subfigure}[b]{0.3\columnwidth}
@@ -268,7 +268,7 @@ For any graph $G$ of $\mcalg_k$, we define an equivalent binary tree (\ebt ) not
 \label{fig:ebt}
 \end{figure}
 
-The EBT is obtained thanks to a breadth-first search (BFS) from $t$ in direction of nodes on axis $\deltavert$. Node $t$ is the root of the EBT. Graphically, each node from which there are two possible directions for the next move of the BFS provides two extra branches in the tree (see nodes $t$, $v_1$, $v_2$ and $v_3$ in Figure~\ref{subfig:ebt_2}). Figures~\ref{subfig:ebt_1},~\ref{subfig:ebt_2} and~\ref{subfig:ebt_3} illustrate the construction of the EBT. To put the definition of EBTs formally, let $\bfs\left(v\right)$ denote the set of nodes visited just after node $v$ in the BFS starting from $t$. For example, $v_1 \in \bfs\left(t\right)$ and $v_3 \in \bfs\left(v_1\right)$. We force this BFS to stop on axis $\deltavert$ such that $v \in \deltavert \Rightarrow \bfs\left(v\right) = \emptyset$. We define below function $\bintree$ which gives the construction of tree $T_G$ fulfilling $\bintree \left(t\right) = T_G$.
+The EBT is obtained thanks to a breadth-first search (BFS) from $t$ in direction of nodes on axis $\deltavert$. Node $t$ is the root of the EBT. Graphically, each node from which there is a \textit{separation}, {\em i.e.} there are two possible directions for the next move of the BFS, provides two extra branches in the tree (see nodes $t$, $v_1$, $v_2$ and $v_3$ in Figure~\ref{subfig:ebt_2}). Figures~\ref{subfig:ebt_1},~\ref{subfig:ebt_2} and~\ref{subfig:ebt_3} illustrate the construction of the EBT. To put the definition of EBTs formally, let $\bfs\left(v\right)$ denote the set of nodes visited just after node $v$ in the BFS starting from $t$. For example, $v_1 \in \bfs\left(t\right)$ and $v_3 \in \bfs\left(v_1\right)$. We force this BFS to stop on axis $\deltavert$ such that $v \in \deltavert \Rightarrow \bfs\left(v\right) = \emptyset$. We define below function $\bintree$ which gives the construction of tree $T_G$ fulfilling $\bintree \left(t\right) = T_G$.
 %\command \bfs pour les equations
 \[
 \bintree\left(v\right) = 
@@ -309,7 +309,7 @@ For any graph $G_k\backslash E' \in \mcalg_k$, $T_{G_k\backslash E'} \in \compbi
 \label{th:completebinary}
 \end{theorem}
 \begin{proof}
-If $E' = \emptyset$, the EBT $T_{G_k}$ is a complete binary tree, so for any $0\le j \le k-1$, $\card{E_{T_{G_k}}(j-1)}= 2^j$.
+If $E' = \emptyset$, the EBT $T_{G_k}$ is a complete binary tree, so for any $0\le j \le k-1$, $\card{E_{T_{G_k}}(j)}= 2^{j+1}$.
 Let $G_k\backslash E'$ be in $\mcalg_k$ with $\card{E'} = k-D$ and fixed integer $0 < D \le k-1$. As an induction hypothesis, we assume that, for any $G_k\backslash E'' \in \mcalg_k$ with $\card{E''} = k-1-D$, $T_{G_k\backslash E''} \in \compbin{D}$. The objective is to prove that $T_{G_k\backslash E'} \in \compbin{D-1}$ with $D = k-\card{E'}$.
 %Then it exists a road map $(G', E_* \cup \set{e})$ with $G$ obtained by removing $e$ to $G'$.
 
@@ -317,7 +317,7 @@ Let $G_k\backslash E'$ be in $\mcalg_k$ with $\card{E'} = k-D$ and fixed integer
 
 Let $e$ be an arbitrary edge of $E'$. We note $E' = \set{e} \cup E''$ with $\card{E''} = k-D-1$. By hypothesis, graph $G_k\backslash E'' \in \mcalg_k$ fulfils $T_{G_k\backslash E''} \in \compbin{D}$. The EBT $T_{G_k\backslash E''}$ contains edge $e$. We note $v$ the ̀̀̀``root'' of edge $e$, {\em i.e.} node $v$ such that $e = \left(u,v\right)$ and $v = P(u)$. Let $T_v$ be the subtree of $T_{G_k\backslash E''}$ with root $v$ and $w$ be the ``sibling'' of $u$ (said differently the second son of node $v$). When edge $e$ is removed from $G_k\backslash E''$, not only edge $e$ but also its descendants disappear in the EBT and $T_v$ becomes $T_w$, the subtree of root $w$. 
 
-Let $T_{G_k\backslash E''} = \left(t,T_a,T_b\right)$: we assume w.l.o.g. that $e \in T_a$. We know now that $T_{G_k\backslash E'} = \left(t,T_a',T_b\right)$ where $T_a'$ is tree $T_a$ after replacing subtree $T_v$ by $T_w$. As $T_{G_k\backslash E''}$ is complete until depth $D$, $T_a$ and $T_b$ are necessarily complete until edges of depth $D$. When $T_v$ is replaced by $T_w$, the global depth of $T_a$ decreases by 1, so $T_a'$ is complete until depth $D-1$. Eventually, the EBT $T_{G_k\backslash E'} = \left(t,T_a',T_b\right)$ is a binary complete tree from depth 0 to depth $D-1$.
+Let $T_{G_k\backslash E''} = \left(t,T_a,T_b\right)$: we assume w.l.o.g. that $e \in T_a$. We know now that $T_{G_k\backslash E'} = \left(t,T_a',T_b\right)$ where $T_a'$ is tree $T_a$ after replacing subtree $T_v$ by $T_w$. As $T_{G_k\backslash E''}$ is complete until depth $D$, $T_a$ and $T_b$ are necessarily complete until edges of depth $D$. When $T_v$ is replaced by $T_w$, the global depth of $T_a$ decreases by 1, so $T_a'$ is complete until depth $D-1$. Eventually, the EBT $T_{G_k\backslash E'} = \left(t,T_a',T_b\right)$ is a binary complete tree from depth 0 to depth $D-1$ (Figures~\ref{subfig:proofth1_b} and~\ref{subfig:proofth1_c}).
 %Let $T' = (v, T_a, T_b)$ the sub-tree of $T_G'$ where $v$ is the root of the edge $e$ (we will suppose $e$ is on the $T_a$ side). Then if $e$ is at depth $i$ then the remarks and the hypothesis give $\card{E_{T}(j-i-1)} = 2^{j-i}$ and $\card{E_{T}(j-i-2)} = 2^{j-i-1} = \card{E_{T_a}(j-i-2)}$. By cutting $e$, $T$ become in $G$ the tree $T_a$. We find that the number of edge at the depth $j-i-2$ remains. So the rest of the tree being unchanged by cutting $e$, the number of edges of $T_G$ for depth $j-2$ is unchanged from $T_G'$ and is equal to $2^{j-1}$ : $\card{E_{T_G}(j-2)} = 2^{j-1}$.
 \end{proof}
 
@@ -325,21 +325,21 @@ Let $T_{G_k\backslash E''} = \left(t,T_a,T_b\right)$: we assume w.l.o.g. that $e
 \centering
 \begin{subfigure}[b]{0.3\columnwidth}
 \centering
-\scalebox{.42}{\input{graphics/proofth1_a}}
+\scalebox{.40}{\input{graphics/proofth1_a}}
 \caption{Example of graph $G_3\backslash E' \in \mcalg_3$, with $\card{E'} = 1$. Edge $e$ (red) is about to be removed from this graph.}
 \label{subfig:proofth1_a}
 \end{subfigure}
 ~
 \begin{subfigure}[b]{0.3\columnwidth}
 \centering
-\scalebox{.58}{\input{graphics/proofth1_b}}
+\scalebox{.55}{\input{graphics/proofth1_b}}
 \caption{The EBT $T_{G_3\backslash E'}$ which belongs to $\compbin{1}$ because $k-1-\card{E'} = 1$. Edges of depth 0 and 1 are framed.}
 \label{subfig:proofth1_b}
 \end{subfigure}
 ~
 \begin{subfigure}[b]{0.3\columnwidth}
 \centering
-\scalebox{.58}{\input{graphics/proofth1_c}}
+\scalebox{.55}{\input{graphics/proofth1_c}}
 \caption{The EBT $T_{G_3\backslash \left(E' \cup \set{e}\right)}$ which belongs to $\compbin{0}$ because $k-1-\card{E' \cup \set{e}} = 0$. Edges of depth 0 are framed.}
 \label{subfig:proofth1_c}
 \end{subfigure}
