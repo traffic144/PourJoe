@@ -1,4 +1,4 @@
-\documentclass[11pt,letterpaper]{article}
+\documentclass[preprint]{elsarticle}
 
 \usepackage{amsmath}%
 \usepackage{amsfonts}%
@@ -14,8 +14,8 @@
 \captionsetup{compatibility=false}
 \usepackage[lined, ruled]{algorithm2e}
 \usepackage{enumitem}
-\usepackage[left=2.6cm,right=2.6cm,top=2cm,bottom=3cm]{geometry}
-\usepackage{authblk}
+%\usepackage[left=2.6cm,right=2.6cm,top=2cm,bottom=3cm]{geometry}
+%\usepackage{authblk}
 
 
 \usetikzlibrary{decorations}
@@ -84,30 +84,26 @@
 \newcommand{\bfs}{\mbox{BFS}}
 \newcommand{\compbin}[1]{\mathcal{C}_{\mbox{\scriptsize{B}}}\left( #1 \right)}
 
-\title{Canadian Travellers should use memory}
-\date{}
-\author[,1]{Pierre Berg\'e \thanks{Corresponding author: \texttt{Pierre.Berge@lri.fr}}} 
-\author[2]{Julien Hemery}
-\author[2]{Arpad Rimmel}
-\author[2]{Joanna Tomasik}
-\affil[1]{LRI, Universit\'e Paris-Sud, Universit\'e{} Paris-Saclay, 91405 Orsay Cedex, France}
-\affil[2]{LRI, CentraleSup\' elec, Universit\'e{} Paris-Saclay, 91405 Orsay Cedex, France}
-
 \begin{document}
 
-
-%\authorrunning{P. Berg\'e, A. Rimmel and J. Tomasik}
-
-%\Copyright{P. Berg\'e, A. Rimmel and J. Tomasik}
-
-\maketitle
+\title{On the competitiveness of memoryless strategies for the Canadian Traveller Problem}
+\author[upsud]{Pierre Berg\'e \corref{corrauthor}}
+\ead{Pierre.Berge@lri.fr}
+\author[cs]{Julien Hemery}
+\author[cs]{Arpad Rimmel}
+\author[cs]{Joanna Tomasik}
+\address[upsud]{LRI, Universit\'e Paris-Sud, Universit\'e Paris-Saclay, 91405 Orsay Cedex, France}
+\address[cs]{LRI, CentraleSup\' elec, Universit\'e Paris-Saclay, 91405 Orsay Cedex, France}
+\cortext[corrauthor]{Corresponding author}
 
 \begin{abstract}
- 
 The $k$-Canadian Traveller Problem, defined and proven PSPACE-complete by Papadimitriou and Yannakakis, is a generalization of the Shortest Path Problem which admits blocked edges. Its objective is to determine the strategy that makes the traveller traverse graph $G$ between two given nodes $s$ and $t$ with the minimal distance, knowing that at most $k$ edges are blocked. The traveller discovers that an edge is blocked when arriving at its endpoint. Westphal showed that the competitive ratio, which is an indicator of the online algorithm quality, of any randomized strategy is not less than $k+1$. 
  
 We study the competitiveness of randomized memoryless strategies for the \kctp . In this context, a decision taken by the traveler in node $v$ of $G$ does not depend on its anterior moves. We establish that the competitive ratio of any randomized memoryless strategy cannot be better than $2k + O\left(1\right)$. The primordial consequence of this result is that randomized memoryless strategies are asymptotically as competitive as deterministic strategies which achieve a ratio $2k+1$ at best. In future research, if we aim at designing a strategy with competitive ratio $o\left(2k\right)$, we shall focus on strategies which not only are randomized but also use memory.
 \end{abstract}
+
+\maketitle
+
 
 \section{Introduction}
 
