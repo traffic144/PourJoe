@@ -71,6 +71,7 @@
 \newcommand{\mcalg}{\mathcal{G}}
 \newcommand{\mcalr}{\mathcal{R}}
 \newcommand{\mcald}{\mathcal{D}}
+\newcommand{\mcalf}{\mathcal{F}}
 \newcommand{\mts}{MS}
 \newcommand{\argmin}[1]{\underset{#1}{\operatorname{argmin}}}
 \newcommand{\deltavert}{\Delta_{\mbox{\scriptsize{vert}}}}
@@ -312,6 +313,7 @@ We study the competitiveness of \mts es on the road atlas $\mathcal{R}$ composed
 \mcalr = \bigcup\limits_{k=1}^{+\infty} \mcalr_k ~\mbox{with}~
 \mcalr_k = \set{\left(G ,E_*\right): G \in \mcald_k, \card{E_*} = k}
 \]
+
 %We say that, for admissible integer $D$, set $\compbin{D}$ denotes binary trees $T$ which are complete from depth 0 to depth~$D$. In other words, for any $0 \leq j \leq D$, $\card{E_T(j)} = 2^{j+1}$. The graph given in Figure~\ref{subfig:proofth1_b} belongs to $\compbin{1}$. %We also remark that if the number of edges of depth $j-1$, value $\card{E_T(j-1)}$, is $2^{j}$, then the tree is necessarily complete from depth 0 to depth $j-1$, so $\card{E_T(j-2)} = 2^{j-1}$, etc.
 
 We pursue our reasoning by establishing properties on EBTs $T_G$ to understand the behavior of \mts es on graphs $G \in \mcalg_k$. Theorem~\ref{th:completebinary} states that cutting an edges from $G \in \mcald_k$ result on a graph in $G \in \mcald_{k-1}$.
@@ -365,6 +367,33 @@ All the leaves of $T_w$ have initially a depth greater than $k$ so by removing $
 \end{figure}
 
 \section{Competitiveness of randomized \mts es} \label{sec:competitiveness}
+
+We study the competitiveness of a random \mts for every $\mcalr_k$. The Theorem~\ref{th:equalcompetitive} tell us that the competitive ratio of an optimal \mts is the same for every graph of $\mcald_k$. The proof give us a recursive formula of this competitive ratio.
+
+\begin{theorem}
+For any graph $G, G' \in \mcald_k$, $c_{\mts}(G) = c_{\mts}(G') = c_{\mts, \mcalr_k} = c_k$.
+\label{th:equalcompetitive}
+\end{theorem}
+\begin{proof}
+If $k = 0$, then for every graph of $\mcald_0$, $c_{\mts}(G) = 1$ because the first path the traveler will take will not have any blocked edge. So $c_0 = 1$
+
+We assume the theorem holds for $k-1$. Let $G \in \mcald_k$. Every leaves of $T_G$ are at depth greater than $k$, so the EBT is complete until depth $k$ : $T_G$ have $2^k$ nodes at depth $k$. For a \mts, we define $(p_i)_{i < 2^k}$ by the probability that the traveler travel by the $\ith{i}$ node at depth $k$.
+
+Given a set of $E_*$ of blocked edges, we associate $J(E_*)$ being the set of node at depth $k$ where each \stpath that travel through this node is not blocked. For any node $v$ of depth $k$, we can construct a set of blocked edges such that $\card{J(E_*)} = 1$. Indeed, given a node $v$ of depth $k$, let $e$ be the edge of the sibling of $v$. By blocking $e$,  $U(e)$, $U(U(e))$ ... $U^{k-1}(e)$, we block respectively $1$, $2$, $4$, ... , $2^{k-1}$ nodes. Every edges being the uncle of another, the blocked nodes are disjoint. So finally, only $v$ is not blocked.
+
+For a given set of blocked edges $E_*$, if $v$ is in $J(E_*)$, then by traveling by $v$, the cost will be $1$. If $v$ is not in $J(E_*)$, the traveler have to turned back and choose another path with a road map with $k-1$ blocked edges. Theorem~\ref{th:completebinary} we saw that $G$ without the cut edge is in $\mcald_{k-1}$, so the cost will be at most $2 + c_{k-1}$ by hypothesis. Formally,
+\[
+c_A(G, E_*) \leq \left(\sum_{j\in J(E_*)} p_j\right)\times 1 + \left(\sum_{j\notin J(E_*)}p_j\right)\times (2+c_{k-1})
+\]
+We remark that $1 < 2 + c_{k-1}$ so the greater $J(E_*)$ is, the lower $c_A(G, E_*)$ will be. Thus, we remark that for $E_*$ in $\mcalf'$, the inequality above is an equality. So for each $E_*$, it exists $E' \in _mcalf$ such that $c_A(G, E_*) \leq c_A(G, E')$. Finally :
+\[
+c_A(G, \mcalr_k) = \max_{j < 2^k} p_j + (1-p_j)(2+c_{k-1}) = p_{min} + (1-p_{min})(2+c_{k-1})
+\]
+with $p_{min}$ the lowest probability. However, $p_{min} \leq \frac{1}{2^k}$ and $c_A(G, \mcalr_k)$ minimum for $p_{min}$ maximum, so $p_{min} = \frac{1}{2^k}$. The result is that $c_{\mts}(G)$ only depend on $k$ and :
+\[
+c_k = \cfrac{1}{2^k} + \left(1-\cfrac{1}{2^k}\right)\left(2+c_{k-1}\right)
+\]
+\end{proof}
 
 %%%%%CONCLUSION%%%%%%%
 \section{Conclusion and further work} \label{sec:conclusion}
