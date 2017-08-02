@@ -7,6 +7,7 @@ from graph.waxman import Waxman
 from graph.delaunay import Delaunay
 
 from strategy.reposition import Reposition
+from strategy.greedy import Greedy
 
 import time
 
@@ -148,7 +149,7 @@ def delaunayRandomTest(n1, n2, step, nbTest, k):
 	title = r'Evolution of $\gamma$ for Delaunay graphs with $k = ' + str(k) + r'$'
 	printCourb("delaunay", [nVal, nVal, nVal], [y, yu, yb], ["Mean Value", "CI+", "CI-"], 3, r'$n$', r'$\gamma$', title)
 
-def doubleWestphalTest(m1, m2, nbTest):
+def doubleWestphalTestReposition(m1, m2, nbTest):
 	kVal = np.arange(1, m1 + m2 - 1, dtype=int)
 	y = np.empty(kVal.size)
 	yu = np.empty(kVal.size)
@@ -176,13 +177,79 @@ def doubleWestphalTest(m1, m2, nbTest):
 		print(str(kVal[n]) + " : " + str(t2-t1))
 	ladder = [2*k+1 for k in kVal]
 	title = r'Evolution of the reposition competitive ratio for double Westphal graph ($m_1 = ' + str(m1) + r'$, $m_2 = ' + str(m2) + r'$)'
-	printCourb("reposition", [kVal, kVal, kVal, kVal], [y, yu, yb, ladder], ["Mean Value", "CI+", "CI-", "2k+1"], 4, r'$k$', r'$c$', title)
+	printCourb("strategy/reposition", [kVal, kVal, kVal, kVal], [y, yu, yb, ladder], ["Mean Value", "CI+", "CI-", "2k+1"], 4, r'$k$', r'$c$', title)
 
-def standardDeviation(tab, m):
-	return np.sqrt(np.sum(np.square(tab - m)))
+def doubleWestphalTestGreedy(m1, m2, nbTest):
+	kVal = np.arange(1, m1 + m2 - 1, dtype=int)
+	y = np.empty(kVal.size)
+	yu = np.empty(kVal.size)
+	yb = np.empty(kVal.size)
+	g = DoubleWestphal(m1, m2, 0.5)
+	s = Greedy(g)
+	for n in range(kVal.size):
+		k = kVal[n]
+		tab = []
+		t1 = time.clock()
+		for j in range(nbTest):
+			s.reset()
+			blocked = g.getBlockedEdges(k)
+			for i in range(k):
+				s.setBlockedEdges(blocked[i][0], blocked[i][1])
+			s.simulation()
+			r = s.calculRatio()
+			tab.append(r)
+		m = np.mean(tab)
+		t = interval95(tab, len(tab), m)
+		y[n] = m
+		yu[n] = m + t
+		yb[n] = m - t
+		t2 = time.clock()
+		print(str(kVal[n]) + " : " + str(t2-t1))
+	ladder = [2*k+1 for k in kVal]
+	title = r'Evolution of the greedy competitive ratio for double Westphal graph ($m_1 = ' + str(m1) + r'$, $m_2 = ' + str(m2) + r'$)'
+	printCourb("strategy/greedy", [kVal, kVal, kVal, kVal], [y, yu, yb, ladder], ["Mean Value", "CI+", "CI-", "2k+1"], 4, r'$k$', r'$c$', title)
+
+def doubleWestphalTestRepoGreedy(m1, m2, nbTest):
+	kVal = np.arange(1, m1 + m2 - 1, dtype=int)
+	yr = np.empty(kVal.size)
+	yg = np.empty(kVal.size)
+	g = DoubleWestphal(m1, m2, 0.5)
+	sr = Reposition(g)
+	sg = Greedy(g)
+	for n in range(kVal.size):
+		k = kVal[n]
+		tab1 = []
+		tab2 = []
+		t1 = time.clock()
+		for j in range(nbTest):
+			sg.reset()
+			sr.reset()
+			blocked = g.getBlockedEdges(k)
+			for i in range(k):
+				sg.setBlockedEdges(blocked[i][0], blocked[i][1])
+				sr.setBlockedEdges(blocked[i][0], blocked[i][1])
+			sg.simulation()
+			sr.simulation()
+			r1 = sg.calculRatio()
+			r2 = sr.calculRatio()
+			tab1.append(r1)
+			tab2.append(r2)
+		mean1 = np.mean(tab1)
+		mean2 = np.mean(tab2)
+		yg[n] = mean1
+		yr[n] = mean2
+		t2 = time.clock()
+		print(str(kVal[n]) + " : " + str(t2-t1))
+	ladder = [2*k+1 for k in kVal]
+	title = r'Comparaison of competitive ratio for double Westphal graph ($m_1 = ' + str(m1) + r'$, $m_2 = ' + str(m2) + r'$)'
+	printCourb("strategy", [kVal, kVal, kVal], [yr, yg, ladder], ["Reposition", "Greedy", "2k+1"], 3, r'$k$', r'$c$', title)
+
+
+def standardDeviation(tab, n, m):
+	return np.sqrt(np.sum(np.square(tab - m))/n)
 
 def interval95(tab, n, m):
-	return 2*standardDeviation(tab, m)/np.sqrt(n)
+	return 1.96*standardDeviation(tab, n, m)/np.sqrt(n)
 
 def main():
 	#gammaDoubleWestphalFunctionOfK(12, 12, 6)
@@ -193,6 +260,8 @@ def main():
 	#waxmanConnected(20, 50, 2000)
 	#waxmanRandomTest(30, 200, 2, 200, 12)
 	#delaunayRandomTest(30, 200, 5, 200, 12)
-	doubleWestphalTest(10, 10, 20000)
+	doubleWestphalTestReposition(10, 10, 20000)
+	#doubleWestphalTestGreedy(10, 10, 20000)
+	#doubleWestphalTestRepoGreedy(10, 10, 10000)
 
 main()
