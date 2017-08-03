@@ -85,6 +85,7 @@
 \newcommand{\ebt}{EBT}
 \newcommand{\bfs}{\mbox{BFS}}
 \newcommand{\compbin}[1]{\mathcal{C}_{\mbox{\scriptsize{B}}}\left( #1 \right)}
+\newcommand{\dmin}{D_{\mbox{\scriptsize{min}}}}
 
 \begin{document}
 
@@ -182,12 +183,32 @@ This ``local'' competitive ratio fulfils $c_{A,\mathcal{R}} \le c_A$. The defini
 
 \section{Road atlas used to study randomized \mts es} \label{sec:roadatlas}
 
-We specify a \textit{road atlas} $\mathcal{R}$ which is a set of road maps. We introduce a family of graphs $G_i$ such that graphs composing this road atlas are subgraphs of $G_i$. 
-Set $\mathcal{R}$ will be used to evaluate the competitiveness of randomized \mts es.
+We specify a \textit{road atlas} $\mathcal{R}$, {\em i.e.} a set of road maps, which will be used to evaluate the competitiveness of randomized \mts es. We introduce a family of graphs $G_i$ such that graphs composing this road atlas are subgraphs of $G_i$. 
 
-\subsection{Graphs $G_i$} \label{subsec:Gi}
+\subsection{Graphs composing the road atlas $\mcalr$} \label{subsec:Gi}
 
 We define recursively a sequence of graphs $G_i$ for $i \geq 1$ with weights from $\set{1,\varepsilon}$, $0 < \varepsilon \ll 1$. Graphs $G_1$ and $G_{i+1}$ are represented in Figures~\ref{subfig:G_1} and~\ref{subfig:G_i}, respectively. Graphs $G_2$ and $G_3$ are shown in Figure~\ref{subfig:G_2} and~\ref{subfig:G_3}. Edges with weight 1 are thicker than edges with weight $\varepsilon$. On any graph $G_i$, axis $\deltavert$ is the vertical axis of symmetry (see Figures~\ref{subfig:G_2} and~\ref{subfig:G_3}).
+
+%\begin{figure}[b]
+%\centering
+%\begin{subfigure}[b]{0.49\columnwidth}
+%\centering
+%\scalebox{.32}{\input{graphics/deadend_1}}
+%\caption{Graph $G_2$ deprived of one edge makes appear a dead end (blue dashed box)}
+%\label{subfig:deadend_1}
+%\end{subfigure}
+%\begin{subfigure}[b]{0.49\columnwidth}
+%\centering
+%\scalebox{.52}{\input{graphics/deadend_2}}
+%\caption{The graph obtained after deleting all nodes\slash edges forming a dead end}
+%\label{subfig:deadend_2}
+%\end{subfigure}
+%\caption{An illustration of dead ends on graph $G_2$.}
+%\end{figure}
+
+We focus on the behavior of a traveller traversing road maps $\left(G_k,E_*\right)$ composed of graph $G_k$ and at most $k$ blocked edges $E_*$ at the right of axis $\deltavert$ in graph $G_k$. Indeed, blocking edges left to $\deltavert$ affects negligibly the total distance traversed by a traveller. Let us suppose that the traveller traverses graph $G_k$ and has already discovered some blocked edges $E' \subseteq E_*$. He tries now to reach $t$ on graph $G_k\backslash E'$, ignoring that the undiscovered blocked edges are $E_*' = E_* \backslash E'$.
+We note $\mcalg$ the set of all these subgraphs. Formally, $\mcalg = \bigcup_{k=1}^{+\infty} \mcalg_k ~\mbox{with}~
+\mcalg_k = \set{G_k\backslash E' : \card{E'} \leq k}$. Road maps $\left(G,E_*\right)$ in $\mcalr$ are composed of graphs in $\mcalg$.
 
 \begin{figure}[h]
 \centering
@@ -219,28 +240,8 @@ We define recursively a sequence of graphs $G_i$ for $i \geq 1$ with weights fro
 \label{fig:G_i}
 \end{figure}
 
-\begin{figure}[b]
-\centering
-\begin{subfigure}[b]{0.49\columnwidth}
-\centering
-\scalebox{.32}{\input{graphics/deadend_1}}
-\caption{Graph $G_2$ deprived of one edge makes appear a dead end (blue dashed box)}
-\label{subfig:deadend_1}
-\end{subfigure}
-\begin{subfigure}[b]{0.49\columnwidth}
-\centering
-\scalebox{.52}{\input{graphics/deadend_2}}
-\caption{The graph obtained after deleting all nodes\slash edges forming a dead end}
-\label{subfig:deadend_2}
-\end{subfigure}
-\caption{An illustration of dead ends on graph $G_2$.}
-\end{figure}
-
-We focus on road maps $\left(G_i,E_*\right)$ composed of graph $G_i$ and at most $i$ blocked edges $E_*$ at the right of axis $\deltavert$ in graph $G_i$. Indeed, blocking edges left to $\deltavert$ affects negligibly the total distance traversed by a traveller. Let us suppose that the traveller, guided by a \mts , traverses graph $G_i$ and has already discovered some blocked edges $E' \subseteq E_*$. He tries now to reach $t$ on graph $G_i\backslash E'$, ignoring that the undiscovered blocked edges are $E_*' = E_* \backslash E'$.
-We note $\mcalg$ the set of all these graphs. Formally, $\mcalg = \bigcup_{i=1}^{+\infty} \mcalg_i ~\mbox{with}~
-\mcalg_i = \set{G_i\backslash E' : \card{E'} \leq i}$.
-
-When the traveller discover blocked edges in a graph $G \in \mcalg_i$, parts of the graph become \textit{dead ends}. If a traveller visits a dead end, the only chance for him to reach $t$ is to leave it anyway. Dead ends only provide to the traveller additional costs which make the competitive ratio increase. Therefore, the most competitive strategies (memoryless or not) do not visit dead ends. As soon as a dead end appear when the traveller discovers a blockage, we delete it from the graph. Graph $G\backslash E'$ becomes graph $G$ deprived of both edges $E'$ and dead ends. 
+%When the traveller discovers blocked edges in a graph $G \in \mcalg_k$, parts of the graph become \textit{dead ends}. If a traveller visits a dead end, the only chance for him to reach $t$ is to leave it anyway. Dead ends only provide to the traveller additional costs which make the competitive ratio increase. Therefore, the most competitive strategies (memoryless or not) do not visit dead ends. As soon as a dead end appear when the traveller discovers a blockage, we delete it from the graph. Graph $G\backslash E'$ becomes graph $G$ deprived of both edges $E'$ and dead ends. 
+%
 %We study the competitiveness of \mts es on the road atlas $\mathcal{R}$ composed of road maps with sub-graphs $G_k \backslash E' \in \mcalg_k$ where $\mcalg_k = \set{G_k\backslash E' : \card{E'} \leq k}$ and blocked edges $E_*'$ which fulfil $\card{E'} + \card{E_*'} = k$. Formally,
 %\[
 %\mathcal{R} = \bigcup\limits_{k=1}^{+\infty} \mathcal{R}_k ~\mbox{with}~ \mathcal{R}_k = \set{\left(G_k\backslash E',E_*'\right): G_k\backslash E' \in \mcalg_k, E' \cap E_*' = \emptyset, \card{E'} + \card{E_*'} = k}
@@ -248,7 +249,7 @@ When the traveller discover blocked edges in a graph $G \in \mcalg_i$, parts of 
 
 \subsection{Equivalent binary trees} \label{subsec:ebt}
 
-For any graph $G$ of $\mcalg_k$, we define an equivalent binary tree (\ebt ) noted $T_G$ which represents all \textit{separations} (notion defined below) from $t$ in graph $G$. We note $T_\varnothing$ the empty tree. Any nonempty tree is a triplet $(v, T_a, T_b)$ with a root $v \in V$ and two subtrees $T_a$ and $T_b$.
+For any graph $G$ of $\mcalg$, we define an equivalent binary tree (\ebt ) noted $T_G$ which represents all \textit{separations} (notion defined below) from $t$ in graph $G$. We note $T_\varnothing$ the empty tree. Any nonempty tree is a triplet $(v, T_a, T_b)$ with a root $v \in V$ and two subtrees $T_a$ and $T_b$.
 
 \begin{figure}[h]
 \centering
@@ -304,23 +305,19 @@ T_\varnothing ~\mbox{if}~ \bfs(v) = \emptyset\\
 
 %Given an edge in a binary tree, we will note $A(e)$ the child edge from above and $B(e)$ the child edge from below. We also note $C(e)$ the set of all the descendants of $e$. Formally, $C(e) = C(A(e)) \cup C(B(e)) \cup \set{A(e), B(e)}$. Finally, we note $P(e)$ the parent edge of $e$ : $P(e) = e' \Leftrightarrow e = A(e') \mbox{ or } e = B(e')$.
 
-%Commande \compbin{D} pour la famille des arbres binaires complets until depth D
-We introduce notations which characterize some elements in an EBT. For any edge $e$ in EBT $T$, we note $P(e)$ the parent edge of $e$. Let $U(e)$ denote the ``uncle'' of edge $e$, which has the same parent than $P(e)$. Put formally, $U(e) = \set{e' \in T : P(e') = P\left(P(e)\right) = P^2(e)}$. For any EBT $T$, we define recursively a set of edges $E_T(k)$ which is the set of edges with depth $k$. Set $E_T(0)$ represents the edges connected to the root $t$ and $E_T(k) = \set{e : P(e) \in E_T(k-1)}$. For a given tree $T$, we note $D_{min}(T)$ the minimum depth of the leaves of $T$. We constitute then the set of graph $\mcald_k = \set{G \in \mcalg : D_{min}(T_G) \geq k}$
-
-We study the competitiveness of \mts es on the road atlas $\mathcal{R}$ composed of road maps with graph of $\mcald_k$ with $k$ blocked edges. Formally,
+%%%%%%%%Commande \dmin pour Dmin
+We introduce notations which characterize some elements in an EBT. For any edge $e$ in EBT $T$, we note $P(e)$ the parent edge of $e$. Let $U(e)$ denote the ``uncle'' of edge $e$, which has the same parent than $P(e)$. Put formally, $U(e) = \set{e' \in T : P(e') = P\left(P(e)\right) = P^2(e)}$. For any EBT $T$, we define recursively a set of edges $E_T(k)$ which is the set of edges with depth $k$. Set $E_T(0)$ represents the edges connected to the root $t$ and $E_T(k) = \set{e : P(e) \in E_T(k-1)}$. We note $\dmin(T)$ the minimum depth among the leaves of $T$. For example, for EBT $T_G$ of Figure~\ref{subfig:ebt_3}, $\dmin(T_G) = 2$. We set road atlas $\mcalr$ with road maps $\left(G,E_*\right)$ where $\card{E_*} = k$ and $G \in \mcalg$ with an EBT fulfulling $\dmin\left(T_G\right) \geq k$. Formally, we define set $\mcald_k = \set{G \in \mcalg : \dmin(T_G) \geq k}$ and road atlas $\mcalr$ on which we study the competitiveness of \mts es,
 \[
 \mcalr = \bigcup\limits_{k=1}^{+\infty} \mcalr_k ~\mbox{with}~
 \mcalr_k = \set{\left(G ,E_*\right): G \in \mcald_k, \card{E_*} = k}
 \]
 
-%We say that, for admissible integer $D$, set $\compbin{D}$ denotes binary trees $T$ which are complete from depth 0 to depth~$D$. In other words, for any $0 \leq j \leq D$, $\card{E_T(j)} = 2^{j+1}$. The graph given in Figure~\ref{subfig:proofth1_b} belongs to $\compbin{1}$. %We also remark that if the number of edges of depth $j-1$, value $\card{E_T(j-1)}$, is $2^{j}$, then the tree is necessarily complete from depth 0 to depth $j-1$, so $\card{E_T(j-2)} = 2^{j-1}$, etc.
+\section{Competitiveness of randomized \mts es} \label{sec:competitiveness}
 
-We pursue our reasoning by establishing properties on EBTs $T_G$ to understand the behavior of \mts es on graphs $G \in \mcalg_k$. Theorem~\ref{th:completebinary} states that cutting an edges from $G \in \mcald_k$ result on a graph in $G \in \mcald_{k-1}$.
-%We pursue our reasoning by establishing properties on EBTs $T_G$ to understand the behavior of \mts es on graphs $G \in \mcalg_k$. Theorem~\ref{th:completebinary} states that for any graph $G_k\backslash E' \in \mcalg_k$, its EBT is a complete binary tree from depth 0 to $k - 1 - \card{E'}$. It is proven by induction. Figures~\ref{subfig:proofth1_a},~\ref{subfig:proofth1_b} and~\ref{subfig:proofth1_c} illustrate the induction step on an example of $\mcalg_3$.
-%When an edge is cut from the original graph, the equivalent tree can be easily obtain by replacing the tree $(v, T_a, T_b)$ by $T_a$ (resp. $T_b$) if the cut edge is before $T_b$ (resp. $T_a$)
+We study the competitiveness of a randomized \mts ~for each road atlas $\mcalr_k$. We establish properties on EBTs $T_G$ to understand the behavior of \mts es on graphs $G \in \mcalg$. Theorem~\ref{th:completebinary} states that cutting an edges from $G \in \mcald_k$ results on a graph in $G \in \mcald_{k-1}$.
 
 \begin{theorem}
-For any graph $G \in \mcald_k$, $G \backslash \set{e} \in \mcald_{k-1}$.
+For any graph $G \in \mcald_k$ and any edge $e \in G$, $G \backslash \set{e} \in \mcald_{k-1}$.
 \label{th:completebinary}
 \end{theorem}
 \begin{proof}
@@ -330,11 +327,11 @@ All the leaves of $T_w$ have initially a depth greater than $k$ so by removing $
 %If $E' = \emptyset$, the EBT $T_{G_k}$ is a complete binary tree, so for any $0\le j \le k-1$, $\card{E_{T_{G_k}}(j)}= 2^{j+1}$.
 %Let $G_k\backslash E'$ be in $\mcalg_k$ with $\card{E'} = k-D$ and fixed integer $0 < D \le k-1$. As an induction hypothesis, we assume that, for any $G_k\backslash E'' \in \mcalg_k$ with $\card{E''} = k-1-D$, $T_{G_k\backslash E''} \in \compbin{D}$. The objective is to prove that $T_{G_k\backslash E'} \in \compbin{D-1}$ with $D = k-\card{E'}$.
 %Then it exists a road map $(G', E_* \cup \set{e})$ with $G$ obtained by removing $e$ to $G'$.
-
+%
 % As a consequence, we only need to prove that $\card{E_{T_{G_k\backslash E'}}(j^*-1)} = 2^{j^*}$.
-
+%
 %Let $e$ be an arbitrary edge of $E'$. We note $E' = \set{e} \cup E''$ with $\card{E''} = k-D-1$. By hypothesis, graph $G_k\backslash E'' \in \mcalg_k$ fulfils $T_{G_k\backslash E''} \in \compbin{D}$. The EBT $T_{G_k\backslash E''}$ contains edge $e$. We note $v$ the ̀̀̀``root'' of edge $e$, {\em i.e.} node $v$ such that $e = \left(u,v\right)$ and $v = P(u)$. Let $T_v$ be the subtree of $T_{G_k\backslash E''}$ with root $v$ and $w$ be the ``sibling'' of $u$ (said differently the second son of node $v$). When edge $e$ is removed from $G_k\backslash E''$, not only edge $e$ but also its descendants disappear in the EBT and $T_v$ becomes $T_w$, the subtree of root $w$. 
-
+%
 %Let $T_{G_k\backslash E''} = \left(t,T_a,T_b\right)$: we assume w.l.o.g. that $e \in T_a$. We know now that $T_{G_k\backslash E'} = \left(t,T_a',T_b\right)$ where $T_a'$ is tree $T_a$ after replacing subtree $T_v$ by $T_w$. As $T_{G_k\backslash E''}$ is complete until depth $D$, $T_a$ and $T_b$ are necessarily complete until edges of depth $D$. When $T_v$ is replaced by $T_w$, the global depth of $T_a$ decreases by 1, so $T_a'$ is complete until depth $D-1$. Eventually, the EBT $T_{G_k\backslash E'} = \left(t,T_a',T_b\right)$ is a binary complete tree from depth 0 to depth $D-1$ (Figures~\ref{subfig:proofth1_b} and~\ref{subfig:proofth1_c}).
 %Let $T' = (v, T_a, T_b)$ the sub-tree of $T_G'$ where $v$ is the root of the edge $e$ (we will suppose $e$ is on the $T_a$ side). Then if $e$ is at depth $i$ then the remarks and the hypothesis give $\card{E_{T}(j-i-1)} = 2^{j-i}$ and $\card{E_{T}(j-i-2)} = 2^{j-i-1} = \card{E_{T_a}(j-i-2)}$. By cutting $e$, $T$ become in $G$ the tree $T_a$. We find that the number of edge at the depth $j-i-2$ remains. So the rest of the tree being unchanged by cutting $e$, the number of edges of $T_G$ for depth $j-2$ is unchanged from $T_G'$ and is equal to $2^{j-1}$ : $\card{E_{T_G}(j-2)} = 2^{j-1}$.
 \end{proof}
@@ -365,9 +362,8 @@ All the leaves of $T_w$ have initially a depth greater than $k$ so by removing $
 \label{fig:proofth1}
 \end{figure}
 
-\section{Competitiveness of randomized \mts es} \label{sec:competitiveness}
 
-We study the competitiveness of a random \mts for every $\mcalr_k$. The Theorem~\ref{th:equalcompetitive} tell us that the competitive ratio of an optimal \mts is the same for every graph of $\mcald_k$. The proof give us a recursive formula of this competitive ratio.
+The Theorem~\ref{th:equalcompetitive} tell us that the competitive ratio of an optimal \mts is the same for every graph of $\mcald_k$. The proof give us a recursive formula of this competitive ratio.
 
 \begin{theorem}
 For any graph $G, G' \in \mcald_k$, $c_{\mts}(G) = c_{\mts}(G') = c_{\mts, \mcalr_k} = c_k$.
@@ -388,16 +384,13 @@ We remark that $1 < 2 + c_{k-1}$ so the greater $J(E_*)$ is, the lower $c_A(G, E
 \[
 c_A(G, \mcalr_k) = \max_{j < 2^k} p_j + (1-p_j)(2+c_{k-1}) = p_{min} + (1-p_{min})(2+c_{k-1})
 \]
-with $p_{min}$ the lowest probability. However, $p_{min} \leq \frac{1}{2^k}$ and $c_A(G, \mcalr_k)$ minimum for $p_{min}$ maximum, so $p_{min} = \frac{1}{2^k}$. The result is that $c_{\mts}(G)$ only depend on $k$ and :
-\[
-c_k = \cfrac{1}{2^k} + \left(1-\cfrac{1}{2^k}\right)\left(2+c_{k-1}\right)
-\]
+with $p_{min}$ the lowest probability. However, $p_{min} \leq \frac{1}{2^k}$ and $c_A(G, \mcalr_k)$ minimum for $p_{min}$ maximum, so $p_{min} = \frac{1}{2^k}$. The result is that $c_{\mts}(G)$ only depend on $k$ and $c_k = \cfrac{1}{2^k} + \left(1-\cfrac{1}{2^k}\right)\left(2+c_{k-1}\right)$
 \end{proof}
 
 %%%%%CONCLUSION%%%%%%%
 \section{Conclusion and further work} \label{sec:conclusion}
 
-%We studied the competitiveness of the \mts es for the \kctp. In this context, an \mts ~is a strategy which does not make decisions referring to the anterior moves of the traveller, in other words, the nodes the traveller visited until his current position. We proved that the \textsc{comparison} strategy, defined in~~\cite{XuHuSuZh09}, is a \mts{}. This implies that the competitive ratio of the optimal deterministic \mts ~is $2k+1$. 
+We studied the competitiveness of the \mts es for the \kctp. In this context, an \mts ~is a strategy which does not make decisions referring to the anterior moves of the traveller, in other words, the nodes the traveller visited until his current position.
 
 %Then, we constructed a series of \kctp{} instances, called road atlases and noted $\mcals_k$. Identifying an efficient randomized \mts{}es becomes harder when $k$ tends to infinity. We foremost concluded that a randomized  \mts{}~cannot reach a competitive ratio smaller than $\frac{10}{9}k+1 = 3.22(2)$ on road atlas $\mcals_2$. We extended our reasoning to larger atlases and established that the competitive ratio of randomized \mts es on maps with $k$ blockages is larger than $\left(3-\sqrt{3}\right)k + 1 \approx 1.268k+1$. That is to say that we identified an upper bound on the competitive ratio of randomized \mts{}es which is significantly higher than the existing one $k+1$. Now, if the objective is to find a strategy with a competitive ratio smaller than $k\beta + 1$, one shall study strategies which are not memoryless.
 
