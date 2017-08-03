@@ -102,7 +102,7 @@
 The $k$-Canadian Traveller Problem, defined and proven PSPACE-complete by Papadimitriou and Yannakakis, is a generalization of the Shortest Path Problem which admits blocked edges. Its objective is to determine the strategy that makes the traveller traverse graph $G$ between two given nodes $s$ and $t$ with the minimal distance, knowing that at most $k$ edges are blocked. The traveller discovers that an edge is blocked when arriving at its endpoint. 
 %Westphal showed that the competitive ratio, which is an indicator of the online algorithm quality, of any randomized strategy is not less than $k+1$. 
  
-We study the competitiveness of randomized memoryless strategies for the \kctp . In this context, a decision taken by the traveler in node $v$ of $G$ does not depend on its anterior moves. We establish that the competitive ratio of any randomized memoryless strategy cannot be better than $2k + O\left(1\right)$. The primordial consequence of this result is that randomized memoryless strategies are asymptotically as competitive as deterministic strategies which achieve a ratio $2k+1$ at best. In future research, if we aim at designing a strategy with competitive ratio $o\left(2k\right)$, we shall focus on strategies which not only are randomized but also use memory.
+We study the competitiveness of randomized memoryless strategies for the \kctp . In this context, a decision taken by the traveler in node $v$ of $G$ does not depend on its anterior moves. We establish that the competitive ratio of any randomized memoryless strategy cannot be better than $2k + O\left(1\right)$. The primordial consequence of this result is that randomized memoryless strategies are asymptotically as competitive as deterministic strategies which achieve a ratio $2k+1$ at best. In future research, if we aim at designing a strategy with competitive ratio $\alpha k + O\left(1\right)$, $\alpha < 2$, we shall focus on strategies which not only are randomized but also use memory.
 \end{abstract}
 
 \maketitle
@@ -112,20 +112,20 @@ We study the competitiveness of randomized memoryless strategies for the \kctp .
 
 The \textit{Canadian Traveller Problem} (CTP), a generalization of the \textit{Shortest Path Problem}, was introduced in~\cite{PaYa91}. Given an undirected weighted graph $G=(V,E,\omega)$ and two nodes $s,t \in V$, the objective is to design a strategy to make a traveller walk from $s$ to $t$ through $G$ on the shortest path possible. Its particularity is that some edges of $G$ are potentially blocked. The traveller does not know, however, which edges are blocked. This implies that we solve the CTP with online algorithms, called strategies. He discovers blocked edges, also called blockages, when arriving to its endpoints. The $k$-\textit{Canadian Traveller Problem} (\kctp) is the parameterized variant of CTP, where an upper bound $k$ for the number of blocked edges is given. Both CTP and \kctp ~are PSPACE-complete~\cite{BaSc91,PaYa91}.
 
-\subsection{State-of-the-art}
+\paragraph{State-of-the-art}
 Strategies for the \kctp ~are studied through the competitive analysis, which evaluates their quality~\cite{BoEl98}. The competitive ratio of a strategy is the maximum, over every satisfiable instance, of the ratio of the distance traversed by the traveller following the strategy and the \textit{optimal offline cost}, which is the distance he traverses if he knows blocked edges from the beginning. 
 
-There are two classes of strategies: deterministic and randomized. Regarding the deterministic strategies, Westphal~\cite{We08} proved that there is no algorithm that achieves a competitive ratio better than $2k+1$. This ratio is reached by \textsc{reposition} and \textsc{comparison} strategies~\cite{We08,XuHuSuZh09}. The \textsc{reposition} strategy consists in traversing the shortest \stpath ~on the current graph. If the traveller discovers that an edge $e^*$ of this path is blocked, he goes back to node $s$ and restarts the process on graph $G$ deprived of the edge $e^*$. 
+There are two classes of strategies: deterministic and randomized. Westphal~\cite{We08} proved that there is no deterministic strategy that achieves a competitive ratio better than $2k+1$. This ratio is reached by \textsc{reposition} and \textsc{comparison} strategies~\cite{We08,XuHuSuZh09}. The \textsc{reposition} strategy consists in traversing the shortest \stpath ~on the current graph. If the traveller discovers that an edge $e^*$ of this path is blocked, he goes back to node $s$ and restarts the process on graph $G$ deprived of the edge $e^*$. 
 %Through the competitive analysis point of view, \textsc{reposition} algorithm is an optimal deterministic strategy. 
 This algorithm is executed in polynomial time. However, considering specific practical cases such as urban networks, returning to node $s$ every time the traveller is blocked does not seem realistic. This is why Xu {\em et al.\/}~\cite{XuHuSuZh09} introduced the \textsc{greedy} algorithm. For grids, it achieves an $\mathcal{O}\left(1\right)$ ratio, regardless of $k$. However, for any graph, this ratio is $\mathcal{O}\left(2^k\right)$.
 
-We evaluate the competitiveness of the randomized strategies by calculating the maximal ratio of the mean distance traversed by the traveller following the strategy by the optimal offline cost. Westphal~\cite{We08} proved that there is no randomized algorithm that can attain a ratio smaller than $k+1$. However, unlike the deterministic case, no $\left(k+1\right)$-competitive randomized strategy was identified, excepted for very particular cases. Recently, two randomized algorithms have been proposed. Demaine {\em et al.\/}~\cite{DeHuLiSa14} designed a strategy with a ratio $\left(1+\frac{\sqrt{2}}{2}\right)k+1$, executed in time of $\mathcal{O}\left(k\mu^2\card{E}^2\right)$ where $\mu$ is a parameter which may be exponential. It is dedicated to graphs that can be transformed into apex trees. 
+We evaluate the competitiveness of the randomized strategies by calculating the maximal ratio of the mean distance traversed by the traveller following the strategy by the optimal offline cost. Westphal~\cite{We08} proved that there is no randomized algorithm that can attain a ratio smaller than $k+1$. However, unlike the deterministic case, no $\left(\alpha k+1\right)$-competitive randomized strategy, $\alpha < 2$, was identified, excepted for very particular cases. Two randomized strategies have been proposed. Demaine {\em et al.\/}~\cite{DeHuLiSa14} designed a strategy with a ratio $\left(1+\frac{\sqrt{2}}{2}\right)k+1$, executed in time of $\mathcal{O}\left(k\mu^2\card{E}^2\right)$ where parameter $\mu$ may be exponential. It is dedicated to graphs that can be transformed into apex trees. 
 %It provides a $\left(k+1\right)$-competitive strategy for graphs $G$ which are apex trees with equal-weight \stpaths . 
 Bender {\em et al.\/} studied in~\cite{BeWe15} a restriction of \kctp ~for graphs composed of node-disjoint \stpaths ~and proposed a polynomial-time strategy with ratio $\left(k+1\right)$. 
 
-\subsection{Contributions and paper plan}
-We study the competitiveness of memoryless strategies~\cite{Al03,BoEl98} for the \kctp . The choice the traveller makes at node $v$ (to decide where to go next) is independent of his travel before reaching node $v$. 
-Given that deterministic memoryless strategies cannot achieve a competitive ratio better than $2k+1$, our goal is to prove that randomized memoryless strategies are not more competitive asymptotically. In other words, we aim at identifying a sequence $c_k$ such that the competitiveness of randomized memoryless strategies is larger than $c_k$ with $c_k = 2k + O\left(1\right)$.
+\paragraph{Contributions and paper plan}
+We study the competitiveness of memoryless strategies~\cite{Al03,BoEl98}. The choice the traveller makes at node $v$ (to decide where to go next) is independent of his travel before reaching node $v$. 
+Given that deterministic memoryless strategies cannot achieve a ratio better than $2k+1$, our goal is to prove that randomized memoryless strategies are not more competitive asymptotically. To do this, we identify a lower bound $c_k = 2k + O\left(1\right)$ of the competitiveness of randomized memoryless strategies for the \kctp.
 
 We remind, in Section~\ref{sec:def}, the definitions of \kctp , memoryless strategies and the competitive ratio.
 In Section~\ref{sec:roadatlas}, we present a set $\mathcal{R}$ (called a road atlas) of \textit{road maps}, {\em i.e.} pairs $\left(G,E_*\right)$ with graph $G$ and blocked edges $E_*$, on which we study the competitiveness of memoryless strategies. We associate, to any of these road maps, a binary tree representation which allows to understand the behavior of memoryless strategies on these road maps more comfortably.
@@ -137,7 +137,8 @@ Eventually, we draw conclusions and highlight the future work in Section~\ref{se
 %\end{itemize}
 \section{Definitions} \label{sec:def}
 
-We start by introducing the notation. For any graph $G=\left(V,E,\omega\right)$, let $G\backslash E'$ denotes its subgraph $\left(V,E\backslash E',\omega\right)$. If $P$ is a path, we note its cost as $\omega\left(P\right) = \sum_{e \in P} \omega(e)$. 
+We start by introducing the notation. For any graph $G=\left(V,E,\omega\right)$, let $G\backslash E'$ denotes its subgraph $\left(V,E\backslash E',\omega\right)$. 
+%If $P$ is a path, we note its cost as $\omega\left(P\right) = \sum_{e \in P} \omega(e)$. 
 
 \subsection{Memoryless Strategies for the \kctp} \label{subsec:msintro}
 
@@ -158,13 +159,13 @@ We focus on \textit{memoryless strategies} (\mts). Concretely, we suppose that t
 A deterministic strategy $A$ is an \mts ~if and only if (iff) the next node $w$ the traveller visits depends on graph $G$ deprived of blocked edges already discovered $E_*'$ and the current traveller position $v$: $w = A\left(G\backslash E_*',v\right)$. Similarly, a randomized strategy $A$ is an \mts ~iff node $w$ is the realization of a discrete random variable $X = A\left(G\backslash E_*',v\right)$.
 \end{definition}
 
-\mts es are easy to be implemented because they do not use past moves to take a decision.  For the same reason, they do not need any extra memory either.
-
+\mts es are easy to be implemented because they do not use past moves to take a decision.
+%  For the same reason, they do not need any extra memory either.
 For example, the \textsc{greedy} strategy~\cite{XuHuSuZh09} is a deterministic \mts . It consists in choosing at each step the first edge of the shortest path between the current node $v$ and the target~$t$. 
 %This strategy, illustrated in Figure~\ref{fig:illustrateCTP}, does not refer to anterior moves. 
-In contrast, the \textsc{reposition} strategy~\cite{We08} is not an \mts ~as any decision refers to the past moves of the traveller. 
+In contrast, the \textsc{reposition} strategy~\cite{We08} is not an \mts ~as any decision refers to the past moves of the traveller. The polynomial-time strategies proposed in the literature do not use much memory information in the decision-taking process. Either they are memoryless or they use a weak quantity of memory. For example, \textsc{reposition} (deterministic~\cite{We08} or randomized~\cite{BeWe15}) can be implemented with a  one bit memory given that the only information to retain is whether the traveller tries to reach $t$ or to return to $s$.
 
-We propose the following process to identify whether a strategy $A$ is a deterministic \mts . Let us suppose that a traveller $T_1$ executes strategy $A$: he has already visited certain nodes of the graph, he is currently at node $v$ but he has not reached target $t$ yet. Let us imagine a second traveller $T_2$ who is airdropped on node $v$ and starts applying strategy $A$. If the traveller $T_2$ always follows the same path as $T_1$ until reaching $t$, $A$ is a deterministic \mts . If $T_1$ and $T_2$ may follow different paths, then $A$ is not an \mts . Formally, prooving that a strategy is a \mts ~consists in finding the function which transforms the pair $\left(G\backslash E_*,v\right)$ into node $w = A\left(G\backslash E_*',v\right)$.
+The following process allows to identify whether a strategy $A$ is a deterministic \mts . Let us suppose that a traveller $T_1$ executes strategy $A$: he has already visited certain nodes of the graph, he is currently at node $v$ but he has not reached target $t$ yet. Let us imagine a second traveller $T_2$ who is airdropped on node $v$ and starts applying strategy $A$. If the traveller $T_2$ always follows the same path as $T_1$ until reaching $t$, $A$ is a deterministic \mts . If $T_1$ and $T_2$ may follow different paths, then $A$ is not an \mts . Formally, prooving that a strategy is a \mts ~consists in finding the function which transforms the pair $\left(G\backslash E_*,v\right)$ into node $w = A\left(G\backslash E_*',v\right)$.
 
 \subsection{Competitive ratio} \label{subsec:compratio}
 
@@ -181,7 +182,8 @@ This ``local'' competitive ratio fulfils $c_{A,\mathcal{R}} \le c_A$. The defini
 
 \section{Road atlas used to study randomized \mts es} \label{sec:roadatlas}
 
-We specify a \textit{road atlas} $\mathcal{R}$ which is a set of road maps. To do so, we start by introducing a family of graphs $G_k$ and establishing blocked edges on them. The objective is to assess the competitive ratio of randomized \mts es on set $\mathcal{R}$.
+We specify a \textit{road atlas} $\mathcal{R}$ which is a set of road maps. We introduce a family of graphs $G_i$ such that graphs composing this road atlas are subgraphs of $G_i$. 
+Set $\mathcal{R}$ will be used to evaluate the competitiveness of randomized \mts es.
 
 \subsection{Graphs $G_i$} \label{subsec:Gi}
 
@@ -217,8 +219,6 @@ We define recursively a sequence of graphs $G_i$ for $i \geq 1$ with weights fro
 \label{fig:G_i}
 \end{figure}
 
-When the traveller discover blocked edges in a graph $G$, parts of the graph become \textit{dead ends}. If a traveller visits a dead end, the only chance for him to reach $t$ is to leave it anyway. Dead ends only provide to the traveller additional costs which make the competitive ratio increase. Therefore, the most competitive strategies (memoryless or not) do not visit dead ends. Now, as soon as a dead end appear when the traveller discovers a blockage, we delete it from the graph. Graph $G\backslash E'$ becomes graph $G$ deprived of both edges $E'$ and dead ends. 
-
 \begin{figure}[b]
 \centering
 \begin{subfigure}[b]{0.49\columnwidth}
@@ -236,12 +236,11 @@ When the traveller discover blocked edges in a graph $G$, parts of the graph bec
 \caption{An illustration of dead ends on graph $G_2$.}
 \end{figure}
 
-We focus on road maps $\left(G_i,E_*\right)$ composed of graph $G_i$ and $i$ blocked edges $E_*$ at the right of axis $\deltavert$ in graph $G_i$. Indeed, blocking edges left to $\deltavert$ affects negligibly the total distance traversed by a traveller. Let us suppose that the traveller, guided by a \mts , traverses graph $G_i$ and has already discovered some blocked edges $E' \subseteq E_*$. He tries now to reach $t$ on graph $G_i\backslash E'$, ignoring that the undiscovered blocked edges are $E_*' = E_* \backslash E'$.
-We note $\mcalg$ the set of all these possible graphs. Formally,
-\[
-\mcalg = \bigcup\limits_{i=1}^{+\infty} \mcalg_i \mbox{with}~
-\mcalg_i = \set{G_i\backslash E' : \card{E'} \leq i}
-\]
+We focus on road maps $\left(G_i,E_*\right)$ composed of graph $G_i$ and at most $i$ blocked edges $E_*$ at the right of axis $\deltavert$ in graph $G_i$. Indeed, blocking edges left to $\deltavert$ affects negligibly the total distance traversed by a traveller. Let us suppose that the traveller, guided by a \mts , traverses graph $G_i$ and has already discovered some blocked edges $E' \subseteq E_*$. He tries now to reach $t$ on graph $G_i\backslash E'$, ignoring that the undiscovered blocked edges are $E_*' = E_* \backslash E'$.
+We note $\mcalg$ the set of all these graphs. Formally, $\mcalg = \bigcup_{i=1}^{+\infty} \mcalg_i ~\mbox{with}~
+\mcalg_i = \set{G_i\backslash E' : \card{E'} \leq i}$.
+
+When the traveller discover blocked edges in a graph $G \in \mcalg_i$, parts of the graph become \textit{dead ends}. If a traveller visits a dead end, the only chance for him to reach $t$ is to leave it anyway. Dead ends only provide to the traveller additional costs which make the competitive ratio increase. Therefore, the most competitive strategies (memoryless or not) do not visit dead ends. As soon as a dead end appear when the traveller discovers a blockage, we delete it from the graph. Graph $G\backslash E'$ becomes graph $G$ deprived of both edges $E'$ and dead ends. 
 %We study the competitiveness of \mts es on the road atlas $\mathcal{R}$ composed of road maps with sub-graphs $G_k \backslash E' \in \mcalg_k$ where $\mcalg_k = \set{G_k\backslash E' : \card{E'} \leq k}$ and blocked edges $E_*'$ which fulfil $\card{E'} + \card{E_*'} = k$. Formally,
 %\[
 %\mathcal{R} = \bigcup\limits_{k=1}^{+\infty} \mathcal{R}_k ~\mbox{with}~ \mathcal{R}_k = \set{\left(G_k\backslash E',E_*'\right): G_k\backslash E' \in \mcalg_k, E' \cap E_*' = \emptyset, \card{E'} + \card{E_*'} = k}
