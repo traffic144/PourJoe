@@ -106,7 +106,8 @@
 The $k$-Canadian Traveller Problem, defined and proven PSPACE-complete by Papadimitriou and Yannakakis, is a generalization of the Shortest Path Problem which admits blocked edges. Its objective is to determine the strategy that makes the traveller traverse graph $G$ between two given nodes $s$ and $t$ with the minimal distance, knowing that at most $k$ edges are blocked. The traveller discovers that an edge is blocked when arriving at its endpoint. 
 %Westphal showed that the competitive ratio, which is an indicator of the online algorithm quality, of any randomized strategy is not less than $k+1$. 
  
-We study the competitiveness of randomized memoryless strategies for the \kctp . In this context, a decision taken by the traveler in node $v$ of $G$ does not depend on its anterior moves. We establish that the competitive ratio of any randomized memoryless strategy cannot be better than $2k + O\left(1\right)$. The primordial consequence of this result is that randomized memoryless strategies are asymptotically as competitive as deterministic strategies which achieve a ratio $2k+1$ at best. In future research, if we aim at designing a strategy with competitive ratio $\alpha k + O\left(1\right)$, $\alpha < 2$, we shall focus on strategies which not only are randomized but also use memory.
+We study the competitiveness of randomized memoryless strategies for the \kctp . A decision taken by the strategy for a traveller in node $v$ of $G$ does not depend on its anterior moves. We establish that the competitive ratio of any randomized memoryless strategy cannot be better than $2k + O\left(1\right)$. The primordial consequence of this result is that randomized memoryless strategies are asymptotically as competitive as deterministic strategies which achieve a ratio $2k+1$ at best. 
+%In future research, if we aim at designing a strategy with competitive ratio $\alpha k + O\left(1\right)$, $\alpha < 2$, we shall focus on strategies which not only are randomized but also use memory.
 \end{abstract}
 
 \maketitle
@@ -209,7 +210,7 @@ We define recursively a sequence of graphs $G_i$ for $i \geq 1$ with weights fro
 %\caption{An illustration of dead ends on graph $G_2$.}
 %\end{figure}
 
-We focus on the behavior of a traveller traversing road maps $\left(G_k,E_*\right)$ composed of graph $G_k$ and at most $k$ blocked edges $E_*$ at the right of axis $\deltavert$ in graph $G_k$. Indeed, blocking edges left to $\deltavert$ affects negligibly the total distance traversed by a traveller. Let us suppose that the traveller traverses graph $G_k$ and has already discovered some blocked edges $E' \subseteq E_*$. He tries now to reach $t$ on graph $G_k\backslash E'$, ignoring that the undiscovered blocked edges are $E_*' = E_* \backslash E'$.
+We focus on the behavior of a traveller traversing road maps $\left(G_k,E_*\right)$ composed of graph $G_k$ and at most $k$ blocked edges $E_*$ at the right of axis $\deltavert$ in graph $G_k$. Indeed, blocking edges left to $\deltavert$ affects negligibly the total distance traversed by a traveller. Let us suppose that he traverses graph $G_k$ and has already discovered some blocked edges $E' \subseteq E_*$. He tries now to reach $t$ on graph $G_k\backslash E'$, ignoring that the undiscovered blocked edges are $E_*' = E_* \backslash E'$.
 We note $\mcalg$ the set of all these subgraphs. Formally, $\mcalg = \bigcup_{k=1}^{+\infty} \mcalg_k ~\mbox{with}~
 \mcalg_k = \set{G_k\backslash E' : \card{E'} \leq k}$. Road maps $\left(G,E_*\right)$ in $\mcalr$ are composed of graphs in $\mcalg$. For any graph $G \in \mcalg$, we partition its edges, noted $E_G$, in two sets $\eleft{G}$ (left to axis $\deltavert$) and $\eright{G}$ (right to axis $\deltavert$).
 
@@ -379,7 +380,7 @@ For any graph $G \in \mcalg$, we note $\cms\left(G\right)$ the maximum over valu
 \cms\left(G\right) = \min\limits_{A ~\mbox{\scriptsize {MS}}} \max\limits_{\left(G,E_*\right) \in \mcalr} c_A\left(G,E_*\right)
 \label{eq:cmsg}
 \end{equation}
-Theorem~\ref{th:equalcompetitive} states that value $\cms\left(G\right)$ is the same for any graph of $\mcald_k$. In other words, graphs in $\mcald_k$ are all similar regarding the competitiveness of \mts es over them. Let $c_k$ denotes the competitive ratio of \mts es over atlas $\mcalr_k$. The proof gives us a recursive formula of ratio $c_k$.
+Please note that, even if the competitive ratio $\cms(G)$ is defined formally for a traveller starting from source $s$, it is still valid for a traveller starting his walk at any node left to axis $\deltavert$ as weights $\varepsilon$ can be neglected. Theorem~\ref{th:equalcompetitive} states that value $\cms\left(G\right)$ is the same for any graph of $\mcald_k$. In other words, graphs in $\mcald_k$ are all similar regarding the competitiveness of \mts es over them. Let $c_k$ denotes the competitive ratio of \mts es over atlas $\mcalr_k$. The proof of Theorem~\ref{th:equalcompetitive} provides a recursive formula of ratio $c_k$.
 
 \begin{theorem}
 For any graph $G, G' \in \mcald_k$, $c_{\emph{\scriptsize{MS}}}(G) = c_{\emph{\scriptsize{MS}}}(G') = c_k$.
@@ -387,42 +388,54 @@ For any graph $G, G' \in \mcald_k$, $c_{\emph{\scriptsize{MS}}}(G) = c_{\emph{\s
 \end{theorem}
 \begin{proof}
 If $k = 0$, then for every graph of $\mcald_0$, $\cms(G) = c_0 = 1$ because any path the traveler takes is open.
-We assume the theorem holds for $k-1$. Let $G \in \mcald_k$. Every leaves of $T_G$ are at depth greater than $k$, so the EBT is complete until depth $k$ : $T_G$ have $2^k$ nodes at depth $k$. For a \mts, we define $(p_i)_{i < 2^k}$ by the probability that the traveler travel by the $\ith{i}$ node at depth $k$.
+We assume the theorem holds for graphs which belong to $\mcald_{k-1}$. For any $G \in \mcald_k$, all leaves of $T_G$ are at depth greater than $k$. So, $T_G$ is complete until depth $k$ and has $2^k$ nodes at depth $k$. We suppose that the traveller, guided by a \mts ~$A$, is standing at source $s$ and starts his walk on a road map $\left(G,E_*\right) \in \mcalr_k$. We study his behavior until he discovers a first blockage or reaches $t$ without being blocked.
 
-Given a set of $E_*$ of blocked edges, we associate $J(E_*)$ being the set of node at depth $k$ where each \stpath that travel through this node is not blocked. For any node $v$ of depth $k$, we can construct a set of blocked edges such that $\card{J(E_*)} = 1$. Indeed, given a node $v$ of depth $k$, let $e$ be the edge of the sibling of $v$. By blocking $e$,  $U(e)$, $U(U(e))$ ... $U^{k-1}(e)$, we block respectively $1$, $2$, $4$, ... , $2^{k-1}$ nodes. Every edges being the uncle of another, the blocked nodes are disjoint. So finally, only $v$ is not blocked.
+We assume that strategy $A$ makes the traveller traverse exactly a distance 1 (weights $\epsilon$ are neglected) before reaching $t$ directly or meeting a blocked edge. In other words, strategy $A$ does not force the traveller to do superfluous two-way trips. By this way, strategy $A$ is among the most competitive \mts es on road atlas $\mcalr_k$. Finally, either the traveller reaches $t$ directly with distance 1 or he meets a blocked edge and traverses a total distance $2 + c_{k-1}$: distance 1 to reach the blockage, distance 1 to go back left to $\deltavert$ and distance $c_{k-1}$ to reach $t$ on graph $G$ deprived of the blocked edges, which belongs to $\mcald_{k-1}$ (see Theorem~\ref{th:completebinary}).
 
-For a given set of blocked edges $E_*$, if $v$ is in $J(E_*)$, then by traveling by $v$, the cost will be $1$. If $v$ is not in $J(E_*)$, the traveler have to turned back and choose another path with a road map with $k-1$ blocked edges. Theorem~\ref{th:completebinary} we saw that $G$ without the cut edge is in $\mcald_{k-1}$, so the cost will be at most $2 + c_{k-1}$ by hypothesis. Formally,
+For any $1 \le i \le 2^k$, let $p_i^A$ denote the probability that the traveler visits the $\ith{i}$ node at depth $k$, noted $v_i$ (indexing nodes from left to right in the EBT representation). We have $\sum_{j=1}^{2^k} p_j^A = 1$. Let $P_i$ be the simple \stpath ~of length 1 which traverses node $v_i$.
+Given a set of $E_*$ of blocked edges, we note $J(E_*)$ the set of node $v_i$ at depth $k$ where $P_i$ is not blocked. For any node $v_i$ of depth $k$, we can construct a set of blocked edges such that $J(E_*) = \set{P_i}$. Indeed, let $e$ be the edge linking the sibling of $v_i$ and $P\left(v_i\right)$. By blocking $e$,  $U(e)$, $U(U(e))$ ... $U^{k-1}(e)$, we block $1+2+4+\ldots+2^{k-1} = 2^k - 1$ paths $P_j$, $j \neq i$. Finally, only $P_i$ is open.
+
+For a given set of blocked edges $E_*$, if $v_i \in J(E_*)$, then the distance traversed is $1$ by passing through $v_i$. If $v_i \notin J(E_*)$, the distance traversed is $2 + c_{k-1}$,
 \[
-c_A(G, E_*) \leq \left(\sum_{j\in J(E_*)} p_j\right)\times 1 + \left(\sum_{j\notin J(E_*)}p_j\right)\times (2+c_{k-1})
+c_A(G, E_*) = \left(\sum_{j\in J(E_*)} p_j^A\right) 1 + \left(\sum_{j\notin J(E_*)}p_j^A\right) (2+c_{k-1})
 \]
-We remark that $1 < 2 + c_{k-1}$ so the greater $J(E_*)$ is, the lower $c_A(G, E_*)$ will be. Thus, we remark that for $E_*$ in $\mcalf'$, the inequality above is an equality. So for each $E_*$, it exists $E' \in _mcalf$ such that $c_A(G, E_*) \leq c_A(G, E')$. Finally :
+
+We note $j^*$ the index of the node $v_{j^*}$ in $J\left(E_*\right)$ which minimizes $p_{j^*}^A$. As $1 < 2 + c_{k-1}$, the greater $\sum_{j\in J(E_*)} p_j^A$ is, the lower $c_A(G, E_*)$ is, therefore
 \[
-c_A(G, \mcalr_k) = \max_{j < 2^k} p_j + (1-p_j)(2+c_{k-1}) = p_{min} + (1-p_{min})(2+c_{k-1})
+c_A(G, E_*) \le p_{j^*}^A + \underbrace{\left(\sum_{j\neq j^*}p_j^A\right) }_{1-p_{j^*}^A}(2+c_{k-1}).
+\] 
+
+The competitive ratio $c_A(G, E_*)$ attains this upper bound when blocked edges of road map $\left(G,E_*\right)$ fulfils $J\left(E_*\right) = \set{P_{j^*}}$. Considering that any $P_j$, $1 \le j \le 2^k$ can be the single open path of road map $\left(G,E_*\right)$, we obtain the competitive ratio of strategy $A$ over road atlas $\mcalr_k$,
+\[
+\begin{array}{rl}
+c_{A,\mcalr_k} & =  ~\max_{1 \le j \le 2^k} p_j^{A} + \left(1-p_j^{A}\right)\left(2+c_{k-1}\right),\\
+& \geq ~\cfrac{1}{2^k} + \left(1-\cfrac{1}{2^k}\right)\left(2+c_{k-1}\right).
+\end{array}
 \]
-with $p_{min}$ the lowest probability. However, $p_{min} \leq \frac{1}{2^k}$ and $c_A(G, \mcalr_k)$ minimum for $p_{min}$ maximum, so $p_{min} = \frac{1}{2^k}$. The result is that $c_{\mts}(G)$ only depend on $k$ and $c_k = \cfrac{1}{2^k} + \left(1-\cfrac{1}{2^k}\right)\left(2+c_{k-1}\right)$
+
+The \mts ~with the weakest value $c_{A,\mcalr_k}$ fulfils $p_j^A = \frac{1}{2^k}$ for any $1 \le j \le 2^k$. This value depends on $k$ and $c_{k-1}$, not on the graph itself. For $G,G' \in \mcald_k$, $\cms(G) = \cms(G') = c_k = \min_{A} c_{A,\mcalr_k} = \frac{1}{2^k} + \left(1-\frac{1}{2^k}\right)\left(2+c_{k-1}\right)$.
+%So for each $E_*$, it exists $E' \in _mcalf$ such that $c_A(G, E_*) \leq c_A(G, E')$. Finally :
+%\[
+%c_A(G, \mcalr_k) = \max_{j < 2^k} p_j + (1-p_j)(2+c_{k-1}) = p_{min} + (1-p_{min})(2+c_{k-1})
+%\]
+%with $p_{min}$ the lowest probability. However, $p_{min} \leq \frac{1}{2^k}$ and $c_A(G, \mcalr_k)$ minimum for $p_{min}$ maximum, so $p_{min} = \frac{1}{2^k}$. The result is that $c_{\mts}(G)$ only depend on $k$ and $c_k = \cfrac{1}{2^k} + \left(1-\cfrac{1}{2^k}\right)\left(2+c_{k-1}\right)$
 \end{proof}
 
-Theorem~\ref{th:equalcompetitive} give us that for each $k$, the competitive ratio of a \mts can not be lower than $c_k$. The competitiveness of \mts are given by the study of $c$.
-To study $c$, first we remark that :
+The consequence of Theorem~\ref{th:equalcompetitive} and its proof is that, for $k$ blockages, the competitive ratio of \mts es on road atlas $\mcalr_k$ is given by sequence $c_k$. Consequently, $\cms \le c_k$.
+We remark that $c_k - c_{k-1} = 2 - \frac{1}{2^{k}} - \frac{c_{k-1}}{2^{k}}$.
+By summing this expression from $j = 1$ to $k$, we obtain :
 \[
-c_k - c_{k-1} = 2 - \cfrac{1}{2^{k}} - \cfrac{c_{k-1}}{2^{k}}
+c_k = 2k+1-\sum_{j=0}^{k-1}\cfrac{c_j+1}{2^{j+1}}
 \]
-By summing this expression from $j = 1$ to $k$ we obtain :
-\[
-c_k = 2k+\cfrac{1}{2^k}-\sum_{j=0}^{k-1}\cfrac{c_j}{2^{j+1}}
-\]
-It came that $c_k \leq 2k+1$ and so the serie is convergent. So finally, $c_k = 2k + O(1)$
-
+As $\sum_{j=0}^{+\infty}\cfrac{c_j+1}{2^{j+1}}$ is finite, $c_k = 2k + O(1)$. We compute the value $\sum_{j=0}^{5000}\cfrac{c_j+1}{2^{j+1}} = 3.213$, so the competitive ratio of \mts es is almost surely larger than $2k-2.22$.
 %%%%%CONCLUSION%%%%%%%
 \section{Conclusion and further work} \label{sec:conclusion}
 
-We studied the competitiveness of the \mts es for the \kctp. In this context, an \mts ~is a strategy which does not make decisions referring to the anterior moves of the traveller, in other words, the nodes the traveller visited until his current position.
+We studied the competitiveness of the \mts es for the \kctp. An \mts ~is a strategy which does not make decisions referring to the anterior moves of the traveller, in other words, the nodes the traveller visited until his current position.
 
-%Then, we constructed a series of \kctp{} instances, called road atlases and noted $\mcals_k$. Identifying an efficient randomized \mts{}es becomes harder when $k$ tends to infinity. We foremost concluded that a randomized  \mts{}~cannot reach a competitive ratio smaller than $\frac{10}{9}k+1 = 3.22(2)$ on road atlas $\mcals_2$. We extended our reasoning to larger atlases and established that the competitive ratio of randomized \mts es on maps with $k$ blockages is larger than $\left(3-\sqrt{3}\right)k + 1 \approx 1.268k+1$. That is to say that we identified an upper bound on the competitive ratio of randomized \mts{}es which is significantly higher than the existing one $k+1$. Now, if the objective is to find a strategy with a competitive ratio smaller than $k\beta + 1$, one shall study strategies which are not memoryless.
+Then, we constructed a series of \kctp ~instances, called road atlases and noted $\mcalr_k$. Identifying an efficient randomized \mts{}es becomes harder when $k$ tends to infinity. We foremost concluded that a randomized  \mts ~cannot reach a ratio more competitive than $2k+\mathcal{O}\left(1\right)$ on road atlas $\mcalr_k$. That is to say that we identified an upper bound on the competitive ratio of randomized \mts{}es which is significantly higher than the existing one $k+1$. In future research, if we aim at designing a strategy with competitive ratio $\alpha k + O\left(1\right)$, $\alpha < 2$, we shall focus on strategies which not only are randomized but also use memory.
 
-%The main issue that, in our opinion, needs further investigation, is the improvement of the new lower bound. There are, potentially, two ways to do this. The first one is the modification of road atlases $\mcals_k$ to make \mts es be less efficient on them. The second possibility consists in increasing the lower bound of the competitive ratio by introducing new properties of \mts es, more advantageous for bounding, on the road atlas $\mcals_k$. Other possible future work could be to design a randomized strategy with ratio less than $1.268k+1$ and which is not memoryless, or to design a family of maps such that there exists a randomized strategy which, applied on it, has a ratio $k+1$.
-%Then, the difference of competitiveness between \mts es and other strategies is still open: is there a randomized strategy, which is not \mts , such that its competitive ratio is inferior to $\left(3 - \sqrt{3}\right)k+1$ ? We also wonder if there exists a randomized \mts ~whose competitive ratio is inferior to $2k+1$, which is the optimal competitive ratio of deterministic strategies.
-% Another track is to study the competitiveness of randomized strategies (and particularly \mts es) on specific graphs, as Bender {\em et al.\/} did it with graphs composed of node-disjoint paths.
+Future work could be to design a randomized strategy with ratio less than $\alpha k + O\left(1\right)$, $\alpha < 2$ which is not memoryless. Indeed, the difference of competitiveness between \mts es and deterministic strategies with randomized strategies using memory stays open. Another possibility is to identify a set of road maps such that there is a strategy which, applied on it, has a ratio $\alpha k+\mathcal{O}\left(1\right)$, $\alpha < 2$.
 
 \bibliographystyle{plain}
 \bibliography{mctp.bib}
