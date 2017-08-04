@@ -402,6 +402,17 @@ c_A(G, \mcalr_k) = \max_{j < 2^k} p_j + (1-p_j)(2+c_{k-1}) = p_{min} + (1-p_{min
 with $p_{min}$ the lowest probability. However, $p_{min} \leq \frac{1}{2^k}$ and $c_A(G, \mcalr_k)$ minimum for $p_{min}$ maximum, so $p_{min} = \frac{1}{2^k}$. The result is that $c_{\mts}(G)$ only depend on $k$ and $c_k = \cfrac{1}{2^k} + \left(1-\cfrac{1}{2^k}\right)\left(2+c_{k-1}\right)$
 \end{proof}
 
+Theorem~\ref{th:equalcompetitive} give us that for each $k$, the competitive ratio of a \mts can not be lower than $c_k$. The competitiveness of \mts are given by the study of $c$.
+To study $c$, first we remark that :
+\[
+c_k - c_{k-1} = 2 - \cfrac{1}{2^{k}} - \cfrac{c_{k-1}}{2^{k}}
+\]
+By summing this expression from $j = 1$ to $k$ we obtain :
+\[
+c_k = 2k+\cfrac{1}{2^k}-\sum_{j=0}^{k-1}\cfrac{c_j}{2^{j+1}}
+\]
+It came that $c_k \leq 2k+1$ and so the serie is convergent. So finally, $c_k = 2k + O(1)$
+
 %%%%%CONCLUSION%%%%%%%
 \section{Conclusion and further work} \label{sec:conclusion}
 
