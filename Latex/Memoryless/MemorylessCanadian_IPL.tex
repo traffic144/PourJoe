@@ -392,15 +392,14 @@ We assume the theorem holds for graphs which belong to $\mcald_{k-1}$. For any $
 
 We assume that strategy $A$ makes the traveller traverse exactly a distance 1 (weights $\epsilon$ are neglected) before reaching $t$ directly or meeting a blocked edge. In other words, strategy $A$ does not force the traveller to do superfluous two-way trips. By this way, strategy $A$ is among the most competitive \mts es on road atlas $\mcalr_k$. Finally, either the traveller reaches $t$ directly with distance 1 or he meets a blocked edge and traverses a total distance $2 + c_{k-1}$: distance 1 to reach the blockage, distance 1 to go back left to $\deltavert$ and distance $c_{k-1}$ to reach $t$ on graph $G$ deprived of the blocked edges, which belongs to $\mcald_{k-1}$ (see Theorem~\ref{th:completebinary}).
 
-For any $1 \le i \le 2^k$, let $p_i^A$ denote the probability that the traveler visits the $\ith{i}$ node at depth $k$, noted $v_i$ (indexing nodes from left to right in the EBT representation). We have $\sum_{j=1}^{2^k} p_j^A = 1$. Let $P_i$ be the simple \stpath ~of length 1 which traverses node $v_i$.
-Given a set of $E_*$ of blocked edges, we note $J(E_*)$ the set of node $v_i$ at depth $k$ where $P_i$ is not blocked. For any node $v_i$ of depth $k$, we can construct a set of blocked edges such that $J(E_*) = \set{P_i}$. Indeed, let $e$ be the edge linking the sibling of $v_i$ and $P\left(v_i\right)$. By blocking $e$,  $U(e)$, $U(U(e))$ ... $U^{k-1}(e)$, we block $1+2+4+\ldots+2^{k-1} = 2^k - 1$ paths $P_j$, $j \neq i$. Finally, only $P_i$ is open.
-
-For a given set of blocked edges $E_*$, if $v_i \in J(E_*)$, then the distance traversed is $1$ by passing through $v_i$. If $v_i \notin J(E_*)$, the distance traversed is $2 + c_{k-1}$,
+For any $1 \le j \le 2^k$, let $p_j^A$ denote the probability that the traveler visits the $\ith{j}$ node at depth $k$, noted $v_j$ (indexing nodes from left to right in the EBT representation). We have $\sum_{j=1}^{2^k} p_j^A = 1$. Let $P_j$ be the simple \stpath ~of length 1 which traverses node $v_j$.
+Given a set of $E_*$ of blocked edges, we note $J(E_*)$ the set of node $v_j$ at depth $k$ where $P_j$ is not blocked. For any node $v_j$ of depth $k$, we can construct a set of blocked edges such that $J(E_*) = \set{P_j}$. Indeed, let $e$ be the edge linking the sibling of $v_j$ and $P\left(v_j\right)$. By blocking $e$,  $U(e)$, $U(U(e))$ ... $U^{k-1}(e)$, we block $1+2+4+\ldots+2^{k-1} = 2^k - 1$ paths $P_{j'}$, $j' \neq j$. Finally, only $P_j$ is open.
+For this set of blocked edges $E_*$, if $v_j \in J(E_*)$, then the distance traversed is $1$ by passing through $v_j$. If $v_j \notin J(E_*)$, the distance traversed is $2 + c_{k-1}$,
 \[
-c_A(G, E_*) = \left(\sum_{j\in J(E_*)} p_j^A\right) 1 + \left(\sum_{j\notin J(E_*)}p_j^A\right) (2+c_{k-1})
+c_A(G, E_*) = \left(\sum_{v_j\in J(E_*)} p_j^A\right) 1 + \left(\sum_{v_j\notin J(E_*)}p_j^A\right) (2+c_{k-1})
 \]
 
-We note $j^*$ the index of the node $v_{j^*}$ in $J\left(E_*\right)$ which minimizes $p_{j^*}^A$. As $1 < 2 + c_{k-1}$, the greater $\sum_{j\in J(E_*)} p_j^A$ is, the lower $c_A(G, E_*)$ is, therefore
+We note $j^*$ the index of the node $v_{j^*}$ in $J\left(E_*\right)$ which minimizes $p_{j^*}^A$. As $1 < 2 + c_{k-1}$, the greater $\sum_{v_j\in J(E_*)} p_j^A$ is, the lower $c_A(G, E_*)$ is, therefore
 \[
 c_A(G, E_*) \le p_{j^*}^A + \underbrace{\left(\sum_{j\neq j^*}p_j^A\right) }_{1-p_{j^*}^A}(2+c_{k-1}).
 \] 
