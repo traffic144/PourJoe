@@ -106,7 +106,7 @@
 The $k$-Canadian Traveller Problem, defined and proven PSPACE-complete by Papadimitriou and Yannakakis, is a generalization of the Shortest Path Problem which admits blocked edges. Its objective is to determine the strategy that makes the traveller traverse graph $G$ between two given nodes $s$ and $t$ with the minimal distance, knowing that at most $k$ edges are blocked. The traveller discovers that an edge is blocked when arriving at its endpoint. 
 %Westphal showed that the competitive ratio, which is an indicator of the online algorithm quality, of any randomized strategy is not less than $k+1$. 
  
-We study the competitiveness of randomized memoryless strategies for the \kctp . A decision taken by the strategy for a traveller in node $v$ of $G$ does not depend on its anterior moves. We establish that the competitive ratio of any randomized memoryless strategy cannot be better than $2k + O\left(1\right)$. The primordial consequence of this result is that randomized memoryless strategies are asymptotically as competitive as deterministic strategies which achieve a ratio $2k+1$ at best. 
+We study the competitiveness of randomized memoryless strategies for the \kctp . A decision taken by the strategy for a traveller in node $v$ of $G$ does not depend on its anterior moves. We establish that the competitive ratio of any randomized memoryless strategy cannot be better than $2k + O\left(1\right)$. This means that randomized memoryless strategies are asymptotically as competitive as deterministic strategies which achieve a ratio $2k+1$ at best.
 %In future research, if we aim at designing a strategy with competitive ratio $\alpha k + O\left(1\right)$, $\alpha < 2$, we shall focus on strategies which not only are randomized but also use memory.
 \end{abstract}
 
@@ -426,7 +426,7 @@ By summing this expression from $j = 1$ to $k$, we obtain :
 \[
 c_k = 2k+1-\sum_{j=0}^{k-1}\cfrac{c_j+1}{2^{j+1}}
 \]
-As $\sum_{j=0}^{+\infty}\cfrac{c_j+1}{2^{j+1}}$ is finite, $c_k = 2k + O(1)$. We compute the value $\sum_{j=0}^{5000}\cfrac{c_j+1}{2^{j+1}} = 3.213$, so the competitive ratio of \mts es is almost surely larger than $2k-2.22$.
+As $\sum_{j=0}^{+\infty}\cfrac{c_j+1}{2^{j+1}}$ is finite, $c_k = 2k + O(1)$. We compute the value $\sum_{j=0}^{10^4}\cfrac{c_j+1}{2^{j+1}} = 3.213$, so the competitive ratio of \mts es is almost surely larger than $2k-2.22$.
 %%%%%CONCLUSION%%%%%%%
 \section{Conclusion and further work} \label{sec:conclusion}
 
