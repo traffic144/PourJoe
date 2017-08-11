@@ -211,7 +211,7 @@ We define recursively a sequence of graphs $G_i$ for $i \geq 1$ with weights fro
 %\end{figure}
 
 We focus on the behavior of a traveller traversing road maps $\left(G_k,E_*\right)$ composed of graph $G_k$ and at most $k$ blocked edges $E_*$ at the right of axis $\deltavert$ in graph $G_k$. Indeed, blocking edges left to $\deltavert$ affects negligibly the total distance traversed by a traveller. Let us suppose that he traverses graph $G_k$ and has already discovered some blocked edges $E' \subseteq E_*$. He tries now to reach $t$ on graph $G_k\backslash E'$, ignoring that the undiscovered blocked edges are $E_*' = E_* \backslash E'$.
-We note $\mcalg$ the set of all these subgraphs. Formally, $\mcalg = \bigcup_{k=1}^{+\infty} \mcalg_k ~\mbox{with}~
+We note $\mcalg$ the set of all these subgraphs. We call them \textit{diamond graphs} because of their appearance, diamonds joined together. Formally, $\mcalg = \bigcup_{k=1}^{+\infty} \mcalg_k ~\mbox{with}~
 \mcalg_k = \set{G_k\backslash E' : \card{E'} \leq k}$. Road maps $\left(G,E_*\right)$ in $\mcalr$ are composed of graphs in $\mcalg$. For any graph $G \in \mcalg$, we partition its edges, noted $E_G$, in two sets $\eleft{G}$ (left to axis $\deltavert$) and $\eright{G}$ (right to axis $\deltavert$).
 
 \begin{figure}[h]
@@ -253,7 +253,7 @@ We note $\mcalg$ the set of all these subgraphs. Formally, $\mcalg = \bigcup_{k=
 
 \subsection{Diamond binary trees} \label{subsec:dbt}
 
-To any graph $G$ of $\mcalg$, we associate a \textit{diamond binary tree} (\ebt ) noted $T_G$ which represents all \textit{branching nodes} (notion defined below) from $t$ in graph $G$. We note $T_\varnothing$ the empty tree. Any nonempty tree is a triplet $(v, T_a, T_b)$ with a root $v \in V$ and two subtrees $T_a$ and $T_b$.
+To any diamond graph $G$ of $\mcalg$, we associate a \textit{diamond binary tree} (\ebt ) noted $T_G$ which represents all \textit{branching nodes} (notion defined below) from $t$ in graph $G$. We note $T_\varnothing$ the empty tree. Any nonempty tree is a triplet $(v, T_a, T_b)$ with a root $v \in V$ and two subtrees $T_a$ and $T_b$.
 
 \begin{figure}[h]
 \centering
