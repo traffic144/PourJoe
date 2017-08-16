@@ -127,12 +127,12 @@ We evaluate the competitiveness of the randomized strategies by calculating the 
 Bender {\em et al.\/} studied in~\cite{BeWe15} a restriction of \kctp ~for graphs composed of node-disjoint \stpaths ~and proposed a polynomial-time strategy with ratio $\left(k+1\right)$. 
 
 \paragraph{Contributions and paper plan}
-We study the competitiveness of memoryless strategies~\cite{Al03,BoEl98}. The choice the traveller makes at node $v$ (to decide where to go next) is independent of his travel before reaching node $v$. \mts{}es are worth of interest because they are easy to be implemented as they do not memorize the edges already visited by the traveller to make a decision. The only information they use is the graph $G\backslash E_*'$, which is the graph $G$ deprived of the blocked edges discovered $E_*'$.
+We study the competitiveness of memoryless strategies~\cite{Al03,BoEl98}. The choice the traveller makes at node $v$ (to decide where to go next) is independent of his travel before reaching node $v$. Memoryless strategies are worth of interest because they are easy to be implemented as they do not memorize the edges already visited by the traveller to make a decision. The only information they use is the graph $G\backslash E_*'$, which is the graph $G$ deprived of the blocked edges discovered $E_*'$.
 Given that deterministic memoryless strategies cannot achieve a ratio better than $2k+1$, our goal is to prove that randomized memoryless strategies are not more competitive asymptotically. To do this, we identify a lower bound $c_k = 2k + O\left(1\right)$ of the competitiveness of randomized memoryless strategies for the \kctp.
 
 We remind, in Section~\ref{sec:def}, the definitions of \kctp , memoryless strategies and the competitive ratio.
 In Section~\ref{sec:roadatlas}, we present sets $\mathcal{R}_k$ (called road atlases) of \textit{road maps}, {\em i.e.} pairs $\left(G,E_*\right)$ with graph $G$ and blocked edges $E_*$. These road maps, together with associated binary trees, are a means to study the performance of memoryless strategies.
-We prove in Section~\ref{sec:competitiveness} that randomized memoryless strategies cannot drop below a ratio $c_k = 2k+O\left(1\right)$ on road maps in $\mathcal{R}_k$. We also clarify expression $O\left(1\right)$ in order to specify the asymptotic behavior of sequence $c_k$.
+We prove in Section~\ref{sec:competitiveness} that randomized memoryless strategies cannot drop below a ratio $c_k = 2k+O\left(1\right)$ on road maps in $\mathcal{R}_k$, where expression $O\left(1\right)$ is clarified.
 Eventually, we draw conclusions and highlight the future work in Section~\ref{sec:conclusion}.
 %\begin{itemize}
 %\item Proof, in Section~\ref{sec:notk+1}, that there is no randomized memoryless strategy which has a ratio $f(k) \leq k+1$ for the \kctp{}.
@@ -146,7 +146,7 @@ We start by introducing the notation. For any graph $G=\left(V,E,\omega\right)$,
 \subsection{Memoryless Strategies for the \kctp} \label{subsec:msintro}
 
 We remind the definition of CTP. Let $G=\left(V,E,\omega\right)$ be an undirected graph with positive weights. The objective is to make a traveller traverse the graph from a source node $s$ to a target one $t$, with $s,t \in V$. There is a set $E_* \subsetneq E$ of blocked edges. %Without blocked edges, the remaining graph can be still traversed by the traveller: there exists a \stpath ~in graph $G\backslash E_* = \left(V,E\backslash E_*\right)$. 
-The traveller does not know a priori which edges are blocked. He discovers a blocked edge only when arriving to one of its endpoints. For example, if $\left(v,w\right)$ is a blockage he will discover it when arriving to $v$ (or $w$). The goal is to design the strategy $A$ with the minimal competitive ratio.
+The traveller does not know a priori which edges are blocked. He discovers a blocked edge only when arriving to one of its endpoints. For example, if $\left(v,w\right)$ is a blockage he will discover it when arriving to $v$ (or $w$). The goal is to design the strategy $A$ which minimizes the competitive ratio.
 %\begin{figure}[t]
 %\centering
 %\includegraphics[scale=0.27]{graphics/illustrateCTP2.pdf}
@@ -205,12 +205,11 @@ We define recursively a sequence of graphs $G_i$ for $i \geq 1$ with weights fro
 %\caption{The graph obtained after deleting all nodes\slash edges forming a dead end}
 %\label{subfig:deadend_2}
 %\end{subfigure}
-%\caption{An illustration of dead ends on graph $G_2$.}
+%\caption{An illustration of dead ends on graph $G_2$.\mcalg}
 %\end{figure}
 
-We focus on the behavior of a traveller traversing road maps $\left(G_k,E_*\right)$ composed of graph $G_k$ and at most $k$ blocked edges $E_*$ at the right of axis $\deltavert$ in graph $G_k$. Indeed, blocking edges left to $\deltavert$ affects negligibly the total distance traversed by a traveller. Let us suppose that he traverses graph $G_k$ and has already discovered some blocked edges $E' \subseteq E_*$. He tries now to reach $t$ on graph $G_k\backslash E'$, ignoring that the undiscovered blocked edges are $E_*' = E_* \backslash E'$.
-We note $\mcalg_k$ the set of all the subgraphs of $G_k$ with discovered edges right to axis $\deltavert$. We call them \textit{diamond graphs} because of their appearance, diamonds joined together. Formally, we set $\mcalg = \bigcup_{k=1}^{+\infty} \mcalg_k ~\mbox{with}~
-\mcalg_k = \set{G_k\backslash E' : \card{E'} \leq k}$. For any graph $G \in \mcalg$, we partition its edges, noted $E_G$, in two sets $\eleft{G}$ (left to axis $\deltavert$) and $\eright{G}$ (right to axis $\deltavert$). Road maps $\left(G,E_*\right)$ composing road atlases $\mcalr_k$ are composed of graphs in $\mcalg$. 
+We focus on the behavior of a traveller traversing road maps $\left(G_k,E_*\right)$ composed of graph $G_k$ and at most $k$ blocked edges with an \mts . Blocked edges in $E_*$ are at the right of axis $\deltavert$. Indeed, blocking edges left to $\deltavert$ affects negligibly the total distance traversed by a traveller. Let us suppose that he traverses graph $G_k$ and has already discovered some blocked edges $E' \subseteq E_*$. He tries now to reach $t$ on graph $G_k\backslash E'$, ignoring that the undiscovered blocked edges are $E_*' = E_* \backslash E'$. From the memoryless point of view, the graph considered at this step is $G_k\backslash E'$, without taking past moves into account. Even if road map $\left(G_k,E_*\right)$ is the instance, an \mts ~might take decisions in function of graphs $G_k\backslash E'$, where $E' \subseteq E_*$.
+We note $\mcalg$ the set of all the subgraphs of $G_k$, {\em i.e.} graphs $G_k\backslash E'$ with at most $k$ edges $E'$ right to $\deltavert$, for any integer $k \geq 1$. We call them \textit{diamond graphs} because of their appearance, diamonds joined together. Formally, we set $\mcalg = \bigcup_{k=1}^{+\infty} \set{G_k\backslash E' : \card{E'} \leq k}$. For any graph $G \in \mcalg$, we partition its edges, noted $E_G$, in two sets $\eleft{G}$ (left to axis $\deltavert$) and $\eright{G}$ (right to axis $\deltavert$). Road maps $\left(G,E_*\right)$ composing road atlases $\mcalr_k$ contain graphs in $\mcalg$. 
 
 \begin{figure}[h]
 \centering
@@ -250,7 +249,7 @@ We note $\mcalg_k$ the set of all the subgraphs of $G_k$ with discovered edges r
 %\]
 
 %\subsection{Diamond binary trees} \label{subsec:dbt}
-To any diamond graph $G$ of $\mcalg$, we associate a \textit{diamond binary tree} (\ebt ) noted $T_G$ which represents all \textit{branching nodes} (notion defined below) from $t$ in graph $G$. We note $T_\varnothing$ the empty tree. Any nonempty tree is a triplet $(v, T_a, T_b)$ with a root $v \in V$ and two subtrees $T_a$ and $T_b$.
+To any diamond graph $G$ of $\mcalg$, we associate a \textit{diamond binary tree} (\ebt ) noted $T_G$ which represents all \textit{branching nodes} from $t$ in graph $G$. The \ebt ~is obtained thanks to a breadth-first search (BFS) from $t$ in direction of nodes on axis $\deltavert$. Node $t$ is the root of the \ebt . Graphically, each node from which there is a \textit{branching node}, {\em i.e.} there are two possible directions for the next move of the BFS, provides two extra edges in the tree (see nodes $t$, $v_1$, $v_2$ and $v_3$ in Figure~\ref{subfig:ebt_2}). We note $T_\varnothing$ the empty tree. Any nonempty tree is a triplet $(v, T_a, T_b)$ with a root $v \in V$ and two subtrees $T_a$ and $T_b$. Figures~\ref{subfig:ebt_1},~\ref{subfig:ebt_2} and~\ref{subfig:ebt_3} illustrate the construction of the \ebt . 
 
 \begin{figure}[h]
 \centering
@@ -278,15 +277,15 @@ To any diamond graph $G$ of $\mcalg$, we associate a \textit{diamond binary tree
 \label{fig:ebt}
 \end{figure}
 
-The \ebt ~is obtained thanks to a breadth-first search (BFS) from $t$ in direction of nodes on axis $\deltavert$. Node $t$ is the root of the \ebt . Graphically, each node from which there is a \textit{branching node}, {\em i.e.} there are two possible directions for the next move of the BFS, provides two extra edges in the tree (see nodes $t$, $v_1$, $v_2$ and $v_3$ in Figure~\ref{subfig:ebt_2}). Figures~\ref{subfig:ebt_1},~\ref{subfig:ebt_2} and~\ref{subfig:ebt_3} illustrate the construction of the \ebt . To put the definition of \ebt s formally, let $\bfs\left(v\right)$ denote the set of nodes visited just after node $v$ in the BFS starting from $t$. For example, $v_1 \in \bfs\left(t\right)$ and $v_3 \in \bfs\left(v_1\right)$. We force this BFS to stop on axis $\deltavert$ such that $v \in \deltavert \Rightarrow \bfs\left(v\right) = \emptyset$. We define below function $\bintree$ which gives the construction of tree $T_G$ fulfilling $\bintree \left(t\right) = T_G$.
+To put the definition of \ebt s formally, let $\bfs\left(v\right)$ denote the set of nodes visited just after node $v$ in the BFS starting from $t$. For example, $v_1 \in \bfs\left(t\right)$ and $v_3 \in \bfs\left(v_1\right)$. We force this BFS to stop on axis $\deltavert$ such that $v \in \deltavert \Rightarrow \bfs\left(v\right) = \emptyset$. We define below function $\bintree$ which gives the construction of tree $T_G$ fulfilling $\bintree \left(t\right) = T_G$.
 %\command \bfs pour les equations
 \[
 \bintree\left(v\right) = 
 \left\{
 \begin{array}{l}
-T_\varnothing ~\mbox{if}~ \bfs(v) = \emptyset\\
-\bintree\left(v_{\mbox{\scriptsize{next}}}\right)  ~\mbox{if}~ \bfs(v) = \set{v_{\mbox{\scriptsize{next}}}}\\
-\left(v, \bintree(v_{\mbox{\scriptsize{up}}}), \bintree( v_{\mbox{\scriptsize{down}}})\right) ~\mbox{if}~ \bfs(v) = \set{v_{\mbox{\scriptsize{up}}},v_{\mbox{\scriptsize{down}}}}
+T_\varnothing ~\mbox{if}~ \bfs(v) = \emptyset,\\
+\bintree\left(v_{\mbox{\scriptsize{next}}}\right)  ~\mbox{if}~ \bfs(v) = \set{v_{\mbox{\scriptsize{next}}}},\\
+\left(v, \bintree(v_{\mbox{\scriptsize{up}}}), \bintree( v_{\mbox{\scriptsize{down}}})\right) ~\mbox{if}~ \bfs(v) = \set{v_{\mbox{\scriptsize{up}}},v_{\mbox{\scriptsize{down}}}}.
 \end{array}
 \right.
 \]
@@ -309,15 +308,15 @@ T_\varnothing ~\mbox{if}~ \bfs(v) = \emptyset\\
 %Given an edge in a binary tree, we will note $A(e)$ the child edge from above and $B(e)$ the child edge from below. We also note $C(e)$ the set of all the descendants of $e$. Formally, $C(e) = C(A(e)) \cup C(B(e)) \cup \set{A(e), B(e)}$. Finally, we note $P(e)$ the parent edge of $e$ : $P(e) = e' \Leftrightarrow e = A(e') \mbox{ or } e = B(e')$.
 
 %%%%%%%%Commande \dmin pour Dmin
-We introduce notations which characterize some elements in an \ebt . For any edge $e$ in \ebt ~$T$, we note $P(e)$ the parent edge of $e$. Let $U(e)$ denote the ``uncle'' of edge $e$, which has the same parent than $P(e)$. Put formally, $U(e) = \set{e' \in T : P(e') = P\left(P(e)\right) = P^2(e)}$. For any \ebt ~$T$, we define recursively a set of edges $E_T(l)$ which is the set of edges with depth $l$. Set $E_T(0)$ represents the edges connected to the root $t$ and $E_T(l) = \set{e : P(e) \in E_T(l-1)}$. We note $\dmin(T)$ the minimum depth among the leaves of $T$. For example, for \ebt ~$T_G$ of Figure~\ref{subfig:ebt_3}, $\dmin(T_G) = 2$. Finally, we set road atlases $\mcalr_k$ in Definition~\ref{def:roadatlas}.
+We introduce notations which characterize some elements in an \ebt . For any edge $e$ in \ebt ~$T$, we note $P(e)$ the parent edge of $e$. Let $U(e)$ denote the ``uncle'' of edge $e$, which has the same parent than $P(e)$. Put formally, $U(e) = \set{e' \in T : P(e') = P\left(P(e)\right) = P^2(e)}$. For any \ebt ~$T$, we define recursively a set of edges $E_T(l)$ which is the set of edges with depth $l$. Set $E_T(0)$ represents the edges connected to the root $t$ and $E_T(l) = \set{e : P(e) \in E_T(l-1)}$. We note $\dmin(T)$ the minimum depth among the leaves of $T$. For example, for \ebt ~$T_G$ of Figure~\ref{subfig:ebt_3}, $\dmin(T_G) = 2$ as the depth of leaves in $T_G$ is 2 or 3. Finally, we set road atlases $\mcalr_k$ in Definition~\ref{def:roadatlas}.
 
 \begin{definition}[Road atlas $\mcalr_k$ based on sets of graphs $\mcald_k$]
-Road atlas $\mcalr$ is composed of road maps $\left(G,E_*\right)$ where $\card{E_*} = k$ and $G \in \mcalg$ with an \ebt ~fulfulling $\dmin\left(T_G\right) \geq k$. Formally, we define set $\mcald_k = \set{G \in \mcalg : \dmin(T_G) \geq k}$ and road atlas $\mcalr_k$ on which we study the competitiveness of \mts es,
+Road atlas $\mcalr_k$ is composed of road maps $\left(G,E_*\right)$ where $\card{E_*} = k$ and $G \in \mcalg$ with a \ebt ~fulfulling $\dmin\left(T_G\right) \geq k$. Formally, we define set $\mcald_k = \set{G \in \mcalg : \dmin(T_G) \geq k}$ and road atlas $\mcalr_k$ on which we study the competitiveness of \mts es,
 \label{def:roadatlas}
 \end{definition}
 \[
 %\mcalr = \bigcup\limits_{k=1}^{+\infty} \mcalr_k ~\mbox{with}~
-\mcalr_k = \set{\left(G ,E_*\right): G \in \mcald_k, \card{E_*} = k}
+\mcalr_k = \set{\left(G ,E_*\right): G \in \mcald_k, \card{E_*} = k}.
 \]
 \section{Competitiveness of randomized \mts es} \label{sec:competitiveness}
 
@@ -373,7 +372,7 @@ $\mcald_{k-1}$.
 \caption{The \ebt ~$T_{G \backslash \set{e}}$. Nodes of depth 0 to 1 are framed. Graph $G\backslash \set{e}$ belongs to $\mcald_1$.}
 \label{subfig:proofth1_c}
 \end{subfigure}
-\caption{Illustrating the proof of Theorem~\ref{th:completebinary} on a graph of $\mcalg_3$.}
+\caption{Illustrating the proof of Theorem~\ref{th:completebinary} on a subgraph of $G_3$.}
 \label{fig:proofth1}
 \end{figure}
 
@@ -437,7 +436,9 @@ As $\sum_{j=0}^{+\infty}\cfrac{c_j+1}{2^{j+1}}$ is finite, $c_k = 2k + O(1)$. We
 
 We studied the competitiveness of the \mts es for the \kctp. An \mts ~is a strategy which does not make decisions referring to the anterior moves of the traveller, in other words, the nodes the traveller visited until his current position.
 
-Then, we constructed a series of \kctp ~instances, called road atlases and noted $\mcalr_k$. Identifying an efficient randomized \mts{}es becomes harder when $k$ tends to infinity. We foremost concluded that a randomized  \mts ~cannot reach a ratio more competitive than $2k+\mathcal{O}\left(1\right)$ on road atlas $\mcalr_k$. That is to say that we identified an upper bound on the competitive ratio of randomized \mts{}es which is significantly higher than the existing one $k+1$. In future research, if we aim at designing a strategy with competitive ratio $\alpha k + O\left(1\right)$, $\alpha < 2$, we shall focus on strategies which not only are randomized but also use memory.
+Then, we constructed a series of \kctp ~instances, called road atlases and noted $\mcalr_k$. 
+%Identifying an efficient randomized \mts{}es becomes harder when $k$ tends to infinity. 
+We foremost concluded that a randomized  \mts ~cannot reach a ratio more competitive than $2k+\mathcal{O}\left(1\right)$ on road atlas $\mcalr_k$. That is to say that we identified an upper bound on the competitive ratio of randomized \mts{}es which is significantly higher than the existing one $k+1$. In future research, if we aim at designing a strategy with competitive ratio $\alpha k + O\left(1\right)$, $\alpha < 2$, we shall focus on strategies which not only are randomized but also use memory.
 
 \bibliographystyle{plain}
 \bibliography{mctp}
