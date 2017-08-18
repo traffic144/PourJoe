@@ -277,7 +277,7 @@ To any diamond graph $G$ of $\mcalg$, we associate a \textit{diamond binary tree
 \label{fig:ebt}
 \end{figure}
 
-To put the definition of \ebt s formally, let $\bfs\left(v\right)$ denote the set of nodes visited just after node $v$ in the BFS starting from $t$. For example, $v_1 \in \bfs\left(t\right)$ and $v_3 \in \bfs\left(v_1\right)$. We force this BFS to stop on axis $\deltavert$ such that $v \in \deltavert \Rightarrow \bfs\left(v\right) = \emptyset$. We define below function $\bintree$ which gives the construction of tree $T_G$ fulfilling $\bintree \left(t\right) = T_G$.
+To put the definition of \ebt s formally, let $\bfs\left(v\right)$ denote the set of nodes visited just after node $v$ in the BFS starting from $t$. For example, $\bfs\left(t\right) = \set{v_1,v_2}$, $v_3 \in \bfs\left(v_1\right)$ and $\bfs\left(v_2\right) = \set{v_4}$. We force this BFS to stop on axis $\deltavert$ such that $v \in \deltavert \Rightarrow \bfs\left(v\right) = \emptyset$. We define below function $\bintree$ which gives the construction of tree $T_G$ fulfilling $\bintree \left(t\right) = T_G$.
 %\command \bfs pour les equations
 \[
 \bintree\left(v\right) = 
@@ -308,9 +308,9 @@ T_\varnothing ~\mbox{if}~ \bfs(v) = \emptyset,\\
 %Given an edge in a binary tree, we will note $A(e)$ the child edge from above and $B(e)$ the child edge from below. We also note $C(e)$ the set of all the descendants of $e$. Formally, $C(e) = C(A(e)) \cup C(B(e)) \cup \set{A(e), B(e)}$. Finally, we note $P(e)$ the parent edge of $e$ : $P(e) = e' \Leftrightarrow e = A(e') \mbox{ or } e = B(e')$.
 
 %%%%%%%%Commande \dmin pour Dmin
-We introduce notations which characterize some elements in an \ebt . For any edge $e$ in \ebt ~$T$, we note $P(e)$ the parent edge of $e$. Let $U(e)$ denote the ``uncle'' of edge $e$, which has the same parent than $P(e)$. Put formally, $U(e) = \set{e' \in T : P(e') = P\left(P(e)\right) = P^2(e)}$. For any \ebt ~$T$, we define recursively a set of edges $E_T(l)$ which is the set of edges with depth $l$. Set $E_T(0)$ represents the edges connected to the root $t$ and $E_T(l) = \set{e : P(e) \in E_T(l-1)}$. We note $\dmin(T)$ the minimum depth among the leaves of $T$. For example, for \ebt ~$T_G$ of Figure~\ref{subfig:ebt_3}, $\dmin(T_G) = 2$ as the depth of leaves in $T_G$ is 2 or 3. Finally, we set road atlases $\mcalr_k$ in Definition~\ref{def:roadatlas}.
+We introduce notations which characterize a \ebt . For any edge $e=\left(u,v\right)$ in \ebt ~$T$ where the depth of $u$ is larger than those of $v$, we note $P(e)=\left(v,w\right)$ the ``mother'' edge of $e$ where the depth of $v$ is larger than the depth of $w$. We note $\dmin(T)$ the minimum depth among the leaves of $T$. For example, for \ebt ~$T_G$ of Figure~\ref{subfig:ebt_3}, $\dmin(T_G) = 2$ as the depth of leaves in $T_G$ is 2 or 3. Finally, we set road atlases $\mcalr_k$ in Definition~\ref{def:roadatlas}.
 
-\begin{definition}[Road atlas $\mcalr_k$ based on sets of graphs $\mcald_k$]
+\begin{definition}[Road atlas $\mcalr_k$ based on $\mcald_k$]
 Road atlas $\mcalr_k$ is composed of road maps $\left(G,E_*\right)$ where $\card{E_*} = k$ and $G \in \mcalg$ with a \ebt ~fulfulling $\dmin\left(T_G\right) \geq k$. Formally, we define set $\mcald_k = \set{G \in \mcalg : \dmin(T_G) \geq k}$ and road atlas $\mcalr_k$ on which we study the competitiveness of \mts es,
 \label{def:roadatlas}
 \end{definition}
@@ -318,6 +318,11 @@ Road atlas $\mcalr_k$ is composed of road maps $\left(G,E_*\right)$ where $\card
 %\mcalr = \bigcup\limits_{k=1}^{+\infty} \mcalr_k ~\mbox{with}~
 \mcalr_k = \set{\left(G ,E_*\right): G \in \mcald_k, \card{E_*} = k}.
 \]
+
+Let $U(e)$ denote the ``aunt'' of edge $e$, which has the same parent than $P(e)$. Put formally, $U(e) = \set{e' \in T : P(e') = P\left(P(e)\right) = P^2(e)}$. 
+%For any \ebt ~$T$, we define recursively a set of edges $E_T(l)$ which is the set of edges with depth $l$. Set $E_T(0)$ represents the edges connected to the root $t$ and $E_T(l) = \set{e : P(e) \in E_T(l-1)}$. 
+This notation is used in Section~\ref{sec:competitiveness}.
+
 \section{Competitiveness of randomized \mts es} \label{sec:competitiveness}
 
 We study the competitiveness of a randomized \mts ~for each road atlas $\mcalr_k$. We establish properties on \ebt s $T_G$ to understand the behavior of \mts es on graphs $G \in \mcalg$. Theorem~\ref{th:completebinary} states that cutting one edge from $G \in \mcald_k$ results on a graph in $G \in \mcald_{k-1}$.
