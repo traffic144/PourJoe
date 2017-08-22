@@ -84,9 +84,9 @@
 \newcommand{\cmsr}{c_{\mbox{\scriptsize{MS}}, \mathcal{R}}}
 \newcommand{\bintree}{\textsc{bin-tree}}
 \newcommand{\ebt}{DBT}
-\newcommand{\bfs}{\textsc{bfs}}
+\newcommand{\dfs}{L}
 \newcommand{\compbin}[1]{\mathcal{C}_{\mbox{\scriptsize{B}}}\left( #1 \right)}
-\newcommand{\dmin}{D_{\mbox{\scriptsize{min}}}}
+\newcommand{\dmin}{d_{\mbox{\scriptsize{min}}}}
 \newcommand{\eleft}[1]{E_{#1, \mbox{\scriptsize{left}}}}
 \newcommand{\eright}[1]{E_{#1, \mbox{\scriptsize{right}}}}
 
@@ -249,43 +249,45 @@ We note $\mcalg$ the set of all the subgraphs of $G_i$, {\em i.e.} graphs $G_i\b
 %\]
 
 %\subsection{Diamond binary trees} \label{subsec:dbt}
-To any diamond graph $G$ of $\mcalg$, we associate a \textit{diamond binary tree} (\ebt ) noted $T_G$ which highlights all \textit{branching nodes} from $t$ in graph $G$. The \ebt ~is obtained thanks to a breadth-first search (BFS) from $t$ in direction of nodes on axis $\deltavert$. Graphically, each node from which there is a \textit{branching node}, {\em i.e.} there are two possible directions for the next move of the BFS, provides two extra edges in the tree (see nodes $t$, $v_1$, $v_3$ in Figure~\ref{subfig:ebt_2}). Any node of a \ebt ~is merged with its parent if he has an unique son. We note $T_\varnothing$ the empty tree. Any nonempty tree is a triplet $(v, T_a, T_b)$ with a root $v \in V$ and two subtrees $T_a$ and $T_b$. Figures~\ref{subfig:ebt_1},~\ref{subfig:ebt_2} and~\ref{subfig:ebt_3} illustrate the construction of the \ebt . 
+To any diamond graph $G$ of $\mcalg$, we associate a \textit{diamond binary tree} (\ebt ) noted $T_G$. Tree $T_G$ is obtained from the “right half” of graph $G$ (on the right side of axis $\deltavert$) by successive contractions of edges. Indeed, any node with a single son is merged with its ancestor (see node $v_2$ in Figure~\ref{subfig:ebt_2}). 
+%Any node of a \ebt ~is merged with its parent if he has an unique son. 
+We note $T_\varnothing$ the empty tree. Any nonempty tree is a triplet $(v, T_a, T_b)$ with a root $v \in V$ and two trees $T_a$ and $T_b$. Figures~\ref{subfig:ebt_2} and~\ref{subfig:ebt_3} illustrate the construction of the \ebt . 
 
 \begin{figure}[h]
 \centering
-\begin{subfigure}[b]{0.33\columnwidth}
-\centering
-\scalebox{.42}{\input{graphics/ebt_1}}
-\caption{Graph $G \in \mcalg_3$}
-\label{subfig:ebt_1}
-\end{subfigure}
+%\begin{subfigure}[b]{0.33\columnwidth}
+%\centering
+%\scalebox{.42}{\input{graphics/ebt_1}}
+%\caption{Graph $G \in \mcalg_3$}
+%\label{subfig:ebt_1}
+%\end{subfigure}
 ~
-\begin{subfigure}[b]{0.33\columnwidth}
+\begin{subfigure}[b]{0.46\columnwidth}
 \centering
 \scalebox{.42}{\input{graphics/ebt_2}}
-\caption{Branching nodes in $G$}
+\caption{Graph $G \in \mcalg$, subgraph of $G_3$.}
 \label{subfig:ebt_2}
 \end{subfigure}
 ~
-\begin{subfigure}[b]{0.28\columnwidth}
+\begin{subfigure}[b]{0.46\columnwidth}
 \centering
 \scalebox{.58}{\input{graphics/ebt_3}}
 \caption{The \ebt ~$T_G$}
 \label{subfig:ebt_3}
 \end{subfigure}
-\caption{An example of graph $G \in \mcalg_3$ and its \ebt ~$T_G$.}
+\caption{An example of graph $G \in \mcalg$ and its \ebt ~$T_G$.}
 \label{fig:ebt}
 \end{figure}
 
-To put the definition of \ebt s formally, let $\bfs\left(v\right)$ denote the set of nodes visited just after node $v$ in the BFS starting from $t$. For example, $\bfs\left(t\right) = \set{v_1,v_2}$, $v_3 \in \bfs\left(v_1\right)$ and $\bfs\left(v_2\right) = \set{v_4}$. We force this BFS to stop on axis $\deltavert$ such that $v \in \deltavert \Rightarrow \bfs\left(v\right) = \emptyset$. We define below function $\bintree$ which gives the construction of tree $T_G$ fulfilling $\bintree \left(t\right) = T_G$.
-%\command \bfs pour les equations
+To put the definition of \ebt s formally, let $\dfs\left(v\right)$ denote the set of neighbors of node $v$ graphically left to $v$. For graph $G$ of Figure~\ref{subfig:ebt_2}, $\dfs\left(t\right) = \set{v_1,v_2}$, $v_3 \in \dfs\left(v_1\right)$ and $\dfs\left(v_2\right) = \set{v_4}$. We force function $\dfs$ not be applied left to $\deltavert$, so $v \in \deltavert \Rightarrow \dfs\left(v\right) = \emptyset$. We define below function $\bintree$ which gives the construction of tree $T_G$ fulfilling $\bintree \left(t\right) = T_G$.
+%\command \dfs pour les equations
 \[
 \bintree\left(v\right) = 
 \left\{
 \begin{array}{l}
-T_\varnothing ~\mbox{if}~ \bfs(v) = \emptyset,\\
-\bintree\left(v_{\mbox{\scriptsize{next}}}\right)  ~\mbox{if}~ \bfs(v) = \set{v_{\mbox{\scriptsize{next}}}},\\
-\left(v, \bintree(v_{\mbox{\scriptsize{up}}}), \bintree( v_{\mbox{\scriptsize{down}}})\right) ~\mbox{if}~ \bfs(v) = \set{v_{\mbox{\scriptsize{up}}},v_{\mbox{\scriptsize{down}}}}.
+T_\varnothing ~\mbox{if}~ \dfs(v) = \emptyset,\\
+\bintree\left(v_{\mbox{\scriptsize{next}}}\right)  ~\mbox{if}~ \dfs(v) = \set{v_{\mbox{\scriptsize{next}}}},\\
+\left(v, \bintree(v_{\mbox{\scriptsize{up}}}), \bintree( v_{\mbox{\scriptsize{down}}})\right) ~\mbox{if}~ \dfs(v) = \set{v_{\mbox{\scriptsize{up}}},v_{\mbox{\scriptsize{down}}}}.
 \end{array}
 \right.
 \]
@@ -308,24 +310,37 @@ T_\varnothing ~\mbox{if}~ \bfs(v) = \emptyset,\\
 %Given an edge in a binary tree, we will note $A(e)$ the child edge from above and $B(e)$ the child edge from below. We also note $C(e)$ the set of all the descendants of $e$. Formally, $C(e) = C(A(e)) \cup C(B(e)) \cup \set{A(e), B(e)}$. Finally, we note $P(e)$ the parent edge of $e$ : $P(e) = e' \Leftrightarrow e = A(e') \mbox{ or } e = B(e')$.
 
 %%%%%%%%Commande \dmin pour Dmin
-We introduce notations which characterize a \ebt . For any edge $e=\left(u,v\right)$ in \ebt ~$T$ where the depth of $u$ is larger than those of $v$, we note $P(e)=\left(v,w\right)$ the ``mother'' edge of $e$ where the depth of $v$ is larger than the depth of $w$. We note $\dmin(T)$ the minimum depth among the leaves of $T$. For example, for \ebt ~$T_G$ of Figure~\ref{subfig:ebt_3}, $\dmin(T_G) = 2$ as the depth of leaves in $T_G$ is 2 or 3. Finally, we set road atlases $\mcalr_k$ in Definition~\ref{def:roadatlas}.
+We introduce notations which characterize nodes of a \ebt . 
+The depth of a node $v$ in a \ebt ~$T$, noted $d(v)$, is equal to the number of edges separating it from the root.
+%For any edge $e=\left(u,v\right)$ in \ebt ~$T$ where the depth of $u$ is larger than those of $v$, we note $P(e)=\left(v,w\right)$ the ``mother'' edge of $e$ where the depth of $v$ is larger than the depth of $w$. 
+We note $\dmin(T)$ the minimum depth among the leaves of $T$. For example, for \ebt ~$T_G$ of Figure~\ref{subfig:ebt_3}, $\dmin(T_G) = 2$. 
 
-\begin{definition}[Road atlas $\mcalr_k$ based on $\mcald_k$]
-Road atlas $\mcalr_k$ is composed of road maps $\left(G,E_*\right)$ where $\card{E_*} = k$ and $G \in \mcalg$ with a \ebt ~fulfulling $\dmin\left(T_G\right) \geq k$. Formally, we define set $\mcald_k = \set{G \in \mcalg : \dmin(T_G) \geq k}$ and road atlas $\mcalr_k$ on which we study the competitiveness of \mts es,
+\begin{definition}[Sets $\mcald_k$]
+Set $\mcald_k$ contain graphs of $\mcalg$ such that their \ebt ~$T_G$ fulfils $\dmin\left(T_G\right) \geq k$. Put formally, $\mcald_k = \set{G \in \mcalg : \dmin(T_G) \geq k}$. 
+\end{definition}
+
+Finally, we set road atlases $\mcalr_k$ in Definition~\ref{def:roadatlas}.
+
+\begin{definition}[Road atlas $\mcalr_k$]
+Road atlas $\mcalr_k$ is composed of road maps $\left(G,E_*\right)$ where $\card{E_*} = k$ and $G \in \mcald_k$. Formally, $\mcalr_k = \set{\left(G ,E_*\right): G \in \mcald_k, \card{E_*} = k}$.
 \label{def:roadatlas}
 \end{definition}
-\[
+%\[
 %\mcalr = \bigcup\limits_{k=1}^{+\infty} \mcalr_k ~\mbox{with}~
-\mcalr_k = \set{\left(G ,E_*\right): G \in \mcald_k, \card{E_*} = k}.
-\]
+%\mcalr_k = \set{\left(G ,E_*\right): G \in \mcald_k, \card{E_*} = k}.
+%\]
 
-Let $U(e)$ denote the ``aunt'' of edge $e$, which has the same parent than $P(e)$. Put formally, $U(e) = \set{e' \in T : P(e') = P\left(P(e)\right) = P^2(e)}$. 
+%Let $U(e)$ denote the ``aunt'' of edge $e$, which has the same parent than $P(e)$. Put formally, $U(e) = \set{e' \in T : P(e') = P\left(P(e)\right) = P^2(e)}$. 
 %For any \ebt ~$T$, we define recursively a set of edges $E_T(l)$ which is the set of edges with depth $l$. Set $E_T(0)$ represents the edges connected to the root $t$ and $E_T(l) = \set{e : P(e) \in E_T(l-1)}$. 
-This notation is used in Section~\ref{sec:competitiveness}.
+%This notation is used in Section~\ref{sec:competitiveness}.
 
 \section{Competitiveness of randomized \mts es} \label{sec:competitiveness}
 
-We study the competitiveness of a randomized \mts ~for each road atlas $\mcalr_k$. We establish properties on \ebt s $T_G$ to understand the behavior of \mts es on graphs $G \in \mcalg$. Theorem~\ref{th:completebinary} states that cutting one edge from $G \in \mcald_k$ results on a graph in $G \in \mcald_{k-1}$.
+We study the competitiveness of a randomized \mts ~for road atlases $\mcalr_k$. We establish properties on \ebt s $T_G$ to understand the behavior of \mts es on them. 
+
+The following notation characterize edges in an \ebt . The depth of an edge $(u,v)$, $D(u,v)$, is defined as $D(u,v) = \min \set{d(u),d(v)}$. Edge $e'$ is the mother of edge $e$ if $e \cap e' \neq \emptyset$ and $D(e') = D(e) - 1$, putting it shortly $e' = P(e)$. Edge $e^*$ is the aunt of edge $e$ if $e^* \cap P(e) \neq \emptyset$ and $D\left(P(e)\right) = D(e^*)$. We indicate this fact as $e^* = U(e)$. Observe that the aunt of $e$ and its mother share the same ancestor which may be written formally as $U(e) = \set{e' \in T: P(e') = P(P(e)) = P^2(e)}$.
+
+Theorem~\ref{th:completebinary} states that cutting one edge from $G \in \mcald_k$ results on a graph $G \backslash \set{e} \in \mcald_{k-1}$.
 
 %%%%%%%%%commande \eright{G} pour dire que l'arete est à droite de deltavert
 \begin{theorem}
