@@ -1,6 +1,9 @@
 *.aux
 *.bbl
 *.blg
+*.bst
+*.dtx
+*.ins
 *.log
 *.pyc
 *.spl

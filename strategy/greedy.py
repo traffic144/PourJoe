@@ -6,6 +6,7 @@ class Greedy(Strategy):
 
 	def __init__(self, g):
 		Strategy.__init__(self, g)
+		self.title = "Greedy"
 
 	def shortestPath(self):
 		m = np.full(self.g.n, True, dtype=bool)

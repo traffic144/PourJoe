@@ -17,21 +17,19 @@ class DoubleWestphal(Graph):
 			self.addEdge(m1+2+i, m1+m2+2, 0)
 		self.setSource(0)
 		self.setSink(m1+m2+2)
+		self.title = r'Double Westphal graph ($m_1 = ' + str(m1) + r'$, $m_2 = ' + str(m2) + r'$)'
 
 	def getBlockedEdges(self, k):
-		l = randint(max(0, k-(self.m2-1)), min(self.m1-1, k))
-		n1 = [i for i in range(self.m1)]
-		b1 = []
-		for j in range(l):
-			a = randint(0, self.m1-j-1)
-			b1.append(n1[a])
-			del(n1[a])
-		blockedLeft = [(b1[i]+1, self.m1+1) for i in range(l)]
-		n2 = [i for i in range(self.m2)]
-		b2 = []
-		for j in range(k-l):
-			a = randint(0, self.m2-j-1)
-			b2.append(n2[a])
-			del(n2[a])
-		blockedRight = [(self.m1+2+b2[i], self.m1+self.m2+2) for i in range(k-l)]
-		return blockedLeft + blockedRight
+		n = [i for i in range(self.m1+self.m2-2)]
+		b = []
+		for j in range(k):
+			a = randint(0, self.m1+self.m2-j-3)
+			b.append(n[a])
+			del(n[a])
+		blocked = []
+		for i in b:
+			if i < self.m1-1:
+				blocked.append((i+1, self.m1+1))
+			else:
+				blocked.append((i+3, self.m1+self.m2+2))
+		return blocked

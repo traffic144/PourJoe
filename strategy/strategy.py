@@ -8,6 +8,10 @@ class Strategy:
 	def __init__(self, g):
 		self.initialGraph = g
 		self.reset()
+		self.title = ""
+
+	def getTitle(self):
+		return self.title
 
 	def reset(self):
 		self.g = copy.deepcopy(self.initialGraph)
@@ -18,6 +22,7 @@ class Strategy:
 	def setBlockedEdges(self, i, j):
 		self.blocked[i].append(j)
 		self.blocked[j].append(i)
+		self.discoverEdges(self.g.s)
 
 	def discoverEdges(self, v):
 		for j in self.blocked[v]:

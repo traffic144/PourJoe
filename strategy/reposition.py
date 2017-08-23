@@ -6,6 +6,7 @@ class Reposition(Strategy):
 
 	def __init__(self, g):
 		Strategy.__init__(self, g)
+		self.title = "Reposition"
 
 	def shortestPath(self):
 		m = np.full(self.g.n, True, dtype=bool)

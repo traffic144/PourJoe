@@ -17,7 +17,7 @@ class Grid(Graph):
 					self.addEdge(i, j, np.sqrt(dist))
 		self.setSource(d*(m+1) + d)
 		self.setSink((n-d)*(m+1) + (m-d))
-		self.initGraph()
+		self.title = r'Grid of size $' + str(n) + r'\times ' + str(m) + r'$'
 
 	def drawMap(self, k):
 		res = np.empty(self.n)

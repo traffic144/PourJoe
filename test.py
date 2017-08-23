@@ -1,4 +1,5 @@
 from drawer import *
+from drawer2 import *
 
 from graph.grid import Grid
 from graph.doubleWestphal import DoubleWestphal
@@ -6,6 +7,7 @@ from graph.erdosRenyi import ErdosRenyi
 from graph.waxman import Waxman
 from graph.delaunay import Delaunay
 
+from strategy.strategy import Strategy
 from strategy.reposition import Reposition
 from strategy.greedy import Greedy
 
@@ -149,107 +151,69 @@ def delaunayRandomTest(n1, n2, step, nbTest, k):
 	title = r'Evolution of $\gamma$ for Delaunay graphs with $k = ' + str(k) + r'$'
 	printCourb("delaunay", [nVal, nVal, nVal], [y, yu, yb], ["Mean Value", "CI+", "CI-"], 3, r'$n$', r'$\gamma$', title)
 
-def doubleWestphalTestReposition(m1, m2, nbTest):
-	kVal = np.arange(1, m1 + m2 - 1, dtype=int)
-	y = np.empty(kVal.size)
-	yu = np.empty(kVal.size)
-	yb = np.empty(kVal.size)
-	g = DoubleWestphal(m1, m2, 0.5)
-	s = Reposition(g)
-	for n in range(kVal.size):
-		k = kVal[n]
-		tab = []
+def compareStrategies(strategiesClass, graph, n, k1, k2, dk, nbTest):
+	strategies = [s(graph) for s in strategiesClass]
+	kVal = np.arange(k1, k2+1, dk, dtype=int)
+	y = [[[] for _ in range(kVal.size)] for _ in range(n)]
+	for l in range(kVal.size):
+		k = kVal[l]
 		t1 = time.clock()
 		for j in range(nbTest):
-			s.reset()
-			blocked = g.getBlockedEdges(k)
-			for i in range(k):
-				s.setBlockedEdges(blocked[i][0], blocked[i][1])
-			s.simulation()
-			r = s.calculRatio()
-			tab.append(r)
-		m = np.mean(tab)
-		t = interval95(tab, len(tab), m)
-		y[n] = m
-		yu[n] = m + t
-		yb[n] = m - t
+			blocked = graph.getBlockedEdges(k)
+			for i in range(n):
+				strategies[i].reset()
+				for a in range(k):
+					strategies[i].setBlockedEdges(blocked[a][0], blocked[a][1])
+				strategies[i].simulation()
+				ratio = strategies[i].calculRatio()
+				y[i][l].append(ratio)
 		t2 = time.clock()
-		print(str(kVal[n]) + " : " + str(t2-t1))
-	ladder = [2*k+1 for k in kVal]
-	title = r'Evolution of the reposition competitive ratio for double Westphal graph ($m_1 = ' + str(m1) + r'$, $m_2 = ' + str(m2) + r'$)'
-	printCourb("strategy/reposition", [kVal, kVal, kVal, kVal], [y, yu, yb, ladder], ["Mean Value", "CI+", "CI-", "2k+1"], 4, r'$k$', r'$c$', title)
+		print(str(kVal[l]) + " : " + str(t2-t1))
+	d = Drawer()
+	for i in range(n):
+		d.addConfidenceCourb(kVal, np.array(y[i]), nbTest, strategies[i].getTitle())
+	d.addCourb(kVal, 2*kVal+1, r'$2k+1$')
+	d.addTitle(r'$k$', r'$c$', "Comparaison of competitive ratio for " + graph.getTitle())
+	d.save("strategy")
 
-def doubleWestphalTestGreedy(m1, m2, nbTest):
-	kVal = np.arange(1, m1 + m2 - 1, dtype=int)
-	y = np.empty(kVal.size)
-	yu = np.empty(kVal.size)
-	yb = np.empty(kVal.size)
-	g = DoubleWestphal(m1, m2, 0.5)
-	s = Greedy(g)
-	for n in range(kVal.size):
-		k = kVal[n]
-		tab = []
-		t1 = time.clock()
-		for j in range(nbTest):
-			s.reset()
-			blocked = g.getBlockedEdges(k)
-			for i in range(k):
-				s.setBlockedEdges(blocked[i][0], blocked[i][1])
-			s.simulation()
-			r = s.calculRatio()
-			tab.append(r)
-		m = np.mean(tab)
-		t = interval95(tab, len(tab), m)
-		y[n] = m
-		yu[n] = m + t
-		yb[n] = m - t
-		t2 = time.clock()
-		print(str(kVal[n]) + " : " + str(t2-t1))
-	ladder = [2*k+1 for k in kVal]
-	title = r'Evolution of the greedy competitive ratio for double Westphal graph ($m_1 = ' + str(m1) + r'$, $m_2 = ' + str(m2) + r'$)'
-	printCourb("strategy/greedy", [kVal, kVal, kVal, kVal], [y, yu, yb, ladder], ["Mean Value", "CI+", "CI-", "2k+1"], 4, r'$k$', r'$c$', title)
+def drawBlockedDelaunay(n, nb):
+	g = Delaunay(n)
+	s = Strategy(g)
+	d = Drawer()
+	d.addGraph(g.edges, g.x, g.y, g.n)
+	b, cx, cy = g.getBlockedEdges(nb)
+	for e in b:
+		s.setBlockedEdges(e[0], e[1])
+	d.addGraph(s.blocked, g.x, g.y, g.n, "#ff0000")
+	for i in range(nb):
+		d.addCircle(cx[i], cy[i], 5.0, "#0000ff")
+	d.save("delaunay")
 
-def doubleWestphalTestRepoGreedy(m1, m2, nbTest):
-	kVal = np.arange(1, m1 + m2 - 1, dtype=int)
-	yr = np.empty(kVal.size)
-	yg = np.empty(kVal.size)
-	g = DoubleWestphal(m1, m2, 0.5)
-	sr = Reposition(g)
-	sg = Greedy(g)
-	for n in range(kVal.size):
-		k = kVal[n]
-		tab1 = []
-		tab2 = []
+def getRatioStrategies(n, nb, nbGraph, nbTest):
+	rr = []
+	rg = []
+	for j in range(nbGraph):
 		t1 = time.clock()
-		for j in range(nbTest):
-			sg.reset()
+		g = Delaunay(n)
+		sr = Reposition(g)
+		sg = Greedy(g)
+		for _ in range(nbTest):
 			sr.reset()
-			blocked = g.getBlockedEdges(k)
-			for i in range(k):
-				sg.setBlockedEdges(blocked[i][0], blocked[i][1])
-				sr.setBlockedEdges(blocked[i][0], blocked[i][1])
-			sg.simulation()
+			sg.reset()
+			b, _, _ = g.getBlockedEdges(nb)
+			for e in b:
+				sr.setBlockedEdges(e[0], e[1])
+				sg.setBlockedEdges(e[0], e[1])
 			sr.simulation()
-			r1 = sg.calculRatio()
-			r2 = sr.calculRatio()
-			tab1.append(r1)
-			tab2.append(r2)
-		mean1 = np.mean(tab1)
-		mean2 = np.mean(tab2)
-		yg[n] = mean1
-		yr[n] = mean2
+			sg.simulation()
+			rr.append(sr.calculRatio())
+			rg.append(sg.calculRatio())
 		t2 = time.clock()
-		print(str(kVal[n]) + " : " + str(t2-t1))
-	ladder = [2*k+1 for k in kVal]
-	title = r'Comparaison of competitive ratio for double Westphal graph ($m_1 = ' + str(m1) + r'$, $m_2 = ' + str(m2) + r'$)'
-	printCourb("strategy", [kVal, kVal, kVal], [yr, yg, ladder], ["Reposition", "Greedy", "2k+1"], 3, r'$k$', r'$c$', title)
+		print(str(j) + " : " + str(t2-t1))
+	print("Reposition : " + str(np.mean(rr)) + " - " + str(1.96*np.std(rr)/np.sqrt(nbTest*nbGraph)))
+	print("Greedy : " + str(np.mean(rg)) + " - " + str(1.96*np.std(rg)/np.sqrt(nbTest*nbGraph)))
 
 
-def standardDeviation(tab, n, m):
-	return np.sqrt(np.sum(np.square(tab - m))/n)
-
-def interval95(tab, n, m):
-	return 1.96*standardDeviation(tab, n, m)/np.sqrt(n)
 
 def main():
 	#gammaDoubleWestphalFunctionOfK(12, 12, 6)
@@ -260,8 +224,9 @@ def main():
 	#waxmanConnected(20, 50, 2000)
 	#waxmanRandomTest(30, 200, 2, 200, 12)
 	#delaunayRandomTest(30, 200, 5, 200, 12)
-	doubleWestphalTestReposition(10, 10, 20000)
-	#doubleWestphalTestGreedy(10, 10, 20000)
-	#doubleWestphalTestRepoGreedy(10, 10, 10000)
+	#compareStrategies([Reposition, Greedy], DoubleWestphal(10, 10, 0.5), 2, 1, 18, 1, 1000)
+	getRatioStrategies(400, 20, 20, 100)
+	
+
 
 main()

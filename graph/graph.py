@@ -15,6 +15,9 @@ class Graph:
 		self.s = 0;
 		self.t = 0;
 
+	def getTitle(self):
+		return self.title
+
 	def addEdge(self, i, j, w):
 		self.edges[i].append(j)
 		self.edges[j].append(i)

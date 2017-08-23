@@ -7,13 +7,13 @@ class Delaunay(Graph):
 
 	def __init__(self, n):
 		Graph.__init__(self, n)
-		self.x = np.random.random(n)
-		self.y = np.random.random(n)
+		self.x = 100.0*np.random.random(n)
+		self.y = 100.0*np.random.random(n)
 
 		self.x[0] = 0.0
-		self.x[n-1] = 1.0
-		self.y[0] = 1.0
-		self.y[n-1] = 0.0
+		self.x[n-1] = 100.0
+		self.y[0] = 0.0
+		self.y[n-1] = 100.0
 
 		self.distance = np.empty((self.n, self.n))
 		self.getDistance()
@@ -32,8 +32,7 @@ class Delaunay(Graph):
 				self.addEdge(s3, s1, self.distance[s3, s1])
 		self.setSource(0)
 		self.setSink(n-1)
-		self.initGraph()
-
+		self.title = "Delaunay graphs"
 
 	def getDistance(self):
 		for i in range(self.n):
@@ -41,7 +40,21 @@ class Delaunay(Graph):
 			yi = self.y[i]
 			self.distance[i] = np.sqrt(np.square(self.x - xi) + np.square(self.y - yi))
 
-
+	def getBlockedEdges(self, n, r=5.0):
+		cx = (100.0-2*r)*np.random.random(n)+r
+		cy = (100.0-2*r)*np.random.random(n)+r
+		blockedPoint = []
+		for i in range(self.n):
+			for j in range(n):
+				if np.sqrt((cx[j]-self.x[i])**2 + (cy[j]-self.y[i])**2) < r:
+					blockedPoint.append(i)
+					break
+		blocked = []
+		for i in blockedPoint:
+			for j in self.edges[i]:
+				if not((j, i) in blocked):
+					blocked.append((i, j))
+		return blocked, cx, cy
 
 """Adapted code from Jose M. Espadero ( http://github.com/jmespadero/pyDelaunay2D )"""
 
