@@ -340,22 +340,23 @@ We study the competitiveness of a randomized \mts ~for road atlases $\mcalr_k$. 
 
 The following notation characterize edges in an \ebt . The depth of an edge $(u,v)$, $D(u,v)$, is defined as $D(u,v) = \min \set{d(u),d(v)}$. Edge $e'$ is the mother of edge $e$ if $e \cap e' \neq \emptyset$ and $D(e') = D(e) - 1$, putting it shortly $e' = P(e)$. Edge $e^*$ is the aunt of edge $e$ if $e^* \cap P(e) \neq \emptyset$ and $D\left(P(e)\right) = D(e^*)$. We indicate this fact as $e^* = U(e)$. Observe that the aunt of $e$ and its mother share the same ancestor which may be written formally as $U(e) = \set{e' \in T: P(e') = P(P(e)) = P^2(e)}$.
 
-Theorem~\ref{th:completebinary} states that cutting one edge from $G \in \mcald_k$ results on a graph $G \backslash \set{e} \in \mcald_{k-1}$.
+The following Theorem~\ref{th:completebinary} states that cutting one edge from $G \in \mcald_k$ results on a graph $G \backslash \set{e} \in \mcald_{k-1}$.
 
 %%%%%%%%%commande \eright{G} pour dire que l'arete est à droite de deltavert
 \begin{theorem}
-For any graph $G \in \mcald_k$ and edge $e \in E_{G, \emph{right}}$, $G \backslash \set{e} \in \mcald_{k-1}$.
+For any $G \in \mcald_k$ and edge $e \in E_{G, \emph{right}}$, graph $G \backslash \set{e} \in \mcald_{k-1}$.
 \label{th:completebinary}
 \end{theorem}
 \begin{proof}
-Let $G \in \mcald_k$ and $e$ be an edge of this graph. Removing $e$ from $\eright{G}$ makes at least one edge of the \ebt ~$T_G$ disappear and we note $e^*$ the edge among them which is the nearest of $t$ (said differently the edge with lowest depth). Let $v$ be the "root" of edge $e^*$, {\em i.e.} node $v$ such that $e^* = (u, v)$ and $v = P(u)$. We distinguish two cases:
+Let $G \in \mcald_k$ and $e$ be an edge in $\eright{G}$. It exists an edge $e^*$ in $T_G$ for which $T_{G \backslash \set{e}}$ can be obtained be removing $e^*$ from $T_G$, keeping the tree containing $t$, and applying a new contraction. Let $v$ be the "top" of edge $e^*$, {\em i.e.} node $v$ such that $e^* = \set{u, v}$ and $v \in P(e^*)$. We distinguish two cases :
+%Removing $e$ from $\eright{G}$ makes at least one edge of the \ebt ~$T_G$ disappear and we note $e^*$ the edge among them which is the nearest of $t$ (said differently the edge with lowest depth). Let $v$ be the "root" of edge $e^*$, {\em i.e.} node $v$ such that $e^* = (u, v)$ and $v = P(u)$. We distinguish two cases:
 \begin{itemize}[leftmargin=0.3cm]
-\item {\bf The depth of node $u$ is greater or equal to $\dmin\left(T_G\right)$.} If $u$ is the unique leaf of depth $\dmin\left(T_G\right)$, the depth of leaves of the \ebt ~$T_{G\backslash \set{e}}$ is $\dmin\left(T_G\right) - 1 \geq k-1$. Otherwise, in \ebt ~$T_{G\backslash \set{e}}$, the depth of leaves are still equal to $\dmin\left(T_G\right) \geq k$. In both cases, $G\backslash \set{e} \in \mcald_{k-1}$.
-\item {\bf The depth of node $u$ is strictly inferior to $\dmin\left(T_G\right)$.} Let $T_v$ be the subtree of $T_G$ with root $v$. We note $w$ the sibling of $u$, said differently the other son of node $v$ (see Figures~\ref{subfig:proofth1_a} and~\ref{subfig:proofth1_b}). 
+\item {\bf The depth of node $u$ is greater or equal to $\dmin\left(T_G\right)$ :} If $u$ is the unique leaf of depth $\dmin\left(T_G\right)$, the depth of leaves of the \ebt ~$T_{G\backslash \set{e}}$ is $\dmin\left(T_G\right) - 1 \geq k-1$. Otherwise, in \ebt ~$T_{G\backslash \set{e}}$, the depth of leaves are still equal to $\dmin\left(T_G\right) \geq k$. In both cases, $G\backslash \set{e} \in \mcald_{k-1}$.
+\item {\bf The depth of node $u$ is strictly inferior to $\dmin\left(T_G\right)$ :} Let $T_v$ be the subtree of $T_G$ with root $v$. We note $w$ the brother of $u$, {\em i.e.} the other son of node $v$ (see Figures~\ref{subfig:proofth1_a} and~\ref{subfig:proofth1_b}). 
 %These notations are illustrated in Figure~\ref{subfig:proofth1_a} and~\ref{subfig:proofth1_b}. 
-When edge $e$ is removed from $G$, edge $e^*$ and its descendants are withdrawn in the \ebt , so $T_v$ becomes $T_w$, the subtree of root~$w$. All the leaves of $T_w$ have initially a depth greater than $k$ so by removing $e$ from $G$, all the leaves of $T_w$ have a depth greater than $k-1$. All other leaves, which do not belong to $T_v$, keep the same depth which is greater than $k$. So all leaves of $T_{G \backslash \set{e}}$ have a depth greater than $k-1$.
+When edge $e$ is removed from $G$, edge $e^*$ and its descendants are withdrawn in the \ebt , so after the contraction, $T_v$ becomes $T_w$, the subtree of root~$w$. All the leaves of $T_w$ have initially a depth greater than $k$ so by removing $e$ from $G$, all the leaves of $T_w$ have a depth greater than $k-1$. All other leaves outside $T_v$, preserve their depth which is greater than $k$. Consequently all leaves of $T_{G \backslash \set{e}}$ have a depth greater than $k-1$.
 \end{itemize}
-In these two cases, we conclude that $G\backslash \set{e}$ belongs to  
+After examining these two cases, we conclude that $G\backslash \set{e}$ belongs to  
 $\mcald_{k-1}$.
 \end{proof}
 %If $E' = \emptyset$, the EBT $T_{G_k}$ is a complete binary tree, so for any $0\le j \le k-1$, $\card{E_{T_{G_k}}(j)}= 2^{j+1}$.
@@ -392,43 +393,52 @@ $\mcald_{k-1}$.
 \caption{The \ebt ~$T_{G \backslash \set{e}}$. Nodes of depth 0 to 1 are framed. Graph $G\backslash \set{e}$ belongs to $\mcald_1$.}
 \label{subfig:proofth1_c}
 \end{subfigure}
-\caption{Illustrating the proof of Theorem~\ref{th:completebinary} on a subgraph of $G_3$.}
+\caption{Illustration of the proof of Theorem~\ref{th:completebinary} on a subgraph of $G_3$.}
 \label{fig:proofth1}
 \end{figure}
 
 
-For any graph $G \in \mcalg$, we note $\cms\left(G\right)$ the maximum over values $\cms\left(G,E_*\right)$ where $\left(G,E_*\right) \in \mcalr_k$. This value represents the competitive ratio of \mts es on road maps containing graph $G$. Formally, 
+We note $\cms\left(G, k\right)$ the maximum over values $\cms\left(G,E_*\right)$ where $\left(G,E_*\right) \in \mcalr_k$. This value represents the competitive ratio of \mts es on road maps containing graph $G$ from $\mcald_k$. Formally, 
 \begin{equation}
-\cms\left(G\right) = \min\limits_{A ~\mbox{\scriptsize {MS}}} \max\limits_{\left(G,E_*\right) \in \mcalr} c_A\left(G,E_*\right)
+\cms\left(G, k\right) = \min\limits_{A \in ~\mbox{\scriptsize {MS}}} \max\limits_{\left(G,E_*\right) \in \mcalr_k} c_A\left(G,E_*\right)
 \label{eq:cmsg}
 \end{equation}
-Please note that, even if the competitive ratio $\cms(G)$ is defined formally for a traveller starting from source $s$, it is still valid for a traveller starting his walk at any node left to axis $\deltavert$ as weights $\varepsilon$ can be neglected. Theorem~\ref{th:equalcompetitive} states that value $\cms\left(G\right)$ is the same for any graph of $\mcald_k$. In other words, graphs in $\mcald_k$ are all similar regarding the competitiveness of \mts es over them. Let $c_k$ denotes the competitive ratio of \mts es over atlas $\mcalr_k$. The proof of Theorem~\ref{th:equalcompetitive} provides a recursive formula of ratio $c_k$.
+Observe that the competitive ratio $\cms(G)$ defined for a traveller starting from source $s$ is still valid for a traveller starting his walk at any node on the left side of axis $\deltavert$ as weights $\varepsilon$ are negligeable. 
+
+The next theorem states that value $\cms\left(G, k\right)$ is the same for any graph of $\mcald_k$. In other words, graphs in $\mcald_k$ are equivalent regarding the competitiveness of \mts es over them. Let $c_k$ denotes the competitive ratio of \mts es over atlas $\mcalr_k$. The proof of Theorem~\ref{th:equalcompetitive} provides a recursive formula of ratio $c_k$.
 
 \begin{theorem}
-For any graph $G, G' \in \mcald_k$, $c_{\emph{\scriptsize{MS}}}(G) = c_{\emph{\scriptsize{MS}}}(G') = c_k$.
+For any graphs $G, G' \in \mcald_k$, $c_{\emph{\scriptsize{MS}}}(G) = c_{\emph{\scriptsize{MS}}}(G') = c_k$.
 \label{th:equalcompetitive}
 \end{theorem}
 \begin{proof}
-We prove it by induction. If $k = 0$, then for every graph of $\mcald_0$, $\cms(G) = c_0 = 1$ because any path the traveler takes is open.
-We assume the theorem holds for graphs which belong to $\mcald_{k-1}$. For any $G \in \mcald_k$, all leaves of $T_G$ are at depth greater or equal to $k$. So, $T_G$ is complete until depth $k$ and has $2^k$ nodes at depth $k$. We suppose that the traveller, guided by a the most competitive \mts ~$A$ over atlas $\mcalr_k$, is standing at source $s$ and starts his walk on a road map $\left(G,E_*\right) \in \mcalr_k$. We study his behavior until he discovers a blockage or reaches $t$ without being blocked.
+We prove it by induction. If $k = 0$, then for every graph of $\mcald_0$, $\cms(G) = c_0 = 1$ because any path the traveller takes is open.
 
-As strategy $A$ is the most competitive, it makes the traveller traverse exactly a distance 1 (weights $\varepsilon$ are neglected) before reaching $t$ directly or meeting a blocked edge.
+We assume the theorem holds for graphs from $\mcald_{k-1}$. For any $G \in \mcald_k$, all leaves of $T_G$ are at depth greater or equal to $k$. So, $T_G$ is complete until depth $k$ and has $2^k$ nodes at depth $k$. We suppose that the traveller, guided by the most competitive \mts ~$A$ over atlas $\mcalr_k$, is standing at source $s$ and starts his walk on a road map $\left(G,E_*\right) \in \mcalr_k$. We start by determining an upper bound of $c_A(G, E_*)$.
+
+%As strategy $A$ is the most competitive, it makes the traveller traverse exactly a distance 1 (weights $\varepsilon$ are neglected) before reaching $t$ directly or meeting a blocked edge.
 %In other words, strategy $A$ does not force the traveller to do superfluous two-way trips. By this way, strategy $A$ is among the most competitive \mts es on road atlas $\mcalr_k$. 
-Either the traveller reaches $t$ directly with distance 1 or he meets a blocked edge and traverses a total distance $2 + c_{k-1}$: distance 1 to reach the blockage, distance 1 to go back left to $\deltavert$ and distance $c_{k-1}$ to reach $t$ on graph $G$ deprived of the blocked edges, which belongs to $\mcald_{k-1}$ (see Theorem~\ref{th:completebinary}).
+As strategy $A$ is the most competitive, the traveller using it either reaches $t$ directly with distance $1$ or meets a blocked edge and traverses a total distance $2 + c_{k-1}$: distance 1 to reach the blockage, distance 1 to go back left to $\deltavert$ and distance $c_{k-1}$ to reach $t$ on graph $G$ deprived of the blocked edges, which belongs to $\mcald_{k-1}$ (see Theorem~\ref{th:completebinary}).
+%Either the traveller reaches $t$ directly with distance 1 or he meets a blocked edge and traverses a total distance $2 + c_{k-1}$: distance 1 to reach the blockage, distance 1 to go back left to $\deltavert$ and distance $c_{k-1}$ to reach $t$ on graph $G$ deprived of the blocked edges, which belongs to $\mcald_{k-1}$ (see Theorem~\ref{th:completebinary}).
 
-For any $1 \le j \le 2^k$, let $p_j^A$ denote the probability that the traveler visits the $\ith{j}$ node at depth $k$, noted $v_j$ (indexing nodes from left to right in the \ebt ~representation). We have $\sum_{j=1}^{2^k} p_j^A = 1$. Let $P_j$ be the simple \stpath ~of length 1 which traverses node $v_j$.
-Given a set of $E_*$ of blocked edges, we note $J(E_*)$ the set of node $v_j$ at depth $k$ where $P_j$ is not blocked. For any node $v_j$ of depth $k$, we can construct a set of blocked edges such that $J(E_*) = \set{v_j}$. Indeed, let $e$ be the edge linking the sibling of $v_j$ and $P\left(v_j\right)$. By blocking $e$,  $U(e)$, $U(U(e))$ ... $U^{k-1}(e)$, we block $1+2+4+\ldots+2^{k-1} = 2^k - 1$ paths $P_{j'}$, $j' \neq j$. Finally, only $P_j$ is open.
-For this set of blocked edges $E_*$, if $v_j \in J(E_*)$, then the distance traversed is $1$ by passing through $v_j$. If $v_j \notin J(E_*)$, the distance traversed is $2 + c_{k-1}$,
+For any $1 \le j \le 2^k$, let $p_j^A$ denote the probability that the traveller visits the $\ith{j}$ node at depth $k$, noted $v_j$ (indexing nodes from left to right in the \ebt ~representation). Note that $\sum_{j=1}^{2^k} p_j^A = 1$.
+
+Let $P_j$ be the set of simple \stpath ~of length 1 which traverses node $v_j$.
+Given a set of $E_*$ of blocked edges, we note $J(E_*)$ the set of node $v_j$ at depth $k$ where each paths in $P_j$ is not blocked. For any node $v_j$ of depth $k$, we can construct a set of blocked edges such that $J(E_*) = \set{v_j}$. Indeed, let $e$ be the edge linking the sibling of $v_j$ and $P\left(v_j\right)$. By blocking the set of edges $E_j$ containing $e$,  $U(e)$, $U(U(e))$ ... $U^{k-1}(e)$, we block $1+2+4+\ldots+2^{k-1} = 2^k - 1$ node $v_{j'}$, $j' \neq j$. As we consider only simple paths, each path in $P_j$ are open. It comes that :
 \[
-c_A(G, E_*) = \sum_{v_j\in J(E_*)} p_j^A+  (2+c_{k-1})\sum_{v_j\notin J(E_*)}p_j^A
+c_A(G, E_j) = p_j^A + (2+c_{k-1})\sum_{j' \neq j}p_{j'}^A = p_j^A + (2+c_{k-1})\times(1-p_{j}^A)
+\]
+For a set of blocked edges $E_*$, if $v_j \in J(E_*)$, then the distance traversed when passing through it is $1$. If $v_j \notin J(E_*)$, the distance traversed is at most $2 + c_{k-1}$,
+\[
+c_A(G, E_*) \leq \sum_{v_j\in J(E_*)} p_j^A+  (2+c_{k-1})\sum_{v_j\notin J(E_*)}p_j^A
 \]
 
-We note $j^*$ the index of the node $v_{j^*}$ in $J\left(E_*\right)$ which minimizes $p_{j^*}^A$. As $1 < 2 + c_{k-1}$, the greater $\sum_{v_j\in J(E_*)} p_j^A$ is, the lower $c_A(G, E_*)$ is, therefore
+We note $j^*$ the index of the node $v_{j^*}$ in $J\left(E_*\right)$ where $p_{j^*}^A$ is the smallest. As $1 < 2 + c_{k-1}$, the greater $\sum_{v_j\in J(E_*)} p_j^A$ is, the lower $c_A(G, E_*)$ is, therefore
 \[
-c_A(G, E_*) \le p_{j^*}^A + (2+c_{k-1})\underbrace{\sum_{j\neq j^*}p_j^A }_{1-p_{j^*}^A}.
+c_A(G, E_*) \le p_{j^*}^A + (2+c_{k-1})\sum_{j\neq j^*}p_j^A = c_A(G, E_{j^*})
 \] 
 
-The competitive ratio $c_A(G, E_*)$ attains this upper bound when blocked edges of road map $\left(G,E_*\right)$ fulfils $J\left(E_*\right) = \set{v_{j^*}}$. Considering that any $P_j$, $1 \le j \le 2^k$ can be the single open path of road map $\left(G,E_*\right)$, we obtain the competitive ratio of strategy $A$ over road atlas $\mcalr_k$,
+The ratio $c_A(G, E_*)$ attains this upper bound when blocked edges of road map is one of $E_{j^*}$. Consequently, we obtain the competitive ratio of strategy $A$ over road atlas $\mcalr_k$,
 \[
 \begin{array}{rl}
 c_{A,\mcalr_k} & =  ~\max_{1 \le j \le 2^k} p_j^{A} + \left(1-p_j^{A}\right)\left(2+c_{k-1}\right),\\
@@ -436,7 +446,7 @@ c_{A,\mcalr_k} & =  ~\max_{1 \le j \le 2^k} p_j^{A} + \left(1-p_j^{A}\right)\lef
 \end{array}
 \]
 
-The \mts ~with the weakest value $c_{A,\mcalr_k}$ fulfils $p_j^A = \frac{1}{2^k}$ for any $1 \le j \le 2^k$. This value depends on $k$ and $c_{k-1}$, not on the graph itself. For $G,G' \in \mcald_k$, $\cms(G) = \cms(G') = c_k = \min_{A} c_{A,\mcalr_k} = \frac{1}{2^k} + \left(1-\frac{1}{2^k}\right)\left(2+c_{k-1}\right)$.
+The \mts ~with the smallest value $c_{A,\mcalr_k}$ fulfils $p_j^A = \frac{1}{2^k}$ for any $1 \le j \le 2^k$. This value depends on $k$ and $c_{k-1}$, not on the graph itself. For $G,G' \in \mcald_k$, $\cms(G) = \cms(G') = c_k = \min_{A} c_{A,\mcalr_k} = \frac{1}{2^k} + \left(1-\frac{1}{2^k}\right)\left(2+c_{k-1}\right)$.
 %So for each $E_*$, it exists $E' \in _mcalf$ such that $c_A(G, E_*) \leq c_A(G, E')$. Finally :
 %\[
 %c_A(G, \mcalr_k) = \max_{j < 2^k} p_j + (1-p_j)(2+c_{k-1}) = p_{min} + (1-p_{min})(2+c_{k-1})
@@ -444,13 +454,13 @@ The \mts ~with the weakest value $c_{A,\mcalr_k}$ fulfils $p_j^A = \frac{1}{2^k}
 %with $p_{min}$ the lowest probability. However, $p_{min} \leq \frac{1}{2^k}$ and $c_A(G, \mcalr_k)$ minimum for $p_{min}$ maximum, so $p_{min} = \frac{1}{2^k}$. The result is that $c_{\mts}(G)$ only depend on $k$ and $c_k = \cfrac{1}{2^k} + \left(1-\cfrac{1}{2^k}\right)\left(2+c_{k-1}\right)$
 \end{proof}
 
-The consequence of Theorem~\ref{th:equalcompetitive} and its proof is that, for $k$ blockages, the competitive ratio of \mts es on road atlas $\mcalr_k$ is given by sequence $c_k$. Consequently, $\cms \le c_k$.
+The Theorem~\ref{th:equalcompetitive} says that, for $k$ blockages, the competitive ratio of \mts es on road atlas $\mcalr_k$ is given by sequence $c_k$. Consequently, $\cms \le c_k$.
 We remark that $c_k - c_{k-1} = 2 - \frac{1}{2^{k}} - \frac{c_{k-1}}{2^{k}}$.
-By summing this expression from $j = 1$ to $k$, we obtain :
+We obtain the iterative formula for $c_k$ by a sum from $j = 1$ to $k$ :
 \[
 c_k = 2k+1-\sum_{j=0}^{k-1}\cfrac{c_j+1}{2^{j+1}}
 \]
-As $\sum_{j=0}^{+\infty}\cfrac{c_j+1}{2^{j+1}}$ is finite, $c_k = 2k + O(1)$. We compute the value $\sum_{j=0}^{10^4}\cfrac{c_j+1}{2^{j+1}} = 3.213$, so the competitive ratio of \mts es is larger than $2k-2.22$. As $c_k$ represents the competitive ratio of the most competitive \mts es over road atlas $\mcalr_k$, no \mts ~can go below $2k+O\left(1\right)$ in terms of competitiveness.
+As $\sum_{j=0}^{+\infty}\cfrac{c_j+1}{2^{j+1}}$ is finite, $c_k = 2k + O(1)$. The numerical computations give $\sum_{j=0}^{10^4}\cfrac{c_j+1}{2^{j+1}} = 3.213$, so the competitive ratio of \mts es is larger than $2k-2.22$. As $c_k$ represents the competitive ratio of the best competitive \mts es over road atlas $\mcalr_k$, no \mts ~can go below $2k+O\left(1\right)$ in terms of competitiveness.
 %%%%%CONCLUSION%%%%%%%
 \section{Conclusion and further work} \label{sec:conclusion}
 
@@ -458,7 +468,7 @@ We studied the competitiveness of the \mts es for the \kctp. An \mts ~is a strat
 
 Then, we constructed a series of \kctp ~instances, called road atlases and noted $\mcalr_k$. 
 %Identifying an efficient randomized \mts{}es becomes harder when $k$ tends to infinity. 
-We foremost concluded that a randomized  \mts ~cannot reach a ratio more competitive than $2k+\mathcal{O}\left(1\right)$ on road atlas $\mcalr_k$. That is to say that we identified an upper bound on the competitive ratio of randomized \mts{}es which is significantly higher than the existing one $k+1$. In future research, if we aim at designing a strategy with competitive ratio $\alpha k + O\left(1\right)$, $\alpha < 2$, we shall focus on strategies which not only are randomized but also use memory.
+We foremost concluded that a randomized  \mts ~cannot reach a competitive ratio better than $2k+\mathcal{O}\left(1\right)$ on road atlas $\mcalr_k$. That is to say that we identified an upper bound on the competitive ratio of randomized \mts{}es which is significantly higher than the existing one $k+1$. In future research, if we aim at designing a strategy with competitive ratio $\alpha k + O\left(1\right)$, $\alpha < 2$, we shall focus on strategies which are randomized but use memory as well.
 
 \bibliographystyle{plain}
 \bibliography{mctp}
