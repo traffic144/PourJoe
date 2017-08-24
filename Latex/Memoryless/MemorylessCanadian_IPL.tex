@@ -72,6 +72,7 @@
 \newcommand{\mcalr}{\mathcal{R}}
 \newcommand{\mcald}{\mathcal{D}}
 \newcommand{\mcalf}{\mathcal{F}}
+\newcommand{\mcaln}{\mathcal{N}}
 \newcommand{\mts}{MS}
 \newcommand{\argmin}[1]{\underset{#1}{\operatorname{argmin}}}
 \newcommand{\deltavert}{\Delta_{\mbox{\scriptsize{vert}}}}
@@ -209,7 +210,8 @@ We define recursively a sequence of graphs $G_i$ for $i \geq 1$ with weights fro
 %\end{figure}
 
 We focus on a traveller traversing a road map $\left(G_i,E_*\right)$ composed of graph $G_i$ and at most $i$ blocked edges, guided by an \mts . Blocked edges in $E_*$ are at the right of axis $\deltavert$. Indeed, blocking edges left to $\deltavert$ affects negligibly the total distance traversed by a traveller. Let us suppose that he traverses graph $G_i$ and has already discovered some blocked edges $E' \subseteq E_*$. He tries now to reach $t$ on graph $G_i\backslash E'$, ignoring that the undiscovered blocked edges are $E_*' = E_* \backslash E'$. From the memoryless point of view, the graph considered at this step is $G_i\backslash E'$, without taking past moves into account. Even if road map $\left(G_i,E_*\right)$ is the instance, an \mts ~might take decisions in function of graphs $G_i\backslash E'$, where $E' \subseteq E_*$.
-We note $\mcalg$ the set of all the subgraphs of $G_i$, {\em i.e.} graphs $G_i\backslash E'$ with at most $i$ edges $E'$ right to $\deltavert$, for any integer $i \geq 1$. We call them \textit{diamond graphs} because of their appearance, diamonds joined together. Formally, we set $\mcalg = \bigcup_{i=1}^{+\infty} \set{G_i\backslash E' : \card{E'} \leq i}$. For any graph $G \in \mcalg$, we partition its edges, noted $E_G$, in two sets $\eleft{G}$ (left to axis $\deltavert$) and $\eright{G}$ (right to axis $\deltavert$). Road maps $\left(G,E_*\right)$ composing each road atlas $\mcalr_k$ contain graphs $G$ which are in $\mcalg$. 
+We note $\mcalg$ the set of all the subgraphs of $G_i$, {\em i.e.} graphs $G_i\backslash E'$ with at most $i$ edges $E'$ right to $\deltavert$, for any integer $i \geq 1$. We call them \textit{diamond graphs} because of their appearance, diamonds joined together. Formally, we set $\mcalg = \bigcup_{i=1}^{+\infty} \set{G_i\backslash E' : \card{E'} \leq i}$. For any graph $G \in \mcalg$, we partition its edges, noted $E_G$, in two sets $\eleft{G}$ (left to axis $\deltavert$) and $\eright{G}$ (right to axis $\deltavert$). 
+%Road maps $\left(G,E_*\right)$ composing each road atlas $\mcalr_k$ contain graphs $G$ which are in $\mcalg$. 
 
 \begin{figure}[h]
 \centering
@@ -237,7 +239,9 @@ We note $\mcalg$ the set of all the subgraphs of $G_i$, {\em i.e.} graphs $G_i\b
 \caption{Graph $G_3$ and axis $\deltavert$}
 \label{subfig:G_3}
 \end{subfigure}
-\caption{Recursive construction of graphs $G_i$. Weights $\varepsilon$ are not indicated in Figures~\ref{subfig:G_2} and~\ref{subfig:G_3} to keep them readable.}
+\caption{Recursive construction of graphs $G_i$. 
+%Weights $\varepsilon$ are not indicated in Figures~\ref{subfig:G_2} and~\ref{subfig:G_3} to keep them readable.
+}
 \label{fig:G_i}
 \end{figure}
 
@@ -348,13 +352,13 @@ For any $G \in \mcald_k$ and edge $e \in E_{G, \emph{right}}$, graph $G \backsla
 \label{th:completebinary}
 \end{theorem}
 \begin{proof}
-Let $G \in \mcald_k$ and $e$ be an edge in $\eright{G}$. It exists an edge $e^*$ in $T_G$ for which $T_{G \backslash \set{e}}$ can be obtained be removing $e^*$ from $T_G$, keeping the tree containing $t$, and applying a new contraction. Let $v$ be the "top" of edge $e^*$, {\em i.e.} node $v$ such that $e^* = \set{u, v}$ and $v \in P(e^*)$. We distinguish two cases :
+Let $G \in \mcald_k$ and $e$ be an edge in $\eright{G}$. There is an edge $e^*$ in $T_G$ for which $T_{G \backslash \set{e}}$ is obtained by removing $e^*$ and its descendants from $T_G$ and applying edge contraction if necessary. Let $v$ be the "top" of edge $e^*$, {\em i.e.} node $v$ such that $e^* = \set{u, v}$ and $v \in P(e^*)$. We distinguish two cases :
 %Removing $e$ from $\eright{G}$ makes at least one edge of the \ebt ~$T_G$ disappear and we note $e^*$ the edge among them which is the nearest of $t$ (said differently the edge with lowest depth). Let $v$ be the "root" of edge $e^*$, {\em i.e.} node $v$ such that $e^* = (u, v)$ and $v = P(u)$. We distinguish two cases:
 \begin{itemize}[leftmargin=0.3cm]
-\item {\bf The depth of node $u$ is greater or equal to $\dmin\left(T_G\right)$ :} If $u$ is the unique leaf of depth $\dmin\left(T_G\right)$, the depth of leaves of the \ebt ~$T_{G\backslash \set{e}}$ is $\dmin\left(T_G\right) - 1 \geq k-1$. Otherwise, in \ebt ~$T_{G\backslash \set{e}}$, the depth of leaves are still equal to $\dmin\left(T_G\right) \geq k$. In both cases, $G\backslash \set{e} \in \mcald_{k-1}$.
+\item {\bf The depth of node $u$ is greater or equal to $\dmin\left(T_G\right)$ :} If $u$ is the unique leaf of depth $\dmin\left(T_G\right)$, the depth of leaves of the \ebt ~$T_{G\backslash \set{e}}$ is $\dmin\left(T_G\right) - 1 \geq k-1$. Otherwise, in \ebt ~$T_{G\backslash \set{e}}$, the depth of leaves is still equal to $\dmin\left(T_G\right) \geq k$. In both cases, $G\backslash \set{e} \in \mcald_{k-1}$.
 \item {\bf The depth of node $u$ is strictly inferior to $\dmin\left(T_G\right)$ :} Let $T_v$ be the subtree of $T_G$ with root $v$. We note $w$ the brother of $u$, {\em i.e.} the other son of node $v$ (see Figures~\ref{subfig:proofth1_a} and~\ref{subfig:proofth1_b}). 
 %These notations are illustrated in Figure~\ref{subfig:proofth1_a} and~\ref{subfig:proofth1_b}. 
-When edge $e$ is removed from $G$, edge $e^*$ and its descendants are withdrawn in the \ebt , so after the contraction, $T_v$ becomes $T_w$, the subtree of root~$w$. All the leaves of $T_w$ have initially a depth greater than $k$ so by removing $e$ from $G$, all the leaves of $T_w$ have a depth greater than $k-1$. All other leaves outside $T_v$, preserve their depth which is greater than $k$. Consequently all leaves of $T_{G \backslash \set{e}}$ have a depth greater than $k-1$.
+When edge $e$ is removed from $G$, edge $e^*$ and its descendants are withdrawn in the \ebt . So, after the contraction, $T_v$ becomes $T_w$, the subtree of root~$w$. All the leaves of $T_w$ have initially a depth greater than $k$ so by removing $e$ from $G$, all the leaves of $T_w$ have a depth greater than $k-1$. All leaves outside $T_v$, preserve their depth which is greater than $k$. Therefore, the depth of all leaves of $T_{G \backslash \set{e}}$ is greater than $k-1$.
 \end{itemize}
 After examining these two cases, we conclude that $G\backslash \set{e}$ belongs to  
 $\mcald_{k-1}$.
@@ -408,11 +412,11 @@ Observe that the competitive ratio $\cms(G)$ defined for a traveller starting fr
 The next theorem states that value $\cms\left(G, k\right)$ is the same for any graph of $\mcald_k$. In other words, graphs in $\mcald_k$ are equivalent regarding the competitiveness of \mts es over them. Let $c_k$ denotes the competitive ratio of \mts es over atlas $\mcalr_k$. The proof of Theorem~\ref{th:equalcompetitive} provides a recursive formula of ratio $c_k$.
 
 \begin{theorem}
-For any graphs $G, G' \in \mcald_k$, $c_{\emph{\scriptsize{MS}}}(G) = c_{\emph{\scriptsize{MS}}}(G') = c_k$.
+For any graphs $G, G' \in \mcald_k$, $c_{\emph{\scriptsize{MS}}}(G,k) = c_{\emph{\scriptsize{MS}}}(G',k) = c_k$.
 \label{th:equalcompetitive}
 \end{theorem}
 \begin{proof}
-We prove it by induction. If $k = 0$, then for every graph of $\mcald_0$, $\cms(G) = c_0 = 1$ because any path the traveller takes is open.
+We prove it by induction. If $k = 0$, then for every graph of $\mcald_0$, $\cms(G,0) = c_0 = 1$ because any path the traveller takes is open.
 
 We assume the theorem holds for graphs from $\mcald_{k-1}$. For any $G \in \mcald_k$, all leaves of $T_G$ are at depth greater or equal to $k$. So, $T_G$ is complete until depth $k$ and has $2^k$ nodes at depth $k$. We suppose that the traveller, guided by the most competitive \mts ~$A$ over atlas $\mcalr_k$, is standing at source $s$ and starts his walk on a road map $\left(G,E_*\right) \in \mcalr_k$. We start by determining an upper bound of $c_A(G, E_*)$.
 
@@ -421,32 +425,36 @@ We assume the theorem holds for graphs from $\mcald_{k-1}$. For any $G \in \mcal
 As strategy $A$ is the most competitive, the traveller using it either reaches $t$ directly with distance $1$ or meets a blocked edge and traverses a total distance $2 + c_{k-1}$: distance 1 to reach the blockage, distance 1 to go back left to $\deltavert$ and distance $c_{k-1}$ to reach $t$ on graph $G$ deprived of the blocked edges, which belongs to $\mcald_{k-1}$ (see Theorem~\ref{th:completebinary}).
 %Either the traveller reaches $t$ directly with distance 1 or he meets a blocked edge and traverses a total distance $2 + c_{k-1}$: distance 1 to reach the blockage, distance 1 to go back left to $\deltavert$ and distance $c_{k-1}$ to reach $t$ on graph $G$ deprived of the blocked edges, which belongs to $\mcald_{k-1}$ (see Theorem~\ref{th:completebinary}).
 
-For any $1 \le j \le 2^k$, let $p_j^A$ denote the probability that the traveller visits the $\ith{j}$ node at depth $k$, noted $v_j$ (indexing nodes from left to right in the \ebt ~representation). Note that $\sum_{j=1}^{2^k} p_j^A = 1$.
+For any $1 \le j \le 2^k$, let $p_{k,j}^A$ denote the probability that the traveller visits the $\ith{j}$ node at depth $k$, noted $v_{k,j}$ (indexing nodes from left to right in the \ebt ~representation). 
+%Note that $\sum_{j=1}^{2^k} p_{k,j}^A = 1$.
+Let $P_{k,j}$ be the set of simple \stpaths ~of length 1 which traverses node $v_{k,j}$.
+Given a set of $E_*$ of blocked edges, we note $\mcaln(E_*)$ the set of nodes $v_{k,j}$ of depth $k$ such that any path of $P_{k,j}$ is open. For any set of blocked edges, such a node necessarily exists because the minimum number of edges needed to block at least one path in each set $P_{k,j}$ is $k+1$. 
 
-Let $P_j$ be the set of simple \stpath ~of length 1 which traverses node $v_j$.
-Given a set of $E_*$ of blocked edges, we note $J(E_*)$ the set of node $v_j$ at depth $k$ where each paths in $P_j$ is not blocked. For any node $v_j$ of depth $k$, we can construct a set of blocked edges such that $J(E_*) = \set{v_j}$. Indeed, let $e$ be the edge linking the sibling of $v_j$ and $P\left(v_j\right)$. By blocking the set of edges $E_j$ containing $e$,  $U(e)$, $U(U(e))$ ... $U^{k-1}(e)$, we block $1+2+4+\ldots+2^{k-1} = 2^k - 1$ node $v_{j'}$, $j' \neq j$. As we consider only simple paths, each path in $P_j$ are open. It comes that :
+For any node $v_{k,j}$, we construct a set of blocked edges such that $\mcaln(E_*) = \set{v_{k,j}}$ and all paths in any $P_{k,j'}$ with $j' \neq j$ are obstructed. Indeed, let $e$ be the edge linking the parent node of $v_{k,j}$ and its sibling. By blocking the set of edges $E_{k,j}$ containing $e$,  $U(e)$, $U(U(e)),\ldots, U^{k-1}(e)$, we block $1+2+4+\ldots+2^{k-1} = 2^k - 1$ nodes $v_{k,j'}$ at depth $k$, $j' \neq j$. 
+%As we consider only simple paths, each path in $P_j$ are open. 
+It comes that:
 \[
-c_A(G, E_j) = p_j^A + (2+c_{k-1})\sum_{j' \neq j}p_{j'}^A = p_j^A + (2+c_{k-1})\times(1-p_{j}^A)
+c_A(G, E_j) = p_{k,j}^A + (2+c_{k-1})\sum_{j' \neq j}p_{k,j'}^A = p_{k,j}^A + (2+c_{k-1})(1-p_{k,j}^A).
 \]
-For a set of blocked edges $E_*$, if $v_j \in J(E_*)$, then the distance traversed when passing through it is $1$. If $v_j \notin J(E_*)$, the distance traversed is at most $2 + c_{k-1}$,
+For any set of blocked edges $E_*$, if $v_{k,j} \in \mcaln(E_*)$, then the distance traversed when passing through it is $1$. If $v_{k,j} \notin \mcaln(E_*)$, the distance traversed is at most $2 + c_{k-1}$,
 \[
-c_A(G, E_*) \leq \sum_{v_j\in J(E_*)} p_j^A+  (2+c_{k-1})\sum_{v_j\notin J(E_*)}p_j^A
+c_A(G, E_*) \leq \sum_{v_{k,j}\in \mcaln(E_*)} p_{k,j}^A+  (2+c_{k-1})\sum_{v_{k,j}\notin \mcaln(E_*)}p_{k,j}^A.
 \]
 
-We note $j^*$ the index of the node $v_{j^*}$ in $J\left(E_*\right)$ where $p_{j^*}^A$ is the smallest. As $1 < 2 + c_{k-1}$, the greater $\sum_{v_j\in J(E_*)} p_j^A$ is, the lower $c_A(G, E_*)$ is, therefore
+We note $j^*$ the index of the node $v_{k,j^*}$ in $\mcaln\left(E_*\right)$ where $p_{k,j^*}^A$ is the smallest. As $1 < 2 + c_{k-1}$, the greater $\sum_{v_{k,j}\in \mcaln(E_*)} p_{k,j}^A$ is, the lower $c_A(G, E_*)$ is,
 \[
-c_A(G, E_*) \le p_{j^*}^A + (2+c_{k-1})\sum_{j\neq j^*}p_j^A = c_A(G, E_{j^*})
+c_A(G, E_*) \le p_{k,j^*}^A + (2+c_{k-1})\sum_{j\neq j^*}p_{k,j}^A = c_A(G, E_{j^*}).
 \] 
 
 The ratio $c_A(G, E_*)$ attains this upper bound when blocked edges of road map is one of $E_{j^*}$. Consequently, we obtain the competitive ratio of strategy $A$ over road atlas $\mcalr_k$,
 \[
 \begin{array}{rl}
-c_{A,\mcalr_k} & =  ~\max_{1 \le j \le 2^k} p_j^{A} + \left(1-p_j^{A}\right)\left(2+c_{k-1}\right),\\
+c_{A,\mcalr_k} & =  ~\max_{1 \le j \le 2^k} p_{k,j}^{A} + \left(1-p_{k,j}^{A}\right)\left(2+c_{k-1}\right),\\
 & \geq ~\cfrac{1}{2^k} + \left(1-\cfrac{1}{2^k}\right)\left(2+c_{k-1}\right).
 \end{array}
 \]
 
-The \mts ~with the smallest value $c_{A,\mcalr_k}$ fulfils $p_j^A = \frac{1}{2^k}$ for any $1 \le j \le 2^k$. This value depends on $k$ and $c_{k-1}$, not on the graph itself. For $G,G' \in \mcald_k$, $\cms(G) = \cms(G') = c_k = \min_{A} c_{A,\mcalr_k} = \frac{1}{2^k} + \left(1-\frac{1}{2^k}\right)\left(2+c_{k-1}\right)$.
+The \mts ~with the smallest value $c_{A,\mcalr_k}$ fulfils $p_{k,j}^A = \frac{1}{2^k}$ for any $1 \le j \le 2^k$. This value depends on $k$ and $c_{k-1}$, not on the graph itself. For $G,G' \in \mcald_k$, $\cms(G,k) = \cms(G',k) = c_k = \min_{A} c_{A,\mcalr_k} = \frac{1}{2^k} + \left(1-\frac{1}{2^k}\right)\left(2+c_{k-1}\right)$.
 %So for each $E_*$, it exists $E' \in _mcalf$ such that $c_A(G, E_*) \leq c_A(G, E')$. Finally :
 %\[
 %c_A(G, \mcalr_k) = \max_{j < 2^k} p_j + (1-p_j)(2+c_{k-1}) = p_{min} + (1-p_{min})(2+c_{k-1})
@@ -456,9 +464,9 @@ The \mts ~with the smallest value $c_{A,\mcalr_k}$ fulfils $p_j^A = \frac{1}{2^k
 
 The Theorem~\ref{th:equalcompetitive} says that, for $k$ blockages, the competitive ratio of \mts es on road atlas $\mcalr_k$ is given by sequence $c_k$. Consequently, $\cms \le c_k$.
 We remark that $c_k - c_{k-1} = 2 - \frac{1}{2^{k}} - \frac{c_{k-1}}{2^{k}}$.
-We obtain the iterative formula for $c_k$ by a sum from $j = 1$ to $k$ :
+We obtain the following iterative formula:
 \[
-c_k = 2k+1-\sum_{j=0}^{k-1}\cfrac{c_j+1}{2^{j+1}}
+c_k = 2k+1-\sum_{j=0}^{k-1}\cfrac{c_j+1}{2^{j+1}}.
 \]
 As $\sum_{j=0}^{+\infty}\cfrac{c_j+1}{2^{j+1}}$ is finite, $c_k = 2k + O(1)$. The numerical computations give $\sum_{j=0}^{10^4}\cfrac{c_j+1}{2^{j+1}} = 3.213$, so the competitive ratio of \mts es is larger than $2k-2.22$. As $c_k$ represents the competitive ratio of the best competitive \mts es over road atlas $\mcalr_k$, no \mts ~can go below $2k+O\left(1\right)$ in terms of competitiveness.
 %%%%%CONCLUSION%%%%%%%
