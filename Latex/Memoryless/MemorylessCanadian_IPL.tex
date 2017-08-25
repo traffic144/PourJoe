@@ -186,7 +186,8 @@ This ``local'' competitive ratio fulfils $c_{A,\mathcal{R}} \le c_A$. The defini
 %In the remainder, we identify a set of road maps $\mathcal{R}$ such that the competitive ratio of \mts es on it is $2k+O\left(1\right)$.
 \section{Road atlas used to study randomized \mts es} \label{sec:roadatlas}
 
-We specify \textit{road atlases} $\mathcal{R}_k$, {\em i.e.} sets of road maps, which will be used to evaluate the competitiveness of randomized \mts es. We introduce a family of graphs $G_i$ such that graphs composing these road atlases are subgraphs of $G_i$. 
+%We specify \textit{road atlases} $\mathcal{R}_k$, {\em i.e.} sets of road maps, which will be used to evaluate the competitiveness of randomized \mts es. We introduce a family of graphs $G_i$ such that graphs composing these road atlases are subgraphs of $G_i$. 
+Before specifying \textit{road atlases} $\mcalr_k$, {\em i.e.} sets of road maps, which will be used to evaluate the competitiveness of randomized \mts es, we need to introduce the concepts used in their definition.
 
 %\subsection{Graphs composing road atlas $\mcalr_k$} \label{subsec:Gi}
 
@@ -240,7 +241,7 @@ We note $\mcalg$ the set of all the subgraphs of $G_i$, {\em i.e.} graphs $G_i\b
 \label{subfig:G_3}
 \end{subfigure}
 \caption{Recursive construction of graphs $G_i$. 
-%Weights $\varepsilon$ are not indicated in Figures~\ref{subfig:G_2} and~\ref{subfig:G_3} to keep them readable.
+Weights $\varepsilon$ are omitted in Figures~\ref{subfig:G_2} and~\ref{subfig:G_3}.
 }
 \label{fig:G_i}
 \end{figure}
@@ -449,7 +450,7 @@ c_A(G, E_*) \le p_{k,j^*}^A + (2+c_{k-1})\sum_{j\neq j^*}p_{k,j}^A = c_A(G, E_{j
 The ratio $c_A(G, E_*)$ attains this upper bound when blocked edges of road map is one of $E_{j^*}$. Consequently, we obtain the competitive ratio of strategy $A$ over road atlas $\mcalr_k$,
 \[
 \begin{array}{rl}
-c_{A,\mcalr_k} & =  ~\max_{1 \le j \le 2^k} p_{k,j}^{A} + \left(1-p_{k,j}^{A}\right)\left(2+c_{k-1}\right),\\
+c_{A,\mcalr_k} & =  ~\max_{1 \le j \le 2^k} p_{k,j}^{A} + \left(1-p_{k,j}^{A}\right)\left(2+c_{k-1}\right)\\
 & \geq ~\cfrac{1}{2^k} + \left(1-\cfrac{1}{2^k}\right)\left(2+c_{k-1}\right).
 \end{array}
 \]
