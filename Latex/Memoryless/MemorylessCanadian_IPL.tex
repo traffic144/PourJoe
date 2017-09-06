@@ -104,7 +104,7 @@
 \cortext[corrauthor]{Corresponding author}
 
 \begin{abstract}
-The $k$-Canadian Traveller Problem, defined and proven PSPACE-complete by Papadimitriou and Yannakakis, is a generalization of the Shortest Path Problem which admits blocked edges. Its objective is to determine the strategy that makes the traveller traverse graph $G$ between two given nodes $s$ and $t$ with the minimal distance, knowing that at most $k$ edges are blocked. The traveller discovers that an edge is blocked when arriving at one of its endpoint. 
+The $k$-Canadian Traveller Problem (\kctp ), defined and proven PSPACE-complete by Papadimitriou and Yannakakis, is a generalization of the Shortest Path Problem which admits blocked edges. Its objective is to determine the strategy that makes the traveller traverse graph $G$ between two given nodes $s$ and $t$ with the minimal distance, knowing that at most $k$ edges are blocked. The traveller discovers that an edge is blocked when arriving at one of its endpoints. 
 %Westphal showed that the competitive ratio, which is an indicator of the online algorithm quality, of any randomized strategy is not less than $k+1$. 
  
 We study the competitiveness of randomized memoryless strategies to solve the \kctp . Memoryless strategies are attractive in practice as a decision made by the strategy for a traveller in node $v$ of $G$ does not depend on his anterior moves. We establish that the competitive ratio of any randomized memoryless strategy cannot be better than $2k + O\left(1\right)$. This means that randomized memoryless strategies are asymptotically as competitive as deterministic strategies which achieve a ratio $2k+1$ at best.
