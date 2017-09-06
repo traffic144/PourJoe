@@ -167,7 +167,7 @@ A deterministic \\strategy $A$ is an \mts ~if and only if (iff) the next node $w
 %  For the same reason, they do not need any extra memory either.
 For example, the \textsc{greedy} strategy~\cite{XuHuSuZh09} is a deterministic \mts . It consists in choosing at each step the first edge of the shortest path between the current node $v$ and the target~$t$. 
 %This strategy, illustrated in Figure~\ref{fig:illustrateCTP}, does not refer to anterior moves. 
-In contrast, the \textsc{reposition} strategy~\cite{We08} is not an \mts ~as its decision refers to the past moves of the traveller. The polynomial-time strategies proposed in the literature do not use much memory information in the decision-making process. Either they are memoryless or they use a small amount of memory. For example, \textsc{reposition} (deterministic~\cite{We08}, randomized~\cite{BeWe15}) can be implemented with a  one bit memory given that the only information to retain is whether the traveller tries to reach $t$ or to return to $s$.
+In contrast, the \textsc{reposition} strategy~\cite{We08} is not an \mts ~as its decision refers to the past moves of the traveller. The polynomial-time strategies proposed in the literature do not use much memory information in the decision-making process. Either they are memoryless or they use a small amount of memory. For example, \textsc{reposition} (deterministic~\cite{We08}, randomized~\cite{BeWe15}) can be implemented with a  one bit memory given that the only information to retain is whether the traveller tries to reach $t$ or returns to $s$.
 
 The following process allows us to identify whether a deterministic strategy $A$ is an \mts . Let us suppose that a traveller $T_1$ follows strategy $A$: he has already visited certain nodes of the graph, he is currently at node $v$ but he has not reached target $t$ yet. Let us imagine a second traveller $T_2$ who is airdropped on node $v$ and is guided by strategy $A$. If the traveller $T_2$ always follows the same path as $T_1$ until reaching $t$, $A$ is a deterministic \mts . If $T_1$ and $T_2$ may follow different paths, then $A$ is not an \mts . Formally, prooving that a strategy is a \mts ~consists in finding the function which transforms the pair $\left(G\backslash E_*,v\right)$ into node $w = A\left(G\backslash E_*',v\right)$.
 
@@ -210,10 +210,10 @@ We define recursively a sequence of graphs $G_i$ for $i \geq 1$ with weights fro
 %\caption{An illustration of dead ends on graph $G_2$.\mcalg}
 %\end{figure}
 
-We focus on a traveller traversing a road map $\left(G_i,E_*\right)$ composed of graph $G_i$ and at most $i$ blocked edges, guided by an \mts . All blocked edges from $E_*$ are on the right side of axis $\deltavert$. Indeed, blocking edges on the left of $\deltavert$ affects negligibly the total distance traversed by a traveller. Let us suppose that he traverses graph $G_i$ and has already discovered some blocked edges $E' \subseteq E_*$. He now tries to reach $t$ on graph $G_i\backslash E'$, ignoring that the undiscovered blocked edges are $E_*' = E_* \backslash E'$. The graph considered at this step is $G_i\backslash E'$ as past moves are not taken into account. 
+We focus on a traveller traversing a road map $\left(G_i,E_*\right)$ composed of graph $G_i$ and at most $i$ blocked edges, guided by an \mts . All blocked edges from $E_*$ are on the right side of axis $\deltavert$. Indeed, blocking edges on the left side of $\deltavert$ affects negligibly the total distance traversed by a traveller. Let us suppose that he traverses graph $G_i$ and has already discovered some blocked edges $E' \subseteq E_*$. He now tries to reach $t$ on graph $G_i\backslash E'$, ignoring that the undiscovered blocked edges are $E_*' = E_* \backslash E'$. The graph considered at this step is $G_i\backslash E'$ as past moves are not taken into account. 
 %Even if road map $\left(G_i,E_*\right)$ is the instance, an \mts ~might take decisions in function of graphs $G_i\backslash E'$, where $E' \subseteq E_*$.
 
-We note $\mcalg$ the set of all the subgraphs of $G_i$, {\em i.e.} graphs $G_i\backslash E'$ with at most $i$ edges $E'$ on the right of $\deltavert$, for any $i \geq 1$. We call them \textit{diamond graphs} because of their appearance, diamonds joined together. Formally, we set $\mcalg = \bigcup_{i=1}^{+\infty} \set{G_i\backslash E' : \card{E'} \leq i}$. For any graph $G \in \mcalg$, we partition its edges, noted $E_G$, into two sets $\eleft{G}$ (on the left side of axis $\deltavert$) and $\eright{G}$ (on the right of axis $\deltavert$). 
+We note $\mcalg$ the set of all the subgraphs of $G_i$, {\em i.e.} graphs $G_i\backslash E'$ with at most $i$ edges in $E'$ on the right side of $\deltavert$, for any $i \geq 1$. We call them \textit{diamond graphs} because of their appearance, diamonds joined together. Formally, we write $\mcalg = \bigcup_{i=1}^{+\infty} \set{G_i\backslash E' : \card{E'} \leq i}$. For any graph $G \in \mcalg$, we partition its edges, noted $E_G$, into two sets $\eleft{G}$ (on the left side of axis $\deltavert$) and $\eright{G}$ (on the right side of axis $\deltavert$). 
 %Road maps $\left(G,E_*\right)$ composing each road atlas $\mcalr_k$ contain graphs $G$ which are in $\mcalg$. 
 
 \begin{figure}[h]
@@ -256,9 +256,9 @@ We note $\mcalg$ the set of all the subgraphs of $G_i$, {\em i.e.} graphs $G_i\b
 %\]
 
 %\subsection{Diamond binary trees} \label{subsec:dbt}
-To any diamond graph $G$ of $\mcalg$, we associate a \textit{diamond binary tree} (\ebt ) noted $T_G$. Tree $T_G$ is obtained from the right half of graph $G$ rooted in $t$ (on the right side of axis $\deltavert$) by successive contractions of edges: any node with a single son is merged with its father (in Figure~\ref{subfig:ebt_2}: edge $\left(t,v_2\right)$ is contracted, $v_2$ merges with $t$). 
+To any diamond graph $G$ of $\mcalg$, we associate a \textit{diamond binary tree} (\ebt ), noted $T_G$. Tree $T_G$, rooted in $t$, is obtained from the right half of graph $G$ (on the right side of axis $\deltavert$) by successive contractions of edges: any node with a single son is merged with its father (in Figure~\ref{subfig:ebt_2}: edge $\left(t,v_2\right)$ is contracted, $v_2$ merges with $t$). 
 %Any node of a \ebt ~is merged with its parent if he has an unique son. 
-We note $T_\varnothing$ the empty tree. Any nonempty tree is a triplet $(v, T_a, T_b)$ with a root $v \in V$ and two trees $T_a$ and $T_b$. Figures~\ref{subfig:ebt_2} and~\ref{subfig:ebt_3} illustrate the construction of the \ebt . 
+We note $T_\varnothing$ the empty tree. Any nonempty tree is a triplet $(v, T_a, T_b)$ with a root $v \in V$ and trees $T_a$ and $T_b$. Figures~\ref{subfig:ebt_2} and~\ref{subfig:ebt_3} illustrate the construction of the \ebt . 
 
 \begin{figure}[h]
 \centering
@@ -286,9 +286,9 @@ We note $T_\varnothing$ the empty tree. Any nonempty tree is a triplet $(v, T_a,
 \label{fig:ebt}
 \end{figure}
 
-To put the definition of \ebt s, let $\dfs\left(v\right)$ denote the set of sons of node $v$. The function $\dfs$ is only defined for the nodes on the right side of $\deltavert$ and for all $v \in \deltavert$, we have $L\left(v\right) = \emptyset$. For graph $G$ of Figure~\ref{subfig:ebt_2}, $\dfs\left(t\right) = \set{v_1,v_2}$, $\dfs\left(v_2\right) = \set{v_4}$ for example. 
+To put the definition of \ebt s, let $\dfs\left(v\right)$ denote the set of sons of node $v$. The function $\dfs$ is only defined for the nodes on the right side of $\deltavert$ and for all $v \in \deltavert$, we have $L\left(v\right) = \emptyset$. For graph $G$ of Figure~\ref{subfig:ebt_2}, $\dfs\left(t\right) = \set{v_1,v_2}$, $\dfs\left(v_2\right) = \set{v_4}$, for example. 
 
-Function $\bintree$ gives the construction of tree $T_G$, which is $\bintree \left(t\right)$.
+Function $\bintree$ gives the construction of tree $T_G$, which is $\bintree \left(t\right)$:
 %\command \dfs pour les equations
 \[
 \bintree\left(v\right) = 
@@ -322,7 +322,7 @@ T_\varnothing ~\mbox{if}~ \dfs(v) = \emptyset,\\
 %We introduce notations which characterize nodes of a \ebt . 
 We say that the depth of a node $v$ in a \ebt ~$T$, noted $d(v)$, is equal to the number of edges separating it from the root.
 %For any edge $e=\left(u,v\right)$ in \ebt ~$T$ where the depth of $u$ is larger than those of $v$, we note $P(e)=\left(v,w\right)$ the ``mother'' edge of $e$ where the depth of $v$ is larger than the depth of $w$. 
-We note $\dmin(T)$ the minimum depth of all $T$ leaves. For example, for \ebt ~$T_G$ of Figure~\ref{subfig:ebt_3}, $\dmin(T_G) = 2$. 
+We note $\dmin(T)$ the minimum depth of all $T$ leaves. For example, for \ebt ~$T_G$ in Figure~\ref{subfig:ebt_3}, $\dmin(T_G) = 2$. 
 
 \begin{definition}[Sets $\mcald_k$]
 Set $\mcald_k$ contains graphs of $\mcalg$ such that their \ebt ~$T_G$ fulfils $\dmin\left(T_G\right) \geq k$: $\mcald_k = \set{G \in \mcalg : \dmin(T_G) \geq k}$. 
@@ -331,7 +331,7 @@ Set $\mcald_k$ contains graphs of $\mcalg$ such that their \ebt ~$T_G$ fulfils $
 Finally, we define road atlases $\mcalr_k$:
 
 \begin{definition}[Road atlas $\mcalr_k$]
-Road atlas $\mcalr_k$ is composed of road maps\\ $\left(G,E_*\right)$ where $\card{E_*} = k$ and $G \in \mcald_k$: $\mcalr_k = \set{\left(G ,E_*\right): G \in \mcald_k, \card{E_*} = k}$.
+Road atlas $\mcalr_k$ is composed of road maps\\ $\left(G,E_*\right)$, where $\card{E_*} = k$ and $G \in \mcald_k$: $\mcalr_k = \set{\left(G ,E_*\right): G \in \mcald_k \land \card{E_*} = k}$.
 \label{def:roadatlas}
 \end{definition}
 %\[
@@ -345,11 +345,11 @@ Road atlas $\mcalr_k$ is composed of road maps\\ $\left(G,E_*\right)$ where $\ca
 
 \section{Competitiveness of randomized \mts es} \label{sec:competitiveness}
 
-We study the competitiveness of a randomized \mts ~for road atlases $\mcalr_k$. The \mts ~performance is determined by properties of corresponding \ebt s $T_G$. These properties result from relations which exist between \ebt ~edges.
+We study the competitiveness of a randomized \mts ~for road atlases $\mcalr_k$. The \mts ~performance is determined by properties of the corresponding \ebt s $T_G$. These properties result from relations which exist between \ebt ~edges.
 
 The depth of an edge $(u,v)$, $D(u,v)$, is defined as $D(u,v) = \min \set{d(u),d(v)}$. Edge $e'$ is the mother of edge $e$ if $e \cap e' \neq \emptyset$ and $D(e') = D(e) - 1$, putting it shortly $e' = P(e)$. Edge $e^*$ is the aunt of edge $e$ if $e^* \cap P(e) \neq \emptyset$ and $D\left(P(e)\right) = D(e^*)$. We indicate this fact as $e^* = U(e)$. Observe that the aunt of $e$ and its mother share the same ancestor which may be written as $U(e) = \set{e' \in T: P(e') = P(P(e)) = P^2(e)}$.
 
-The following Theorem~\ref{th:completebinary} states that cutting one edge from $G \in \mcald_k$ produces a graph $G \backslash \set{e} \in \mcald_{k-1}$.
+The following theorem states that cutting one edge from $G \in \mcald_k$ produces a graph $G \backslash \set{e} \in \mcald_{k-1}$.
 
 %%%%%%%%%commande \eright{G} pour dire que l'arete est à droite de deltavert
 \begin{theorem}
@@ -360,10 +360,10 @@ For any $G \in \mcald_k$ and edge $e \in E_{G, \emph{right}}$, graph $G \backsla
 Let $G \in \mcald_k$ and $e$ be an edge in $\eright{G}$. There is an edge $e^*$ in $T_G$ for which $T_{G \backslash \set{e}}$ is obtained by removing $e^*$ and its descendants from $T_G$ and next applying the edge contraction, if necessary. Let $v$ be the "shallower" endpoint of edge $e^* = \set{u,v}$, {\em i.e.} $d(v) = \min \set{d(u),d(v)}$. Edge $e^*$ and its mother have this node in common, $v \in P\left(e^*\right)$. We distinguish two cases :
 %Removing $e$ from $\eright{G}$ makes at least one edge of the \ebt ~$T_G$ disappear and we note $e^*$ the edge among them which is the nearest of $t$ (said differently the edge with lowest depth). Let $v$ be the "root" of edge $e^*$, {\em i.e.} node $v$ such that $e^* = (u, v)$ and $v = P(u)$. We distinguish two cases:
 \begin{itemize}[leftmargin=0.3cm]
-\item {\bf The depth of node $u$ is greater or equal to $\dmin\left(T_G\right)$ :} If $u$ is the unique leaf of depth $\dmin\left(T_G\right)$, the depth of leaves of the \ebt ~$T_{G\backslash \set{e}}$ is $\dmin\left(T_G\right) - 1 \geq k-1$. Otherwise, in \ebt ~$T_{G\backslash \set{e}}$, the depth of leaves is still equal to $\dmin\left(T_G\right) \geq k$. In both cases, $G\backslash \set{e} \in \mcald_{k-1}$.
-\item {\bf The depth of node $u$ is strictly inferior to $\dmin\left(T_G\right)$ :} Let $T_v$ be the subtree of $T_G$ with root $v$. We note $w$ the brother of node $u$, {\em i.e.} the other son of node $v$ (Figures~\ref{subfig:proofth1_a} and~\ref{subfig:proofth1_b}). 
+\item {\bf The depth of node $u$ is greater or equal to $\dmin\left(T_G\right)$:} If $u$ is the unique leaf of depth $\dmin\left(T_G\right)$, the depth of leaves of the \ebt ~$T_{G\backslash \set{e}}$ is $\dmin\left(T_G\right) - 1 \geq k-1$. Otherwise, in \ebt ~$T_{G\backslash \set{e}}$, the depth of leaves is still equal to $\dmin\left(T_G\right) \geq k$. In both cases, $G\backslash \set{e} \in \mcald_{k-1}$.
+\item {\bf The depth of node $u$ is strictly inferior to $\dmin\left(T_G\right)$:} Let $T_v$ be the subtree of $T_G$ with root $v$. We note $w$ the brother of node $u$, {\em i.e.} the other son of node $v$ (Figure~\ref{subfig:proofth1_b}). 
 %These notations are illustrated in Figure~\ref{subfig:proofth1_a} and~\ref{subfig:proofth1_b}. 
-When edge $e$ is removed from $G$, edge $e^*$ and its descendants are withdrawn in the \ebt ~(in the \ebt ~of Figure~\ref{subfig:proofth1_b}, edge $e$ has not been contracted so $e = e^*$). So, after the contraction, $T_v$ becomes $T_w$, the subtree rooted in~$w$. All the leaves of $T_w$ have initially a depth greater than $k$ so by removing $e$ from $G$, all the leaves of $T_w$ have a depth greater than $k-1$. All leaves outside $T_v$, preserve their depth which is greater than $k$. Therefore, the depth of all leaves of $T_{G \backslash \set{e}}$ is greater than $k-1$.
+When edge $e$ is removed from $G$, edge $e^*$ and its descendants are withdrawn in the \ebt ~(in the \ebt ~in Figure~\ref{subfig:proofth1_b}, edge $e$ has not been contracted, so $e = e^*$). Consequently, after the contraction, $T_v$ becomes $T_w$, the subtree rooted in~$w$. All the leaves of $T_w$ have initially a depth greater than $k$, so by removing $e$ from $G$, all the leaves of $T_w$ have a depth greater than $k-1$. All leaves outside $T_v$, preserve their depth which is greater than $k$. Therefore, the depth of all leaves of $T_{G \backslash \set{e}}$ is greater than $k-1$.
 \end{itemize}
 After examining these two cases, we conclude that $G\backslash \set{e}$ belongs to  
 $\mcald_{k-1}$.
@@ -412,7 +412,7 @@ We note $\cms\left(G, k\right)$ the maximum over values $\cms\left(G,E_*\right)$
 \cms\left(G, k\right) = \min\limits_{A \in ~\mbox{\scriptsize {MS}}} \max\limits_{\left(G,E_*\right) \in \mcalr_k} c_A\left(G,E_*\right).
 \label{eq:cmsg}
 \end{equation}
-Observe that the competitive ratio $\cms(G,k)$ defined for a traveller starting from source $s$ is still valid for a traveller starting his walk at any node on the left side of axis $\deltavert$ as weights $\varepsilon$ are negligeable. 
+Observe that the competitive ratio $\cms(G,k)$ defined for a traveller making the first move from source $s$ is still valid for a traveller starting his walk at any node on the left side of axis $\deltavert$ as weights $\varepsilon$ are negligeable. 
 
 The next theorem states that value $\cms\left(G, k\right)$ is the same for all graphs of $\mcald_k$. In other words, graphs in $\mcald_k$ are equivalent regarding the competitiveness of \mts es. Let $c_k$ denote the competitive ratio of \mts es over atlas $\mcalr_k$. The proof of Theorem~\ref{th:equalcompetitive} provides a recursive formula of ratio $c_k$.
 
@@ -421,19 +421,19 @@ For any graphs $G, G' \in \mcald_k$, $c_{\emph{\scriptsize{MS}}}(G,k) = c_{\emph
 \label{th:equalcompetitive}
 \end{theorem}
 \begin{proof}
-We prove it by induction. If $k = 0$, then for every graph of $\mcald_0$, $\cms(G,0) = c_0 = 1$ because any path the traveller takes is open.
+We proceed by induction. If $k = 0$, then for every graph of $\mcald_0$, $\cms(G,0) = c_0 = 1$ because any path the traveller takes is open.
 
-We assume the theorem holds for graphs from $\mcald_{k-1}$. For any $G \in \mcald_k$, all leaves of $T_G$ are at depth greater than or equal to $k$. So, $T_G$ is complete up to depth $k$ and has $2^k$ nodes of depth $k$. We suppose that the traveller, guided by the most competitive \mts ~$A$ over atlas $\mcalr_k$, is standing at source $s$ and starts his walk on a road map $\left(G,E_*\right) \in \mcalr_k$. We determine an upper bound of $c_A(G, E_*)$.
+We assume that the theorem holds for graphs from $\mcald_{k-1}$. For any $G \in \mcald_k$, all leaves of $T_G$ are at depth greater than or equal to $k$. So, $T_G$ is complete up to depth $k$ and has $2^k$ nodes of depth $k$. We suppose that the traveller, guided by the most competitive \mts ~$A$ over atlas $\mcalr_k$, is standing at source $s$ and starts his walk on a road map $\left(G,E_*\right) \in \mcalr_k$. We determine an upper bound of $c_A(G, E_*)$.
 
 %As strategy $A$ is the most competitive, it makes the traveller traverse exactly a distance 1 (weights $\varepsilon$ are neglected) before reaching $t$ directly or meeting a blocked edge.
 %In other words, strategy $A$ does not force the traveller to do superfluous two-way trips. By this way, strategy $A$ is among the most competitive \mts es on road atlas $\mcalr_k$. 
-As strategy $A$ is the most competitive, the traveller using it either reaches $t$ directly with distance $1$ or meets a blocked edge and traverses a total distance $2 + c_{k-1}$: distance 1 to reach the blockage, distance 1 to go back to a node on the left hand side of $\deltavert$ and distance $c_{k-1}$ to reach $t$ on graph $G$ deprived of the blocked edges, which belongs to $\mcald_{k-1}$ (Theorem~\ref{th:completebinary}).
+As strategy $A$ is the most competitive, the traveller using it either reaches $t$ directly with distance $1$ or meets a blocked edge and traverses a total distance $2 + c_{k-1}$: distance 1 to reach the blockage, distance 1 to go back to a node on the left hand side of $\deltavert$, and distance $c_{k-1}$ to reach $t$ on graph $G$ deprived of the blocked edges, which belongs to $\mcald_{k-1}$ (Theorem~\ref{th:completebinary}).
 %Either the traveller reaches $t$ directly with distance 1 or he meets a blocked edge and traverses a total distance $2 + c_{k-1}$: distance 1 to reach the blockage, distance 1 to go back left to $\deltavert$ and distance $c_{k-1}$ to reach $t$ on graph $G$ deprived of the blocked edges, which belongs to $\mcald_{k-1}$ (see Theorem~\ref{th:completebinary}).
 
-For any $1 \le j \le 2^k$, let $p_{k,j}^A$ denote the probability that the traveller visits the $\ith{j}$ node at depth $k$, noted $v_{k,j}$ (index $j$ passes from left to right in the \ebt ~representation). 
+For any $1 \le j \le 2^k$, let $p_{k,j}^A$ signifies the probability that the traveller visits the $\ith{j}$ node at depth $k$, noted $v_{k,j}$ (index $j$ passes from left to right in the \ebt ~representation). 
 %Note that $\sum_{j=1}^{2^k} p_{k,j}^A = 1$.
-Let $P_{k,j}$ be the set of simple \stpaths ~of length 1 which traverses node $v_{k,j}$.
-Given a set $E_*$ of blocked edges, we note $\mcaln(E_*)$ the set of nodes $v_{k,j}$ of depth $k$ such that any path of $P_{k,j}$ is open. For any set of blocked edges, set $\mcaln(E_*)$ is necessarily non-empty because the minimum number of edges needed to block at least one path in each set $P_{k,j}$ is $k+1$. 
+Let $P_{k,j}$ be the set of simple \stpaths ~of length 1 which passes through node $v_{k,j}$.
+Given a set $E_*$ of blocked edges, we note $\mcaln(E_*)$ the set of nodes $v_{k,j}$ of depth $k$ such that any path of $P_{k,j}$ is open. For any set of blocked edges, set $\mcaln(E_*)$ is necessarily non-empty because the minimum number of edges needed to block at least one path from each set $P_{k,j}$ is $k+1$. 
 
 For any node $v_{k,j}$, we construct a set of blocked edges such that $\mcaln(E_*) = \set{v_{k,j}}$ and all paths in any $P_{k,j'}$ with $j' \neq j$ are obstructed. Indeed, let $e$ be the edge linking the father node of $v_{k,j}$ and its brother. By blocking the set of edges $E_{k,j}$ containing $e$,  $U(e)$, $U(U(e)),\ldots, U^{k-1}(e)$, we block $1+2+4+\ldots+2^{k-1} = 2^k - 1$ nodes $v_{k,j'}$ at depth $k$, $j' \neq j$. 
 %As we consider only simple paths, each path in $P_j$ are open. 
@@ -451,7 +451,7 @@ We note $j^*$ the index of the node $v_{k,j^*}$ in $\mcaln\left(E_*\right)$, whe
 c_A(G, E_*) \le p_{k,j^*}^A + (2+c_{k-1})\sum_{j\neq j^*}p_{k,j}^A = c_A(G, E_{k,j^*}).
 \] 
 
-The ratio $c_A(G, E_*)$ attains this upper bound when blocked edges of road map is one of $E_{k,j^*}$. Consequently, we obtain the competitive ratio of strategy $A$ over road atlas $\mcalr_k$,
+The ratio $c_A(G, E_*)$ attains this upper bound when $E_* = E_{k,j^*}$. Consequently, we obtain the competitive ratio of strategy $A$ over road atlas $\mcalr_k$,
 \[
 \begin{array}{rl}
 c_{A,\mcalr_k} & =  ~\max_{1 \le j \le 2^k} p_{k,j}^{A} + \left(1-p_{k,j}^{A}\right)\left(2+c_{k-1}\right)\\
@@ -459,7 +459,7 @@ c_{A,\mcalr_k} & =  ~\max_{1 \le j \le 2^k} p_{k,j}^{A} + \left(1-p_{k,j}^{A}\ri
 \end{array}
 \]
 
-The \mts ~with the smallest value $c_{A,\mcalr_k}$ fulfils $p_{k,j}^A = \frac{1}{2^k}$ for any $1 \le j \le 2^k$. This value depends on $k$ and $c_{k-1}$, not on the graph itself. For $G,G' \in \mcald_k$, $\cms(G,k) = \cms(G',k) = c_k = \min_{A} c_{A,\mcalr_k} = \frac{1}{2^k} + \left(1-\frac{1}{2^k}\right)\left(2+c_{k-1}\right)$.
+The \mts ~with the smallest value $c_{A,\mcalr_k}$ fulfils $p_{k,j}^A = \frac{1}{2^k}$ for any $1 \le j \le 2^k$. This value depends on $k$ and $c_{k-1}$, but not on the graph itself. For $G,G' \in \mcald_k$, $\cms(G,k) = \cms(G',k) = c_k = \min_{A} c_{A,\mcalr_k} = \frac{1}{2^k} + \left(1-\frac{1}{2^k}\right)\left(2+c_{k-1}\right)$.
 %So for each $E_*$, it exists $E' \in _mcalf$ such that $c_A(G, E_*) \leq c_A(G, E')$. Finally :
 %\[
 %c_A(G, \mcalr_k) = \max_{j < 2^k} p_j + (1-p_j)(2+c_{k-1}) = p_{min} + (1-p_{min})(2+c_{k-1})
@@ -467,7 +467,7 @@ The \mts ~with the smallest value $c_{A,\mcalr_k}$ fulfils $p_{k,j}^A = \frac{1}
 %with $p_{min}$ the lowest probability. However, $p_{min} \leq \frac{1}{2^k}$ and $c_A(G, \mcalr_k)$ minimum for $p_{min}$ maximum, so $p_{min} = \frac{1}{2^k}$. The result is that $c_{\mts}(G)$ only depend on $k$ and $c_k = \cfrac{1}{2^k} + \left(1-\cfrac{1}{2^k}\right)\left(2+c_{k-1}\right)$
 \end{proof}
 
-The Theorem~\ref{th:equalcompetitive} says that, for $k$ blockages, the competitive ratio of \mts es on road atlas $\mcalr_k$ is given by sequence $c_k$. Consequently, $\cms \le c_k$.
+The Theorem~\ref{th:equalcompetitive} says that, for $k$ blockages, the competitive ratio of \mts es on road atlas $\mcalr_k$ is given by sequence $c_k$. Accordingly, $\cms \le c_k$.
 We observe that $c_k - c_{k-1} = 2 - \frac{1}{2^{k}} - \frac{c_{k-1}}{2^{k}}$
 and we obtain the following iterative formula:
 \[
