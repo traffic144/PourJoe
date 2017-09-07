@@ -111,8 +111,8 @@ We study the competitiveness of randomized memoryless strategies to solve the \k
 %In future research, if we aim at designing a strategy with competitive ratio $\alpha k + O\left(1\right)$, $\alpha < 2$, we shall focus on strategies which not only are randomized but also use memory.
 \end{abstract}
 
-\begin{keyword}Online algorithms \sep%
-    Competitive analysis
+\begin{keyword}online algorithms \sep%
+    competitive analysis
 \end{keyword}
 
 \maketitle
@@ -125,9 +125,9 @@ The \textit{Canadian Traveller Problem} (CTP), a generalization of the \textit{S
 \paragraph{State-of-the-art}
 Strategies for the \kctp ~are studied through the competitive analysis, which evaluates their quality~\cite{BoEl98}. The competitive ratio of a strategy is the maximum, over all satisfiable instances, of the ratio of the distance traversed by the traveller following the strategy and the \textit{optimal offline cost}, which is the distance he would traverse if he knew blocked edges from the beginning. 
 
-There are two classes of strategies: deterministic and randomized. Westphal~\cite{We08} proved that there is no deterministic strategy that achieves a competitive ratio better than $2k+1$. This ratio is reached by \textsc{reposition} and \textsc{comparison} strategies~\cite{We08,XuHuSuZh09}. The \textsc{reposition} strategy repeats an attempt to reach $t$ through the shortest \stpath{} going back to $s$ after the discovery of an obstacle. As in practical cases, such as urban networks, it does not seem realistic, Xu {\em et al.\/}~\cite{XuHuSuZh09} introduced the \textsc{greedy} algorithm. For grids, it achieves ratio $\mathcal{O}\left(1\right)$, regardless of $k$. However, for any graph, this ratio is $\mathcal{O}\left(2^k\right)$.
+There are two classes of strategies: deterministic and randomized. Westphal~\cite{We08} proved that there is no deterministic strategy that achieves a competitive ratio better than $2k+1$. This ratio is reached by \textsc{reposition} and \textsc{comparison} strategies~\cite{We08,XuHuSuZh09}. The \textsc{reposition} strategy repeats an attempt to reach $t$ through the shortest \stpath{} going back to $s$ after the discovery of an obstacle. As in practical cases, such as urban networks, it does not seem realistic, Xu {\em et al.\/}~\cite{XuHuSuZh09} introduced the \textsc{greedy} algorithm. For grids, it achieves ratio $O\left(1\right)$, regardless of $k$. However, for any graph, this ratio is $O\left(2^k\right)$.
 
-We evaluate the competitiveness of the randomized strategies by calculating the maximal ratio of the mean distance traversed by the traveller following the strategy and the optimal offline cost. Westphal~\cite{We08} proved that no randomized algorithm can attain a ratio smaller than $k+1$. However, unlike the deterministic case, no $\left(\alpha k+1\right)$-competitive randomized strategy, $\alpha < 2$, was identified, excepted for two very particular cases for which randomized strategies have been proposed. Demaine {\em et al.\/}~\cite{DeHuLiSa14} designed a strategy with a ratio $\left(1+\frac{\sqrt{2}}{2}\right)k+1$, executed in time of $\mathcal{O}\left(k\mu^2\card{E}^2\right)$, where parameter $\mu$ may be exponential. It is dedicated to graphs that can be transformed into apex trees. 
+We evaluate the competitiveness of the randomized strategies by calculating the maximal ratio of the mean distance traversed by the traveller following the strategy and the optimal offline cost. Westphal~\cite{We08} proved that no randomized algorithm can attain a ratio smaller than $k+1$. However, unlike the deterministic case, no $\left(\alpha k+1\right)$-competitive randomized strategy, $\alpha < 2$, was identified, excepted for two very particular cases for which randomized strategies have been proposed. Demaine {\em et al.\/}~\cite{DeHuLiSa14} designed a strategy with a ratio $\left(1+\frac{\sqrt{2}}{2}\right)k+1$, executed in time of $O\left(k\mu^2\card{E}^2\right)$, where parameter $\mu$ may be exponential. It is dedicated to graphs that can be transformed into apex trees. 
 %It provides a $\left(k+1\right)$-competitive strategy for graphs $G$ which are apex trees with equal-weight \stpaths . 
 Bender {\em et al.\/} studied in~\cite{BeWe15} a restriction of \kctp ~for graphs composed of node-disjoint \stpaths ~and proposed a polynomial-time strategy with ratio $\left(k+1\right)$. 
 
@@ -159,7 +159,7 @@ The traveller does not know a priori which edges are blocked. He discovers a blo
 %\label{fig:illustrateCTP}
 %\end{figure}
 
-We focus on \textit{memoryless strategies} (\mts). Concretely, we suppose that the traveller remembers the blocked edges he has discovered but forgets the nodes which he has already visited. In other words, a decision of an \mts ~is independent of the nodes already visited. In the literature, the term \textit{memoryless} was used in the context of online algorithms (e.g. \textsc{paging problem}~\cite{BoEl98}, \textsc{list update problem}~\cite{Al03}) which take decisions according to the current state, ignoring past events. An \mts ~can be either deterministic or randomized.
+We focus on \textit{memoryless strategies} (\mts). Concretely, we suppose that the traveller remembers the blocked edges he has discovered but forgets the nodes which he has already visited. In other words, a decision of an \mts ~is independent of the nodes already visited. In the literature, the term \textit{memoryless} was used in the context of online algorithms ({\em e.g.} \textsc{paging problem}~\cite{BoEl98}, \textsc{list update problem}~\cite{Al03}) which take decisions according to the current state, ignoring past events. An \mts ~can be either deterministic or randomized.
 
 
 
@@ -361,7 +361,7 @@ For any $G \in \mcald_k$ and edge $e \in E_{G, \emph{right}}$, graph $G \backsla
 \label{th:completebinary}
 \end{theorem}
 \begin{proof}
-Let $G \in \mcald_k$ and $e$ be an edge in $\eright{G}$. There is an edge $e^*$ in $T_G$ for which $T_{G \backslash \set{e}}$ is obtained by removing $e^*$ and its descendants from $T_G$ and next applying the edge contraction, if necessary. Let $v$ be the "shallower" endpoint of edge $e^* = \set{u,v}$, {\em i.e.} $d(v) = \min \set{d(u),d(v)}$. Edge $e^*$ and its mother have this node in common, $v \in P\left(e^*\right)$. We distinguish two cases :
+Let $G \in \mcald_k$ and $e$ be an edge in $\eright{G}$. There is an edge $e^*$ in $T_G$ for which $T_{G \backslash \set{e}}$ is obtained by removing $e^*$ and its descendants from $T_G$ and next applying the edge contraction, if necessary. Let $v$ be the "shallower" endpoint of edge $e^* = \set{u,v}$, {\em i.e.} $d(v) = \min \set{d(u),d(v)}$. Edge $e^*$ and its mother have this node in common, $v \in P\left(e^*\right)$. We distinguish two cases:
 %Removing $e$ from $\eright{G}$ makes at least one edge of the \ebt ~$T_G$ disappear and we note $e^*$ the edge among them which is the nearest of $t$ (said differently the edge with lowest depth). Let $v$ be the "root" of edge $e^*$, {\em i.e.} node $v$ such that $e^* = (u, v)$ and $v = P(u)$. We distinguish two cases:
 \begin{itemize}[leftmargin=0.3cm]
 \item {\bf The depth of node $u$ is greater or equal to $\dmin\left(T_G\right)$:} If $u$ is the unique leaf of depth $\dmin\left(T_G\right)$, the depth of leaves of the \ebt ~$T_{G\backslash \set{e}}$ is $\dmin\left(T_G\right) - 1 \geq k-1$. Otherwise, in \ebt ~$T_{G\backslash \set{e}}$, the depth of leaves is still equal to $\dmin\left(T_G\right) \geq k$. In both cases, $G\backslash \set{e} \in \mcald_{k-1}$.
@@ -471,7 +471,7 @@ The \mts ~with the smallest value $c_{A,\mcalr_k}$ fulfils $p_{k,j}^A = \frac{1}
 %with $p_{min}$ the lowest probability. However, $p_{min} \leq \frac{1}{2^k}$ and $c_A(G, \mcalr_k)$ minimum for $p_{min}$ maximum, so $p_{min} = \frac{1}{2^k}$. The result is that $c_{\mts}(G)$ only depend on $k$ and $c_k = \cfrac{1}{2^k} + \left(1-\cfrac{1}{2^k}\right)\left(2+c_{k-1}\right)$
 \end{proof}
 
-The Theorem~\ref{th:equalcompetitive} says that, for $k$ blockages, the competitive ratio of \mts es on road atlas $\mcalr_k$ is given by sequence $c_k$. Accordingly, $\cms \le c_k$.
+Theorem~\ref{th:equalcompetitive} says that, for $k$ blockages, the competitive ratio of \mts es on road atlas $\mcalr_k$ is given by sequence $c_k$. Accordingly, $\cms \le c_k$.
 We observe that $c_k - c_{k-1} = 2 - \frac{1}{2^{k}} - \frac{c_{k-1}}{2^{k}}$
 and we obtain the following iterative formula:
 \[
@@ -485,7 +485,7 @@ We studied the competitiveness of the \mts es for the \kctp. An \mts ~is a strat
 
 Then, we constructed a series of \kctp ~instances, called road atlases and noted $\mcalr_k$. 
 %Identifying an efficient randomized \mts{}es becomes harder when $k$ tends to infinity. 
-We foremost concluded that a randomized  \mts ~cannot reach a competitive ratio better than $2k+\mathcal{O}\left(1\right)$ on road atlas $\mcalr_k$. That is to say that we identified an upper bound on the competitive ratio of randomized \mts{}es which is significantly higher than the existing one $k+1$. In future research, if we aim at designing a strategy with competitive ratio $\alpha k + O\left(1\right)$, $\alpha < 2$, we shall focus on strategies which are not only randomized but use memory as well.
+We foremost concluded that a randomized  \mts ~cannot reach a competitive ratio better than $2k+O\left(1\right)$ on road atlas $\mcalr_k$. That is to say that we identified an upper bound on the competitive ratio of randomized \mts{}es which is significantly higher than the existing one $k+1$. In future research, if we aim at designing a strategy with competitive ratio $\alpha k + O\left(1\right)$, $\alpha < 2$, we shall focus on strategies which are not only randomized but use memory as well.
 
 \bibliographystyle{plain}
 \bibliography{mctp}
