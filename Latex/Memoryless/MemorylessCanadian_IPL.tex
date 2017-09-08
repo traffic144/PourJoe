@@ -173,7 +173,7 @@ For example, the \textsc{greedy} strategy~\cite{XuHuSuZh09} is a deterministic \
 %This strategy, illustrated in Figure~\ref{fig:illustrateCTP}, does not refer to anterior moves. 
 In contrast, the \textsc{reposition} strategy~\cite{We08} is not an \mts ~as its decision refers to the past moves of the traveller. The polynomial-time strategies proposed in the literature do not use much memory information in the decision-making process. Either they are memoryless or they use a small amount of memory. For example, \textsc{reposition} (deterministic~\cite{We08}, randomized~\cite{BeWe15}) can be implemented with a  one bit memory given that the only information to retain is whether the traveller tries to reach $t$ or returns to $s$.
 
-The following process allows us to identify whether a deterministic strategy $A$ is an \mts . Let us suppose that a traveller $T_1$ follows strategy $A$: he has already visited certain nodes of the graph, he is currently at node $v$ but he has not reached target $t$ yet. Let us imagine a second traveller $T_2$ who is airdropped on node $v$ and is guided by strategy $A$. If the traveller $T_2$ always follows the same path as $T_1$ until reaching $t$, $A$ is a deterministic \mts . If $T_1$ and $T_2$ may follow different paths, then $A$ is not an \mts . Formally, prooving that a strategy is a \mts ~consists in finding the function which transforms the pair $\left(G\backslash E_*,v\right)$ into node $w = A\left(G\backslash E_*',v\right)$.
+The following process allows us to identify whether a deterministic strategy $A$ is an \mts . Let us suppose that a traveller $T_1$ follows strategy $A$: he has already visited certain nodes of the graph, he is currently at node $v$ but he has not reached target $t$ yet. Let us imagine a second traveller $T_2$ who is airdropped on node $v$ and is guided by strategy $A$. If the traveller $T_2$ always follows the same path as $T_1$ until reaching $t$, $A$ is a deterministic \mts . If $T_1$ and $T_2$ may follow different paths, then $A$ is not an \mts . Formally, proving that a strategy is a \mts ~consists in finding the function which transforms the pair $\left(G\backslash E_*,v\right)$ into node $w = A\left(G\backslash E_*',v\right)$.
 
 \subsection{Competitive ratio} \label{subsec:compratio}
 
@@ -416,7 +416,7 @@ We note $\cms\left(G, k\right)$ the maximum over values $\cms\left(G,E_*\right)$
 \cms\left(G, k\right) = \min\limits_{A \in ~\mbox{\scriptsize {MS}}} \max\limits_{\left(G,E_*\right) \in \mcalr_k} c_A\left(G,E_*\right).
 \label{eq:cmsg}
 \end{equation}
-Observe that the competitive ratio $\cms(G,k)$ defined for a traveller making the first move from source $s$ is still valid for a traveller starting his walk at any node on the left side of axis $\deltavert$ as weights $\varepsilon$ are negligeable. 
+Observe that the competitive ratio $\cms(G,k)$ defined for a traveller making the first move from source $s$ is still valid for a traveller starting his walk at any node on the left side of axis $\deltavert$ as weights $\varepsilon$ are negligible. 
 
 The next theorem states that value $\cms\left(G, k\right)$ is the same for all graphs of $\mcald_k$. In other words, graphs in $\mcald_k$ are equivalent regarding the competitiveness of \mts es. Let $c_k$ denote the competitive ratio of \mts es over atlas $\mcalr_k$. The proof of Theorem~\ref{th:equalcompetitive} provides a recursive formula of ratio $c_k$.
 
@@ -431,7 +431,7 @@ We assume that the theorem holds for graphs from $\mcald_{k-1}$. For any $G \in 
 
 %As strategy $A$ is the most competitive, it makes the traveller traverse exactly a distance 1 (weights $\varepsilon$ are neglected) before reaching $t$ directly or meeting a blocked edge.
 %In other words, strategy $A$ does not force the traveller to do superfluous two-way trips. By this way, strategy $A$ is among the most competitive \mts es on road atlas $\mcalr_k$. 
-As strategy $A$ is the most competitive, the traveller using it either reaches $t$ directly with distance $1$ or meets a blocked edge and traverses a total distance $2 + c_{k-1}$: distance 1 to reach the blockage, distance 1 to go back to a node on the left hand side of $\deltavert$, and distance $c_{k-1}$ to reach $t$ on graph $G$ deprived of the blocked edges, which belongs to $\mcald_{k-1}$ (Theorem~\ref{th:completebinary}).
+As strategy $A$ is the most competitive, the traveller using it either reaches $t$ directly with distance $1$ or meets a blocked edge and traverses a total distance $2 + c_{k-1}$: distance 1 to reach the blockage, distance 1 to go back to a node on the left-hand side of $\deltavert$, and distance $c_{k-1}$ to reach $t$ on graph $G$ deprived of the blocked edges, which belongs to $\mcald_{k-1}$ (Theorem~\ref{th:completebinary}).
 %Either the traveller reaches $t$ directly with distance 1 or he meets a blocked edge and traverses a total distance $2 + c_{k-1}$: distance 1 to reach the blockage, distance 1 to go back left to $\deltavert$ and distance $c_{k-1}$ to reach $t$ on graph $G$ deprived of the blocked edges, which belongs to $\mcald_{k-1}$ (see Theorem~\ref{th:completebinary}).
 
 For any $1 \le j \le 2^k$, let $p_{k,j}^A$ signifies the probability that the traveller visits the $\ith{j}$ node at depth $k$, noted $v_{k,j}$ (index $j$ passes from left to right in the \ebt ~representation). 
