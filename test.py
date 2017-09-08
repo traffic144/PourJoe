@@ -1,5 +1,4 @@
 from drawer import *
-from drawer2 import *
 
 from graph.grid import Grid
 from graph.doubleWestphal import DoubleWestphal
@@ -10,6 +9,9 @@ from graph.delaunay import Delaunay
 from strategy.strategy import Strategy
 from strategy.reposition import Reposition
 from strategy.greedy import Greedy
+
+from cost.cost import *
+from cost.tools import *
 
 import time
 
@@ -213,6 +215,34 @@ def getRatioStrategies(n, nb, nbGraph, nbTest):
 	print("Reposition : " + str(np.mean(rr)) + " - " + str(1.96*np.std(rr)/np.sqrt(nbTest*nbGraph)))
 	print("Greedy : " + str(np.mean(rg)) + " - " + str(1.96*np.std(rg)/np.sqrt(nbTest*nbGraph)))
 
+def optimalNodeDisjoint(f, n, x1, x2, nbVal):
+	s = Set(n)
+	p = Permutation(n)
+	fac = factorial(n)
+	bnds = [(0.0, 1.0)]*fac
+	const = {'type':'eq', 'fun' : lambda x: np.dot(np.full(fac, 1.0), x) - 1, 'jac' : lambda x: np.full(fac, 1.0).transpose()}
+
+	x = np.linspace(x1, x2, nbVal)
+	y = np.empty(x.size)
+	for j in range(x.size):
+		t1 = time.clock()
+		d = x[j]
+		res, _ = minimum(lambda prob: costNodeDisjoint(f(d), [prob[i] for i in range(fac)], n, s, p), fac, bnds, const)
+		y[j] = res
+		t2 = time.clock()
+		print(str(d) + " : " + str(t2-t1))
+	dr = Drawer()
+	dr.addCourb(x, y)
+	dr.save("cost")
+
+def singleOptimalNodeDisjoint(weight, n):
+	s = Set(n)
+	p = Permutation(n)
+	fac = factorial(n)
+	bnds = [(0.0, 1.0)]*fac
+	const = {'type':'eq', 'fun' : lambda x: np.dot(np.full(fac, 1.0), x) - 1, 'jac' : lambda x: np.full(fac, 1.0).transpose()}
+	res = minimum(lambda prob: costNodeDisjoint(weight, [prob[i] for i in range(fac)], n, s, p), fac, bnds, const)
+	print(res)
 
 
 def main():
@@ -225,7 +255,9 @@ def main():
 	#waxmanRandomTest(30, 200, 2, 200, 12)
 	#delaunayRandomTest(30, 200, 5, 200, 12)
 	#compareStrategies([Reposition, Greedy], DoubleWestphal(10, 10, 0.5), 2, 1, 18, 1, 1000)
-	getRatioStrategies(400, 20, 20, 100)
+	#getRatioStrategies(400, 20, 20, 100)
+	optimalNodeDisjoint(lambda d: [1.0, d], 2, 1.0, 2.0, 50)
+	#singleOptimalNodeDisjoint([2.0, 1.0, 1.0], 3)
 	
 
 

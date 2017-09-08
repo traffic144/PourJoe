@@ -12,110 +12,81 @@ import numpy as np
 
 import os
 
-def nextFile(directory):
-	tab = os.listdir('img/' + directory + '/')
-	num = []
-	for i in range(len(tab)):
-		try:
-			n = int(tab[i].split('.png')[0])
-			num.append(n)
-		except:
-			pass
-	j = 1
-	while j in num:
-		j+= 1
-	res = ('img/' + directory + '/' + str(j) + '.png')
-	return res
+class Drawer():
 
-def printGrid(directory, x1, x2, dx, y1, y2, dy, z, namefile=None):
+	def __init__(self):
+		self.figure = plt.figure()
+		self.ax = self.figure.add_subplot(1, 1, 1)
 
-	y, x = np.mgrid[slice(x1, x2, dx), slice(y1, y2, dy)]
+	def nextFile(self, directory):
+		tab = os.listdir('img/' + directory + '/')
+		num = []
+		for i in range(len(tab)):
+			try:
+				n = int(tab[i].split('.png')[0])
+				num.append(n)
+			except:
+				pass
+		j = 1
+		while j in num:
+			j+= 1
+		res = ('img/' + directory + '/' + str(j) + '.png')
+		return res
 
-	levels = MaxNLocator(nbins=20).tick_values(z.min(), z.max())
+	def addConfidenceCourb(self, x, val, nbValue, label=" "):
+		y = np.mean(val, axis=1)
+		t = 1.96*np.std(val, axis=1)/np.sqrt(nbValue)
+		self.ax.errorbar(x, y, yerr=t, label=label)
 
-	cmap = plt.get_cmap('summer')
-	norm = BoundaryNorm(levels, ncolors=cmap.N, clip=True)
+	def addMeanCourb(self, x, val, label=" "):
+		y = np.mean(val, axis=1)
+		self.ax.plot(x, y, label=label)
 
-	fig, ax1 = plt.subplots(nrows=1)
+	def addCourb(self, x, val, label=" "):
+		self.ax.plot(x, val, label=label)
 
-	cf = ax1.contourf(x, y, z, levels=levels, cmap=cmap)
-	fig.colorbar(cf, ax=ax1)
-	
-	"""Pour tracer la grille superposee aux valeurs de gamma"""
-	"""-----------------------------------------------------"""
-	for j in range(x2-1):
-		for l in range(x2-1):
-			ax1.plot([j, j], [l, l+1], 'k-')
-			ax1.plot([j, j+1], [l, l], 'k-')
-	ax1.plot([x2-1, x2-1], [x2-2, x2-1], 'k-')
-	ax1.plot([x2-2, x2-1], [x2-1, x2-1], 'k-')
-	
-	"""Labels plot"""
-	"""-----------"""
-	plt.xlabel("x")
-	plt.ylabel("y")
-	
-	if(namefile):
-		plt.savefig("img/" + directory + '/' + namefile + ".png")
-	else:
-		plt.savefig(nextFile(directory))
-	
- 
-def printGridSameScale(directory, x1, x2, dx, y1, y2, dy, z, k, zmin, zmax, namefile=None):
+	def addGrid(self, x1, x2, nx, y1, y2, ny):
+		x, dx = np.linspace(x1, x2, num=nx, retstep=True)
+		y, dy = np.linspace(y1, y2, num=ny, retstep=True)
+		for j in x:
+			for l in y:
+				if l < y2:
+					self.ax.plot([j, j], [l, l+dy], color='#aaaaaa')
+				if j < x2:
+					self.ax.plot([j, j+dx], [l, l], color='#aaaaaa')
 
-	y, x = np.mgrid[slice(x1, x2, dx), slice(y1, y2, dy)]
+	def addMap(self, x1, x2, nx, y1, y2, ny, z, z1=None, z2=None):
+		zmin = z1 if z1 else np.min(z)
+		zmax = z2 if z2 else np.max(z)
+		y, x = np.mgrid[slice(x1, x2, dx), slice(y1, y2, dy)]
 
-	levels = MaxNLocator(nbins=20).tick_values(zmin, zmax)
+		levels = MaxNLocator(nbins=20).tick_values(zmin, zmax)
 
-	cmap = plt.get_cmap('YlOrRd')
-	norm = BoundaryNorm(levels, ncolors=cmap.N, clip=True)
+		cmap = plt.get_cmap('YlOrRd')
+		norm = BoundaryNorm(levels, ncolors=cmap.N, clip=True)
 
-	fig, ax1 = plt.subplots(nrows=1)
+		cf = self.ax.contourf(x, y, z, levels=levels, cmap=cmap)
+		self.ax.colorbar(cf, ax=ax1)
 
-	cf = ax1.contourf(x, y, z, levels=levels, cmap=cmap)
-	fig.colorbar(cf, ax=ax1)
-	
-	"""Pour tracer la grille superposee aux valeurs de gamma"""
-	"""-----------------------------------------------------"""
-	for j in range(x2-1):
-		for l in range(x2-1):
-			ax1.plot([j, j], [l, l+1], 'k-')
-			ax1.plot([j, j+1], [l, l], 'k-')
-	ax1.plot([x2-1, x2-1], [x2-2, x2-1], 'k-')
-	ax1.plot([x2-2, x2-1], [x2-1, x2-1], 'k-')
-	
-	"""Labels plot"""
-	"""-----------"""
-	plt.xlabel("x")
-	plt.ylabel("y")
-	plt.title('Value of $\gamma$ for nodes in a ' + str(x2) + 'x' + str(x2) + ' grid with $k=$' + str(k))
-     
-	if(namefile):
-		plt.savefig("img/" + directory + '/' + namefile + ".png")
-	else:
-		plt.savefig(nextFile(directory))
+	def addGraph(self, edges, x, y, n, color="#000000"):
+		for i in range(n):
+			for j in edges[i]:
+				plt.plot([x[i], x[j]], [y[i], y[j]], color=color)
 
-def printCourb(directory, x, y, name, n, xlabel="", ylabel="", title="", namefile=None):
-	courbs = []
-	for i in range(n):
-		data, = plt.plot(x[i], y[i], label=name[i])
-		courbs.append(data)
-	plt.legend()
-	plt.xlabel(xlabel)
-	plt.ylabel(ylabel)
-	plt.title(title)
-	
-	if(namefile):
-		plt.savefig("img/" + directory + '/' + namefile + ".png")
-	else:
-		plt.savefig(nextFile(directory))
+	def addCircle(self, x, y, r, color="#000000"):
+		circle = plt.Circle((x, y), r, color=color, fill=False)
+		self.ax.add_artist(circle)
 
-def printGraph(directory, edges, x, y, n, namefile=None):
-	for i in range(n):
-		for j in edges[i]:
-			plt.plot([x[i], x[j]], [y[i], y[j]], 'k-')
-	
-	if(namefile):
-		plt.savefig("img/" + directory + '/' + namefile + ".png")
-	else:
-		plt.savefig(nextFile(directory))
+	def addTitle(self, xlabel, ylabel, title):
+		plt.legend()
+		plt.xlabel(xlabel)
+		plt.ylabel(ylabel)
+		plt.title(title)
+
+	def save(self, directory, namefile = None):
+		if(namefile):
+			print(type(namefile))
+			plt.savefig("img/" + directory + '/' + namefile + ".png")
+		else:
+			plt.savefig(self.nextFile(directory))
+		plt.clf()
