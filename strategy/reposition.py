@@ -1,6 +1,6 @@
 import numpy as np
 
-from strategy import Strategy
+from .strategy import Strategy
 
 class Reposition(Strategy):
 

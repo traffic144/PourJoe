@@ -1,4 +1,4 @@
-from tools import *
+from .tools import *
 
 def costNodeDisjoint(weight, probas, n, sets, permutations):
 	tab = []

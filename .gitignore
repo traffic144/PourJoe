@@ -8,3 +8,4 @@
 *.pyc
 *.spl
 *.gz
+img/*

@@ -51,14 +51,13 @@ class Drawer():
 		for j in x:
 			for l in y:
 				if l < y2:
-					self.ax.plot([j, j], [l, l+dy], color='#aaaaaa')
+					self.ax.plot([j, j], [l, l+dy], color='#aaaaaa', linewidth=1)
 				if j < x2:
-					self.ax.plot([j, j+dx], [l, l], color='#aaaaaa')
+					self.ax.plot([j, j+dx], [l, l], color='#aaaaaa', linewidth=1)
 
-	def addMap(self, x1, x2, nx, y1, y2, ny, z, z1=None, z2=None):
+	def addMap(self, x, y, z, z1=None, z2=None):
 		zmin = z1 if z1 else np.min(z)
 		zmax = z2 if z2 else np.max(z)
-		y, x = np.mgrid[slice(x1, x2, dx), slice(y1, y2, dy)]
 
 		levels = MaxNLocator(nbins=20).tick_values(zmin, zmax)
 
@@ -66,7 +65,7 @@ class Drawer():
 		norm = BoundaryNorm(levels, ncolors=cmap.N, clip=True)
 
 		cf = self.ax.contourf(x, y, z, levels=levels, cmap=cmap)
-		self.ax.colorbar(cf, ax=ax1)
+		self.figure.colorbar(cf, ax=self.ax)
 
 	def addGraph(self, edges, x, y, n, color="#000000"):
 		for i in range(n):

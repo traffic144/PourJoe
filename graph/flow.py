@@ -101,22 +101,22 @@ class DirectedGraph():
 	def updateFlow(self, p, a, b):
 		k = b
 		while(k != a):
-			if(self.x[k, p[k]]):
-				self.x[k, p[k]] = False
+			if(self.x[k, int(p[k])]):
+				self.x[k, int(p[k])] = False
 			else:
-				self.x[p[k], k] = True
-			k = p[k]
+				self.x[int(p[k]), k] = True
+			k = int(p[k])
 
 	def updateFlowCost(self, p, a, b):
 		k = b
 		while(k != a):
-			if(self.x[k, p[k]]):
-				self.x[k, p[k]] = False
-				self.w -= self.weight[k, p[k]]
+			if(self.x[k, int(p[k])]):
+				self.x[k, int(p[k])] = False
+				self.w -= self.weight[k, int(p[k])]
 			else:
-				self.x[p[k], k] = True
-				self.w += self.weight[p[k], k]
-			k = p[k]
+				self.x[int(p[k]), k] = True
+				self.w += self.weight[int(p[k]), k]
+			k = int(p[k])
 
 	def updateCost(self, d):
 		self.pi = self.pi - d

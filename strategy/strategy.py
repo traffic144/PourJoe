@@ -14,23 +14,23 @@ class Strategy:
 		return self.title
 
 	def reset(self):
-		self.g = copy.deepcopy(self.initialGraph)
-		self.traveler = self.g.s
-		self.blocked = [[] for i in range(self.g.n)]
+		self.graph = copy.deepcopy(self.initialGraph)
+		self.traveler = self.graph.s
+		self.blocked = [[] for i in range(self.graph.n)]
 		self.wPath = 0
 
 	def setBlockedEdges(self, i, j):
 		self.blocked[i].append(j)
 		self.blocked[j].append(i)
-		self.discoverEdges(self.g.s)
+		self.discoverEdges(self.graph.s)
 
 	def discoverEdges(self, v):
 		for j in self.blocked[v]:
-			self.g.removeEdge(v, j)
+			self.graph.removeEdge(v, j)
 
 	def travel(self, v):
-		if v in self.g.edges[self.traveler]:
-			self.wPath += self.g.weight[v][self.traveler]
+		if v in self.graph.edges[self.traveler]:
+			self.wPath += self.graph.weight[v][self.traveler]
 			self.traveler = v
 			self.discoverEdges(v)
 		else:
@@ -39,10 +39,11 @@ class Strategy:
 			raise NotImplementedError("Blem")
 
 	def calculRatio(self):
-		for i in range(self.g.n):
+		for i in range(self.graph.n):
 			for j in self.blocked[i]:
-				self.g.removeEdge(i, j)
-		wOpt = self.g.shortestPath()
+				self.graph.removeEdge(i, j)
+		value, _, _ = self.graph.shortestPath()
+		wOpt = value[self.graph.t]
 		return self.wPath/wOpt
 
 	def simulation(self):

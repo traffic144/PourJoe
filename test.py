@@ -7,6 +7,7 @@ from graph.waxman import Waxman
 from graph.delaunay import Delaunay
 
 from strategy.strategy import Strategy
+from strategy.pivotReposition import PivotReposition
 from strategy.reposition import Reposition
 from strategy.greedy import Greedy
 
@@ -17,77 +18,113 @@ import time
 
 import numpy as np
 
+# Map of gamma for a grid
+
+def gammaGrid(n, d, k):
+	g = Grid(n, n, d)
+	s = PivotReposition(g)
+	x = np.arange(0, n+1)
+	y = np.arange(0, n+1)
+	t1 = time.clock()
+	z = s.gammaMap(k).reshape(n+1, n+1)
+	t2 = time.clock()
+	print("Total time : " + str(t2-t1))
+	d = Drawer()
+	d.addMap(x, y, z)
+	d.addGrid(0, n, n+1, 0, n, n+1)
+	d.addTitle(r'', r'', r'Map of the value of $\gamma$ for a grid $' + str(n) + r'x' + str(n) + r'$')
+	d.save("grid")
+
+def gammaCompleteGrid(n, d, k):
+	g = Grid(n, n, d, 1.5)
+	s = PivotReposition(g)
+	x = np.arange(0, n+1)
+	y = np.arange(0, n+1)
+	t1 = time.clock()
+	z = s.gammaMap(k).reshape(n+1, n+1)
+	t2 = time.clock()
+	print("Total time : " + str(t2-t1))
+	d = Drawer()
+	d.addMap(x, y, z)
+	d.addGrid(0, n, n+1, 0, n, n+1)
+	d.addTitle(r'', r'', r'Map of the value of $\gamma$ for a grid $' + str(n) + r'x' + str(n) + r'$')
+	d.save("grid")
+
 # Determine gamma function of k for a given graph
 
 def gammaDoubleWestphalFunctionOfK(m1, m2, nbAlpha):
-	xtab = []
-	ytab = []
+	x = np.arange(1, 2*(m1+m2))
 	alpha = np.linspace(0.0, 0.5, num=nbAlpha)
-	for i in alpha:
-		g = DoubleWestphal(m1, m2, i)
-		g.initGraph()
-		x = np.arange(1, 2*(m1+m2))
+	
+	d = Drawer()
+	for a in alpha:
+		t1 = time.clock()
+		g = DoubleWestphal(m1, m2, a)
+		s = PivotReposition(g)
 		y = []
 		for j in x:
-			y.append(g.gammaGraph(j))
-		xtab.append(x)
-		ytab.append(y)
-	title = r'Evolution of $\gamma$ function of $k$ for double Westphal graph ($m_1 = ' + str(m1) + r'$, $m_2 = ' + str(m2) + r'$)'
-	label = [r'$\alpha = ' + str(i) + r'$' for i in alpha]
-	printCourb("gammaK", xtab, ytab, label, nbAlpha, r'$k$', r'$\gamma$', title)
+			y.append(s.gammaGraph(j))
+		t2 = time.clock()
+		print(str(a) + " : " + str(t2-t1))
+		d.addCourb(x, y, r'$\alpha = ' + str(a) + r'$')
+	d.addTitle(r'$\alpha$', r'$\gamma$', r'Evolution of $\gamma$ function of $\alpha$ for double westphal with $m_1 = ' + str(m1) + r'$ et $m_2 = ' + str(m2) + r'$')
+	d.save("westphal")
 
-def gammaGridFunctionOfK(n1, n2, d):
-	xtab = []
-	ytab = []
+def gammaGridFunctionOfK(n1, n2, di):
 	n = np.arange(n1, n2, 2)
+	x = np.arange(1, 10)
+
+	d = Drawer()
 	for i in n:
 		t1 = time.clock()
-		g = Grid(i, i, d)
-		g.initGraph()
-		x = np.arange(1, 10)
+		g = Grid(i, i, di)
+		s = PivotReposition(g)
 		y = []
 		for j in x:
-			y.append(g.gammaGraph(j))
-		xtab.append(x)
-		ytab.append(y)
+			y.append(s.gammaGraph(j))
 		t2 = time.clock()
 		print(str(i) + " : " + str(t2-t1))
-	title = r'Evolution of $\gamma$ function of $k$ for grid of size $n\times n$'
-	label = [r'$n = ' + str(i) + r'$' for i in n]
-	printCourb("gammaK", xtab, ytab, label, n.size, r'$k$', r'$\gamma$', title)
+		d.addCourb(x, y, r'$n = ' + str(i) + r'$')
+	d.addTitle(r'$k$', r'$\gamma$', r'Evolution of $\gamma$ function of $k$ for grid of size $n\times n$')
+	d.save("grid")
 
 # Find the value of gamma function of p, for random graph for which p is 
 # the probability to have an edge between two nodes
 
 def erdosRenyiGammaProba(n, k, nbTest, nbProba):
 	x = np.linspace(0.2, 1.0, num=nbProba)
-	y = np.empty(nbProba)
-	yu = np.empty(nbProba)
-	yb = np.empty(nbProba)
+	value = []
 	for i in range(nbProba):
 		p = x[i]
-		tab = np.empty(nbTest)
+		tab = []
 		t1 = time.clock()
 		for j in range(nbTest):
 			g = ErdosRenyi(n, p, 4)
-			tab[j] = g.gammaGraph(k)
-		m = np.mean(tab)
-		t = interval95(tab, nbTest, m)
-		y[i] = m
-		yu[i] = m + t
-		yb[i] = m - t
+			s = PivotReposition(g)
+			tab.append(s.gammaGraph(k))
 		t2 = time.clock()
 		print(str(i) + " : " + str(t2-t1))
-	title = r'Evolution of $\gamma$ for Erdos Renyi graphs with $n = ' + str(n) + r'$ et $k = ' + str(k) + r'$'
-	printCourb("gammaRandom", [x, x, x], [y, yu, yb], ["Mean Value", "CI+", "CI-"], 3, r'$p$', r'$\gamma$', title)
+		value.append(tab)
+	d = Drawer()
+	d.addTitle(r'$p$', r'$\gamma$', r'Evolution of $\gamma$ for Erdos Renyi graphs with $n = ' + str(n) + r'$ et $k = ' + str(k) + r'$')
+	d.addConfidenceCourb(x, value, nbTest)
+	d.save("erdosRenyi")
+
+# Generate random graph
 
 def waxmanGenerator(n):
 	g = Waxman(n)
-	printGraph("waxman", g.edges, g.x, g.y, g.n)
+	d = Drawer()
+	d.addGraph(g.edges, g.x, g.y, g.n)
+	d.save("waxman")
 
 def delaunayGenerator(n):
 	g = Delaunay(n)
-	printGraph("delaunay", g.edges, g.x, g.y, g.n)
+	d = Drawer()
+	d.addGraph(g.edges, g.x, g.y, g.n)
+	d.save("delaunay")
+
+# Proportion 
 
 def waxmanConnected(n, nbAlpha, nbTest):
 	alpha = np.linspace(0.5, 3.0, num=nbAlpha)
@@ -105,53 +142,46 @@ def waxmanConnected(n, nbAlpha, nbTest):
 		y[j] = s*100.0/nbTest
 		t2 = time.clock()
 		print(str(j) + " : " + str(t2-t1))
-	title = r'Proportion of connected Waxman graphs for $n = ' + str(n) + r'$'
-	printCourb("waxman", [alpha], [y], ["proportion"], 1, r'$\alpha$', r'$p$', title)
+	d = Drawer()
+	d.addTitle(r'$\alpha$', r'$p$', r'Proportion of connected Waxman graphs for $n = ' + str(n) + r'$')
+	d.addCourb(alpha, y)
+	d.save("waxman")
 
 def waxmanRandomTest(n1, n2, step, nbTest, k):
 	nVal = np.arange(n1, n2, step)
-	y = np.empty(nVal.size)
-	yu = np.empty(nVal.size)
-	yb = np.empty(nVal.size)
+	value = []
 	for j in range(nVal.size):
 		tab = []
 		t1 = time.clock()
 		for i in range(nbTest):
-			try:
-				g = Waxman(nVal[j])
-				tab.append(g.gammaGraph(k))
-			except:
-				pass
-		m = np.mean(tab)
-		t = interval95(tab, len(tab), m)
-		y[j] = m
-		yu[j] = m + t
-		yb[j] = m - t
+			g = Waxman(nVal[j])
+			s = PivotReposition(g)
+			tab.append(s.gammaGraph(k))
 		t2 = time.clock()
+		value.append(tab)
 		print(str(nVal[j]) + " : " + str(t2-t1))
-	title = r'Evolution of $\gamma$ for Waxman graphs with $k = ' + str(k) + r'$'
-	printCourb("waxman", [nVal, nVal, nVal], [y, yu, yb], ["Mean Value", "CI+", "CI-"], 3, r'$n$', r'$\gamma$', title)
+	d = Drawer()
+	d.addTitle(r'$n$', r'$\gamma$', r'Evolution of $\gamma$ for Delaunay graphs with $k = ' + str(k) + r'$')
+	d.addConfidenceCourb(nVal, value, nbTest)
+	d.save("waxman")
 
 def delaunayRandomTest(n1, n2, step, nbTest, k):
 	nVal = np.arange(n1, n2, step)
-	y = np.empty(nVal.size)
-	yu = np.empty(nVal.size)
-	yb = np.empty(nVal.size)
+	value = []
 	for j in range(nVal.size):
 		tab = []
 		t1 = time.clock()
 		for i in range(nbTest):
 			g = Delaunay(nVal[j])
-			tab.append(g.gammaGraph(k))
-		m = np.mean(tab)
-		t = interval95(tab, len(tab), m)
-		y[j] = m
-		yu[j] = m + t
-		yb[j] = m - t
+			s = PivotReposition(g)
+			tab.append(s.gammaGraph(k))
 		t2 = time.clock()
+		value.append(tab)
 		print(str(nVal[j]) + " : " + str(t2-t1))
-	title = r'Evolution of $\gamma$ for Delaunay graphs with $k = ' + str(k) + r'$'
-	printCourb("delaunay", [nVal, nVal, nVal], [y, yu, yb], ["Mean Value", "CI+", "CI-"], 3, r'$n$', r'$\gamma$', title)
+	d = Drawer()
+	d.addTitle(r'$n$', r'$\gamma$', r'Evolution of $\gamma$ for Delaunay graphs with $k = ' + str(k) + r'$')
+	d.addConfidenceCourb(nVal, value, nbTest)
+	d.save("delaunay")
 
 def compareStrategies(strategiesClass, graph, n, k1, k2, dk, nbTest):
 	strategies = [s(graph) for s in strategiesClass]
@@ -246,17 +276,19 @@ def singleOptimalNodeDisjoint(weight, n):
 
 
 def main():
+	#gammaGrid(20, 2, 7)
+	gammaCompleteGrid(20, 2, 7)
 	#gammaDoubleWestphalFunctionOfK(12, 12, 6)
-	#gammaGridFunctionOfK(12, 25, 2)
+	#gammaGridFunctionOfK(12, 13, 2)
 	#erdosRenyiGammaProba(20, 20, 100, 40)
 	#waxmanGenerator(50)
 	#delaunayGenerator(200)
 	#waxmanConnected(20, 50, 2000)
 	#waxmanRandomTest(30, 200, 2, 200, 12)
-	#delaunayRandomTest(30, 200, 5, 200, 12)
-	#compareStrategies([Reposition, Greedy], DoubleWestphal(10, 10, 0.5), 2, 1, 18, 1, 1000)
+	#delaunayRandomTest(30, 40, 2, 200, 12)
+	#compareStrategies([Greedy], DoubleWestphal(10, 10, 0.5), 1, 1, 18, 1, 1000)
 	#getRatioStrategies(400, 20, 20, 100)
-	optimalNodeDisjoint(lambda d: [1.0, d], 2, 1.0, 2.0, 50)
+	#optimalNodeDisjoint(lambda d: [1.0, d], 2, 1.0, 2.0, 50)
 	#singleOptimalNodeDisjoint([2.0, 1.0, 1.0], 3)
 	
 

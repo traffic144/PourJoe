@@ -1,7 +1,7 @@
 import numpy as np
 from random  import uniform, randint
 
-from graph import Graph
+from .graph import Graph
 
 class ErdosRenyi(Graph):
 

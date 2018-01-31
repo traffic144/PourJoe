@@ -1,45 +1,19 @@
 import numpy as np
 
-from strategy import Strategy
+from .strategy import Strategy
+from graph.flow import *
 
 class PivotReposition(Strategy):
 
-	# Find the shortest path between the source and the sink using the Dijktra's algorithm 
-	# m : array representing all the nodes which are not visited yet
-	# v : array representing the shortest distance between a node and the source
-	# p : array representing the parents in the shortest path between s and the considered node
-	# l : array representing the node sorting by distance to s
-
-	def shortestPath(self, s):
-		m = np.full(self.n, True, dtype=bool)
-		v = np.full(self.n, np.inf)
-		p = np.empty(self.n)
-		l = np.zeros(self.n, dtype='i')
-
-		v[s] = 0
-		a = 0
-		while(True in m):
-			k = -1
-			mi = np.inf
-			for i in range(self.n):
-				if(m[i] and mi > v[i]):
-					k = i
-					mi = v[i]
-			for j in self.edges[k]:
-				if(m[j] and v[j] > v[k] + self.weight[k][j]):
-					v[j] = v[k] + self.weight[k][j]
-					p[j] = k
-			l[a] = k
-			a += 1
-
-			m[k] = False
-
-		return (v, l)
+	def __init__(self, g):
+		Strategy.__init__(self, g)
+		self.title = "Pivot-Reposition"
+		self.initGraph()
 
 	# Determine the value of a sigle path
 
 	def value(self, path):
-		return sum([self.weight[path[i]][path[i+1]] for i in range(len(path)-1)])
+		return sum([self.graph.weight[path[i]][path[i+1]] for i in range(len(path)-1)])
 
 	# Determine the mean and the smaller value of a set of paths 
 
@@ -68,20 +42,22 @@ class PivotReposition(Strategy):
 	# Determination of gamma with the given algorithm and some temporals improvements
 
 	def initGraph(self):
-		self.dMin, self.listMin = self.shortestPath(self.s)
-		self.dT = self.shortestPath(self.t)[0]
-		self.wMin = self.dMin[self.t]
+		self.dMin, _, _ = self.graph.shortestPath(self.graph.s, self.graph.t)
+		self.dT, _, _ = self.graph.shortestPath(self.graph.t, self.graph.s)
+		
+		self.listMin = sorted([i for i in range(self.graph.n)], key = lambda x : self.dMin[x])
 
-	def gamma(self, nj, k):
-		v = self.listMin[nj]
-		inter = (self.n-1)//2
+		self.wMin = self.dMin[self.graph.t]
+
+	def gamma(self, v, k):
+		inter = (self.graph.n-1)//2
 
 		if(self.dT[v] >= self.wMin or self.dMin[v] >= self.wMin):
 			return 0
 
 		# Creation of the directed graphs
-		dg1 = DirectedGraph(self.n, self.edges, self.weight, self.s, v)
-		dg2 = DirectedGraph(self.n, self.edges, self.weight, v, self.t)
+		dg1 = DirectedGraph(self.graph.n, self.graph.edges, self.graph.weight, self.graph.s, v)
+		dg2 = DirectedGraph(self.graph.n, self.graph.edges, self.graph.weight, v, self.graph.t)
 
 		# Number of edges disjoints paths between s and v, and v and t
 		M1 = dg1.fordFulkerson()
@@ -116,10 +92,13 @@ class PivotReposition(Strategy):
 			H = max(H, self.h3(wTabSV[k+1]/(k+1), wTabVT[k+1]/(k+1), self.wMin, k))
 		return (H/k)
 
+	def gammaMap(self, k):
+		res = np.empty(self.graph.n)
+		for i in range(self.graph.n):
+			l = self.gamma(self.listMin[i], k)
+			res[self.listMin[i]] = l
+		return res
+
+
 	def gammaGraph(self, k):
-		g = 0
-		for i in range(self.n):
-			l = self.gamma(i, k)
-			if(l > g):
-				g = l
-		return g
+		g = max(self.gammaMap(k))

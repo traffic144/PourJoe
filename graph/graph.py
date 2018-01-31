@@ -1,8 +1,6 @@
 import numpy as np
 import time
 
-from flow import DirectedGraph
-
 class Graph:
 
 	def __init__(self, n):
@@ -43,24 +41,36 @@ class Graph:
 	def setSink(self, t):
 		self.t = t
 
-	def shortestPath(self):
-		m = np.full(self.n, True, dtype=bool)
-		v = np.full(self.n, np.inf)
+	def shortestPath(self, s = None, t = None):
+		marqued = np.full(self.n, True, dtype=bool)
+		value = np.full(self.n, np.inf)
+		pred = np.full(self.n, -1, dtype=int)
 
-		v[self.s] = 0
-		a = 0
-		while(v[self.t] == np.inf):
+		if(s == None):
+			s = self.s
+		if(t == None):
+			t = self.t
+
+		value[s] = 0
+		while(value[t] == np.inf):
 			k = -1
 			mi = np.inf
 			for i in range(self.n):
-				if(m[i] and mi > v[i]):
+				if(marqued[i] and mi > value[i]):
 					k = i
-					mi = v[i]
+					mi = value[i]
 			for j in self.edges[k]:
-				if(m[j] and v[j] > v[k] + self.weight[k][j]):
-					v[j] = v[k] + self.weight[k][j]
-			a += 1
+				if(marqued[j] and value[j] > value[k] + self.weight[k][j]):
+					value[j] = value[k] + self.weight[k][j]
+					pred[j] = k
 
-			m[k] = False
+			marqued[k] = False
 
-		return v[self.t]
+		path = [t]
+		a = t
+		while a != s:
+			a = pred[a]
+			path.append(a)
+		path.reverse()
+
+		return (value, marqued, path)

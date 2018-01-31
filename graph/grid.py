@@ -1,6 +1,6 @@
 import numpy as np
 
-from graph import Graph
+from .graph import Graph
 
 class Grid(Graph):
 
@@ -18,9 +18,3 @@ class Grid(Graph):
 		self.setSource(d*(m+1) + d)
 		self.setSink((n-d)*(m+1) + (m-d))
 		self.title = r'Grid of size $' + str(n) + r'\times ' + str(m) + r'$'
-
-	def drawMap(self, k):
-		res = np.empty(self.n)
-		for i in range(self.n):
-			res[self.listMin[i]] = self.gamma(i, k)
-		return res.reshape(self.largeur+1, self.hauteur+1)
