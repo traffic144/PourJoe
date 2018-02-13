@@ -102,3 +102,4 @@ class PivotReposition(Strategy):
 
 	def gammaGraph(self, k):
 		g = max(self.gammaMap(k))
+		return g
